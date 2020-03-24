@@ -1,0 +1,297 @@
+Description: WebACL WAFv2
+
+Parameters:
+  AlbArn:
+    Type: String
+    Description: "Arn of the Application loadbalancer to associate with WAF"
+  NamePrefix:
+    Type: String
+    Description: "Name Prefix"
+  AWSManagedRulesCommonRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesAdminProtectionRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesKnownBadInputsRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesSQLiRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesLinuxRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesUnixRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesWindowsRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesPHPRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesWordPressRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesAmazonIpReputationListEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+  AWSManagedRulesAnonymousIpListEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "no"
+
+Conditions:
+  IsAWSManagedRulesCommonRuleSetEnabled: !Equals [ !Ref AWSManagedRulesCommonRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesAdminProtectionRuleSetEnabled: !Equals [ !Ref AWSManagedRulesAdminProtectionRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesKnownBadInputsRuleSetEnabled: !Equals [ !Ref AWSManagedRulesKnownBadInputsRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesSQLiRuleSetEnabled: !Equals [ !Ref AWSManagedRulesSQLiRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesLinuxRuleSetEnabled: !Equals [ !Ref AWSManagedRulesLinuxRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesUnixRuleSetEnabled: !Equals [ !Ref AWSManagedRulesUnixRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesWindowsRuleSetEnabled: !Equals [ !Ref AWSManagedRulesWindowsRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesPHPRuleSetEnabled: !Equals [ !Ref AWSManagedRulesPHPRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesWordPressRuleSetEnabled: !Equals [ !Ref AWSManagedRulesWordPressRuleSetEnabled , "yes" ]
+  IsAWSManagedRulesAmazonIpReputationListEnabled: !Equals [ !Ref AWSManagedRulesAmazonIpReputationListEnabled , "yes" ]
+  IsAWSManagedRulesAnonymousIpListEnabled: !Equals [ !Ref AWSManagedRulesAnonymousIpListEnabled , "yes" ]
+
+Resources:
+  WAFWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      Name: !Sub "${NamePrefix}-WAFv2-WebACL"
+      Scope: REGIONAL
+      DefaultAction:
+        Allow: {}
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Sub "${NamePrefix}-WAFv2WebACLMetric"
+      Rules:
+        - Fn::If:
+          - IsAWSManagedRulesCommonRuleSetEnabled
+          -
+            Name: AWSManagedRulesCommonRuleSet
+            Priority: 0
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesCommonRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesCommonRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesAdminProtectionRuleSetEnabled
+          -
+            Name: AWSManagedRulesAdminProtectionRuleSet
+            Priority: 1
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesAdminProtectionRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAdminProtectionRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesKnownBadInputsRuleSetEnabled
+          -
+            Name: AWSManagedRulesKnownBadInputsRuleSet
+            Priority: 2
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesKnownBadInputsRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesKnownBadInputsRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesSQLiRuleSetEnabled
+          -
+            Name: AWSManagedRulesSQLiRuleSet
+            Priority: 3
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesSQLiRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesSQLiRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesLinuxRuleSetEnabled
+          -
+            Name: AWSManagedRulesLinuxRuleSet
+            Priority: 4
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesLinuxRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesLinuxRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesUnixRuleSetEnabled
+          -
+            Name: AWSManagedRulesUnixRuleSet
+            Priority: 5
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesUnixRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesUnixRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesWindowsRuleSetEnabled
+          -
+            Name: AWSManagedRulesWindowsRuleSet
+            Priority: 6
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesWindowsRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesWindowsRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesPHPRuleSetEnabled
+          -
+            Name: AWSManagedRulesPHPRuleSet
+            Priority: 7
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesPHPRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesPHPRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesWordPressRuleSetEnabled
+          -
+            Name: AWSManagedRulesWordPressRuleSet
+            Priority: 8
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesWordPressRuleSetMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesWordPressRuleSet
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesAmazonIpReputationListEnabled
+          -
+            Name: AWSManagedRulesAmazonIpReputationList
+            Priority: 9
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesAmazonIpReputationListMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAmazonIpReputationList
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+        - Fn::If:
+          - IsAWSManagedRulesAnonymousIpListEnabled
+          -
+            Name: AWSManagedRulesAnonymousIpList
+            Priority: 10
+            OverrideAction:
+              Count: {}
+            VisibilityConfig:
+              SampledRequestsEnabled: true
+              CloudWatchMetricsEnabled: true
+              MetricName: AWSManagedRulesAnonymousIpListMetric
+            Statement:
+              ManagedRuleGroupStatement:
+                VendorName: AWS
+                Name: AWSManagedRulesAnonymousIpList
+                ExcludedRules: []
+          - !Ref 'AWS::NoValue'
+
+  WAFWebACLAssociation:
+    Type: AWS::WAFv2::WebACLAssociation
+    Properties:
+      ResourceArn:
+        Ref: AlbArn
+      WebACLArn:
+        Fn::GetAtt: [ WAFWebACL, Arn ]

@@ -14,10 +14,12 @@ Terraform 0.12. Pin module version to `~> v1.0`. Submit pull-requests to `master
 
 ## Usage
 
+Please pin down version of this module to exact version.
+
 ```hcl
 module "waf" {
-	source = "umotif-public/waf-webaclv2/aws"
-	version = "~> 0.0.1"
+  source = "umotif-public/waf-webaclv2/aws"
+  version = "0.0.1"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn

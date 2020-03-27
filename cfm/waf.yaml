@@ -73,7 +73,7 @@ Parameters:
       - "yes"
       - "no"
     Default: "no"
-  
+
   DefaultActionAllowEnabled:
     Type: String
     AllowedValues:

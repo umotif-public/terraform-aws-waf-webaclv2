@@ -42,25 +42,58 @@ Module is to be used with Terraform > 0.12.
 Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](https://www.linkedin.com/in/marcincuber/).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws | n/a |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| alb\_arn | Application Load Balancer ARN | string | `""` | no |
-| enable\_AdminProtectionRuleSet |  | bool | `"false"` | no |
-| enable\_AmazonIpReputationList |  | bool | `"false"` | no |
-| enable\_AnonymousIpList |  | bool | `"false"` | no |
-| enable\_CommonRuleSet |  | bool | `"false"` | no |
-| enable\_KnownBadInputsRuleSet |  | bool | `"false"` | no |
-| enable\_LinuxRuleSet |  | bool | `"false"` | no |
-| enable\_PHPRuleSet |  | bool | `"false"` | no |
-| enable\_SQLiRuleSet |  | bool | `"false"` | no |
-| enable\_UnixRuleSet |  | bool | `"false"` | no |
-| enable\_WindowsRuleSet |  | bool | `"false"` | no |
-| enable\_WordPressRuleSet |  | bool | `"false"` | no |
-| enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | bool | `"true"` | no |
-| name\_prefix | Name prefix used to create resources. | string | n/a | yes |
-| tags | A map of tags \(key-value pairs\) passed to resources. | map(string) | `{}` | no |
+|------|-------------|------|---------|:-----:|
+| AdminProtectionRuleSetExcludedRules | n/a | `string` | `""` | no |
+| AmazonIpReputationListExcludedRules | n/a | `string` | `""` | no |
+| CommonRuleSetExcludedRules | n/a | `string` | `""` | no |
+| KnownBadInputsRuleSetExcludedRules | n/a | `string` | `""` | no |
+| LinuxRuleSetExcludedRules | n/a | `string` | `""` | no |
+| PHPRuleSetExcludedRules | n/a | `string` | `""` | no |
+| RulesAnonymousIpListExcludedRules | n/a | `string` | `""` | no |
+| SQLiRuleSetExcludedRules | n/a | `string` | `""` | no |
+| UnixRuleSetExcludedRules | n/a | `string` | `""` | no |
+| WindowsRuleSetExcludedRules | n/a | `string` | `""` | no |
+| WordPressRuleSetExcludedRules | n/a | `string` | `""` | no |
+| alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
+| enable\_AdminProtectionRuleSet | n/a | `bool` | `false` | no |
+| enable\_AmazonIpReputationList | n/a | `bool` | `false` | no |
+| enable\_AnonymousIpList | n/a | `bool` | `false` | no |
+| enable\_CommonRuleSet | n/a | `bool` | `false` | no |
+| enable\_DefaultActionAllow | n/a | `bool` | `true` | no |
+| enable\_KnownBadInputsRuleSet | n/a | `bool` | `false` | no |
+| enable\_LinuxRuleSet | n/a | `bool` | `false` | no |
+| enable\_OverrideActionCountAdminProtectionRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountAmazonIpReputationList | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountAnonymousIpList | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountCommonRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountKnownBadInputsRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountLinuxRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountPHPRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountSQLiRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountUnixRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountWindowsRuleSet | n/a | `bool` | `true` | no |
+| enable\_OverrideActionCountWordPressRuleSet | n/a | `bool` | `true` | no |
+| enable\_PHPRuleSet | n/a | `bool` | `false` | no |
+| enable\_SQLiRuleSet | n/a | `bool` | `false` | no |
+| enable\_UnixRuleSet | n/a | `bool` | `false` | no |
+| enable\_WindowsRuleSet | n/a | `bool` | `false` | no |
+| enable\_WordPressRuleSet | n/a | `bool` | `false` | no |
+| enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
+| name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
+| tags | A map of tags (key-value pairs) passed to resources. | `map(string)` | `{}` | no |
+
+## Outputs
+
+No output.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

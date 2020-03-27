@@ -73,6 +73,80 @@ Parameters:
       - "yes"
       - "no"
     Default: "no"
+  
+  DefaultActionAllowEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+
+  OverrideActionCountCommonRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountAdminProtectionRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountKnownBadInputsRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountSQLiRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountLinuxRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountUnixRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountWindowsRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountPHPRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountWordPressRuleSetEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountAmazonIpReputationListEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
+  OverrideActionCountAnonymousIpListEnabled:
+    Type: String
+    AllowedValues:
+      - "yes"
+      - "no"
+    Default: "yes"
 
 Conditions:
   IsAWSManagedRulesCommonRuleSetEnabled: !Equals [ !Ref AWSManagedRulesCommonRuleSetEnabled , "yes" ]
@@ -87,6 +161,20 @@ Conditions:
   IsAWSManagedRulesAmazonIpReputationListEnabled: !Equals [ !Ref AWSManagedRulesAmazonIpReputationListEnabled , "yes" ]
   IsAWSManagedRulesAnonymousIpListEnabled: !Equals [ !Ref AWSManagedRulesAnonymousIpListEnabled , "yes" ]
 
+  IsDefaultActionAllowEnabled: !Equals [ !Ref DefaultActionAllowEnabled , "yes" ]
+
+  IsOverrideActionCountCommonRuleSetEnabled: !Equals [ !Ref OverrideActionCountCommonRuleSetEnabled , "yes" ]
+  IsOverrideActionCountAdminProtectionRuleSetEnabled: !Equals [ !Ref OverrideActionCountAdminProtectionRuleSetEnabled, "yes" ]
+  IsOverrideActionCountKnownBadInputsRuleSetEnabled: !Equals [ !Ref OverrideActionCountKnownBadInputsRuleSetEnabled, "yes" ]
+  IsOverrideActionCountSQLiRuleSetEnabled: !Equals [ !Ref OverrideActionCountSQLiRuleSetEnabled, "yes" ]
+  IsOverrideActionCountLinuxRuleSetEnabled: !Equals [ !Ref OverrideActionCountLinuxRuleSetEnabled, "yes" ]
+  IsOverrideActionCountUnixRuleSetEnabled: !Equals [ !Ref OverrideActionCountUnixRuleSetEnabled, "yes" ]
+  IsOverrideActionCountWindowsRuleSetEnabled: !Equals [ !Ref OverrideActionCountWindowsRuleSetEnabled, "yes" ]
+  IsOverrideActionCountPHPRuleSetEnabled: !Equals [ !Ref OverrideActionCountPHPRuleSetEnabled, "yes" ]
+  IsOverrideActionCountWordPressRuleSetEnabled: !Equals [ !Ref OverrideActionCountWordPressRuleSetEnabled, "yes" ]
+  IsOverrideActionCountAmazonIpReputationListEnabled: !Equals [ !Ref OverrideActionCountAmazonIpReputationListEnabled, "yes" ]
+  IsOverrideActionCountAnonymousIpListEnabled: !Equals [ !Ref OverrideActionCountAnonymousIpListEnabled, "yes" ]
+
 Resources:
   WAFWebACL:
     Type: AWS::WAFv2::WebACL
@@ -94,7 +182,10 @@ Resources:
       Name: !Sub "${NamePrefix}-WAFv2-WebACL"
       Scope: REGIONAL
       DefaultAction:
-        Allow: {}
+        'Fn::If':
+          - IsDefaultActionAllowEnabled
+          - Allow: {}
+          - Block: {}
       VisibilityConfig:
         SampledRequestsEnabled: true
         CloudWatchMetricsEnabled: true
@@ -106,11 +197,14 @@ Resources:
             Name: AWSManagedRulesCommonRuleSet
             Priority: 0
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountCommonRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesCommonRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFCommonRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -123,11 +217,14 @@ Resources:
             Name: AWSManagedRulesAdminProtectionRuleSet
             Priority: 1
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountAdminProtectionRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesAdminProtectionRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFAdminProtectionRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -140,11 +237,14 @@ Resources:
             Name: AWSManagedRulesKnownBadInputsRuleSet
             Priority: 2
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountKnownBadInputsRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesKnownBadInputsRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFKnownBadInputsRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -157,11 +257,14 @@ Resources:
             Name: AWSManagedRulesSQLiRuleSet
             Priority: 3
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountSQLiRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesSQLiRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFSQLiRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -174,11 +277,14 @@ Resources:
             Name: AWSManagedRulesLinuxRuleSet
             Priority: 4
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountLinuxRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesLinuxRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFLinuxRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -191,11 +297,14 @@ Resources:
             Name: AWSManagedRulesUnixRuleSet
             Priority: 5
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountUnixRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesUnixRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFUnixRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -208,11 +317,14 @@ Resources:
             Name: AWSManagedRulesWindowsRuleSet
             Priority: 6
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountWindowsRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesWindowsRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFWindowsRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -225,11 +337,14 @@ Resources:
             Name: AWSManagedRulesPHPRuleSet
             Priority: 7
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountPHPRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesPHPRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFPHPRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -242,11 +357,14 @@ Resources:
             Name: AWSManagedRulesWordPressRuleSet
             Priority: 8
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountWordPressRuleSetEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesWordPressRuleSetMetric
+              MetricName: !Sub "${NamePrefix}-WAFWordPressRuleSetMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -259,11 +377,14 @@ Resources:
             Name: AWSManagedRulesAmazonIpReputationList
             Priority: 9
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountAmazonIpReputationListEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesAmazonIpReputationListMetric
+              MetricName: !Sub "${NamePrefix}-WAFAmazonIpReputationListMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS
@@ -276,11 +397,14 @@ Resources:
             Name: AWSManagedRulesAnonymousIpList
             Priority: 10
             OverrideAction:
-              Count: {}
+              'Fn::If':
+                - IsOverrideActionCountAnonymousIpListEnabled
+                - Count: {}
+                - None: {}
             VisibilityConfig:
               SampledRequestsEnabled: true
               CloudWatchMetricsEnabled: true
-              MetricName: AWSManagedRulesAnonymousIpListMetric
+              MetricName: !Sub "${NamePrefix}-WAFAnonymousIpListMetric"
             Statement:
               ManagedRuleGroupStatement:
                 VendorName: AWS

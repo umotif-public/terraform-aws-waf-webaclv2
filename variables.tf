@@ -75,3 +75,63 @@ variable "enable_AnonymousIpList" {
   type    = bool
   default = false
 }
+
+variable "enable_DefaultActionAllow" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountCommonRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountAdminProtectionRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountKnownBadInputsRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountSQLiRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountLinuxRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountUnixRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountWindowsRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountPHPRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountWordPressRuleSet" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountAmazonIpReputationList" {
+  type    = bool
+  default = true
+}
+
+variable "enable_OverrideActionCountAnonymousIpList" {
+  type    = bool
+  default = true
+}

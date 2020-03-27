@@ -148,6 +148,40 @@ Parameters:
       - "no"
     Default: "yes"
 
+  CommonRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  AdminProtectionRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  KnownBadInputsRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  SQLiRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  LinuxRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  UnixRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  WindowsRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  PHPRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  WordPressRuleSetExcludedRules:
+    Type: String
+    Default: ""
+  AmazonIpReputationListExcludedRules:
+    Type: String
+    Default: ""
+  RulesAnonymousIpListExcludedRules:
+    Type: String
+    Default: ""
+
 Conditions:
   IsAWSManagedRulesCommonRuleSetEnabled: !Equals [ !Ref AWSManagedRulesCommonRuleSetEnabled , "yes" ]
   IsAWSManagedRulesAdminProtectionRuleSetEnabled: !Equals [ !Ref AWSManagedRulesAdminProtectionRuleSetEnabled , "yes" ]
@@ -174,6 +208,18 @@ Conditions:
   IsOverrideActionCountWordPressRuleSetEnabled: !Equals [ !Ref OverrideActionCountWordPressRuleSetEnabled, "yes" ]
   IsOverrideActionCountAmazonIpReputationListEnabled: !Equals [ !Ref OverrideActionCountAmazonIpReputationListEnabled, "yes" ]
   IsOverrideActionCountAnonymousIpListEnabled: !Equals [ !Ref OverrideActionCountAnonymousIpListEnabled, "yes" ]
+
+  IsCommonRuleSetExcludedRules: !Equals [ !Ref CommonRuleSetExcludedRules, "" ]
+  IsAdminProtectionRuleSetExcludedRules: !Equals [ !Ref AdminProtectionRuleSetExcludedRules, "" ]
+  IsKnownBadInputsRuleSetExcludedRules: !Equals [ !Ref KnownBadInputsRuleSetExcludedRules, "" ]
+  IsSQLiRuleSetExcludedRules: !Equals [ !Ref SQLiRuleSetExcludedRules, "" ]
+  IsLinuxRuleSetExcludedRules: !Equals [ !Ref LinuxRuleSetExcludedRules, "" ]
+  IsUnixRuleSetExcludedRules: !Equals [ !Ref UnixRuleSetExcludedRules, "" ]
+  IsWindowsRuleSetExcludedRules: !Equals [ !Ref WindowsRuleSetExcludedRules, "" ]
+  IsPHPRuleSetExcludedRules: !Equals [ !Ref PHPRuleSetExcludedRules, "" ]
+  IsWordPressRuleSetExcludedRules: !Equals [ !Ref WordPressRuleSetExcludedRules, "" ]
+  IsAmazonIpReputationListExcludedRules: !Equals [ !Ref AmazonIpReputationListExcludedRules, "" ]
+  IsRulesAnonymousIpListExcludedRules: !Equals [ !Ref RulesAnonymousIpListExcludedRules, "" ]
 
 Resources:
   WAFWebACL:
@@ -209,7 +255,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesCommonRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsCommonRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref CommonRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesAdminProtectionRuleSetEnabled

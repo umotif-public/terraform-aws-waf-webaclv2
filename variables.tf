@@ -135,3 +135,58 @@ variable "enable_OverrideActionCountAnonymousIpList" {
   type    = bool
   default = true
 }
+
+variable "CommonRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "AdminProtectionRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "KnownBadInputsRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "SQLiRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "LinuxRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "UnixRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "WindowsRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "PHPRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "WordPressRuleSetExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "AmazonIpReputationListExcludedRules" {
+  type    = string
+  default = ""
+}
+
+variable "RulesAnonymousIpListExcludedRules" {
+  type    = string
+  default = ""
+}

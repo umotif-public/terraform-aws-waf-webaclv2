@@ -119,4 +119,6 @@ module "waf" {
   enable_OverrideActionCountSQLiRuleSet           = false
   enable_OverrideActionCountKnownBadInputsRuleSet = false
   enable_OverrideActionCountUnixRuleSet           = false
+
+  CommonRuleSetExcludedRules = "NoUserAgent_HEADER,UserAgent_BadBots_HEADER,SizeRestrictions_QUERYSTRING"
 }

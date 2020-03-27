@@ -279,7 +279,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesAdminProtectionRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsAdminProtectionRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref AdminProtectionRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesKnownBadInputsRuleSetEnabled
@@ -299,7 +303,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesKnownBadInputsRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsKnownBadInputsRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref KnownBadInputsRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesSQLiRuleSetEnabled
@@ -319,7 +327,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesSQLiRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsSQLiRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref SQLiRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesLinuxRuleSetEnabled
@@ -339,7 +351,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesLinuxRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsLinuxRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref LinuxRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesUnixRuleSetEnabled
@@ -359,7 +375,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesUnixRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsUnixRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref UnixRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesWindowsRuleSetEnabled
@@ -379,7 +399,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesWindowsRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsWindowsRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref WindowsRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesPHPRuleSetEnabled
@@ -399,7 +423,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesPHPRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsPHPRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref PHPRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesWordPressRuleSetEnabled
@@ -419,7 +447,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesWordPressRuleSet
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsWordPressRuleSetExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref WordPressRuleSetExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesAmazonIpReputationListEnabled
@@ -439,7 +471,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesAmazonIpReputationList
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsAmazonIpReputationListExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref AmazonIpReputationListExcludedRules ]
           - !Ref 'AWS::NoValue'
         - Fn::If:
           - IsAWSManagedRulesAnonymousIpListEnabled
@@ -459,7 +495,11 @@ Resources:
               ManagedRuleGroupStatement:
                 VendorName: AWS
                 Name: AWSManagedRulesAnonymousIpList
-                ExcludedRules: []
+                ExcludedRules:
+                  'Fn::If':
+                    - IsRulesAnonymousIpListExcludedRules
+                    - []
+                    - 'Fn::Split': [ ",", !Ref RulesAnonymousIpListExcludedRules ]
           - !Ref 'AWS::NoValue'
 
   WAFWebACLAssociation:

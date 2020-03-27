@@ -104,6 +104,19 @@ module "waf" {
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
 
-  enable_CommonRuleSet = true
-  enable_PHPRuleSet    = true
+  enable_DefaultActionAllow = true
+
+  enable_CommonRuleSet         = true
+  enable_PHPRuleSet            = true
+  enable_LinuxRuleSet          = true
+  enable_SQLiRuleSet           = true
+  enable_KnownBadInputsRuleSet = true
+  enable_UnixRuleSet           = true
+
+  enable_OverrideActionCountCommonRuleSet         = false
+  enable_OverrideActionCountPHPRuleSet            = false
+  enable_OverrideActionCountLinuxRuleSet          = false
+  enable_OverrideActionCountSQLiRuleSet           = false
+  enable_OverrideActionCountKnownBadInputsRuleSet = false
+  enable_OverrideActionCountUnixRuleSet           = false
 }

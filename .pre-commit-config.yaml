@@ -18,7 +18,7 @@ repos:
     args: ['--allow-missing-credentials']
   - id: trailing-whitespace
 - repo: git://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.27.0
+  rev: v1.29.0
   hooks:
   - id: terraform_fmt
   - id: terraform_docs

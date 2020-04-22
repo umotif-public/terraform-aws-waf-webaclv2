@@ -19,7 +19,7 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "0.0.1"
+  version = "0.1.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -42,6 +42,10 @@ Module is to be used with Terraform > 0.12.
 Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](https://www.linkedin.com/in/marcincuber/).
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+No requirements.
+
 ## Providers
 
 | Name | Version |
@@ -51,7 +55,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | AdminProtectionRuleSetExcludedRules | n/a | `string` | `""` | no |
 | AmazonIpReputationListExcludedRules | n/a | `string` | `""` | no |
 | CommonRuleSetExcludedRules | n/a | `string` | `""` | no |
@@ -113,4 +117,7 @@ See LICENSE for full details.
 
 ```bash
 brew install pre-commit terraform-docs tflint
+
+brew tap git-chglog/git-chglog
+brew install git-chglog
 ```

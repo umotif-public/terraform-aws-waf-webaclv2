@@ -4,6 +4,7 @@ Parameters:
   AlbArn:
     Type: String
     Description: "Arn of the Application loadbalancer to associate with WAF"
+    Default: "no"
   NamePrefix:
     Type: String
     Description: "Name Prefix"
@@ -220,6 +221,8 @@ Conditions:
   IsWordPressRuleSetExcludedRules: !Equals [ !Ref WordPressRuleSetExcludedRules, "" ]
   IsAmazonIpReputationListExcludedRules: !Equals [ !Ref AmazonIpReputationListExcludedRules, "" ]
   IsRulesAnonymousIpListExcludedRules: !Equals [ !Ref RulesAnonymousIpListExcludedRules, "" ]
+
+  IsAlbArnProvided: !Not [!Equals [ !Ref AlbArn, "no" ]]
 
 Resources:
   WAFWebACL:
@@ -504,8 +507,20 @@ Resources:
 
   WAFWebACLAssociation:
     Type: AWS::WAFv2::WebACLAssociation
+    Condition: IsAlbArnProvided
     Properties:
       ResourceArn:
         Ref: AlbArn
       WebACLArn:
         Fn::GetAtt: [ WAFWebACL, Arn ]
+
+Outputs:
+  WAFWebName:
+    Description: The name of the WafWebACL created
+    Value: !Select [ 0, !Split ["|", !Ref WAFWebACL ]]
+  WAFWebId:
+    Description: The id of the WafWebACL created
+    Value: !Select [ 1, !Split [ "|", !Ref WAFWebACL ]]
+  WAFWebScope:
+    Description: The scope of the WafWebACL created
+    Value: !Select [ 2, !Split [ "|", !Ref WAFWebACL ]]

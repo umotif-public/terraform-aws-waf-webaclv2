@@ -516,11 +516,8 @@ Resources:
 
 Outputs:
   WAFWebName:
-    Description: The name of the WafWebACL created
+    Description: The name of the created WafWebACL
     Value: !Select [ 0, !Split ["|", !Ref WAFWebACL ]]
-  WAFWebId:
-    Description: The id of the WafWebACL created
-    Value: !Select [ 1, !Split [ "|", !Ref WAFWebACL ]]
-  WAFWebScope:
-    Description: The scope of the WafWebACL created
-    Value: !Select [ 2, !Split [ "|", !Ref WAFWebACL ]]
+  WAFWebArn:
+    Description: The ARN of the created WafWebACL
+    Value: !GetAtt [ WAFWebACL, Arn ]

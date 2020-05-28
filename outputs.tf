@@ -3,11 +3,11 @@ locals {
 }
 
 output waf_name {
-  description = "The name of the created WAF"
+  description = "The name of the created WAF Web ACL"
   value       = lookup(local.waf_outputs, "WAFWebName", null)
 }
 
-output waf_id {
-  description = "The id of the created WAF"
-  value       = lookup(local.waf_outputs, "WAFWebId", null)
+output waf_arn {
+  description = "The arn of the created WAF Web ACL"
+  value       = lookup(local.waf_outputs, "WAFWebArn", null)
 }

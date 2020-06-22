@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- update docs and add chglog
+
+
+<a name="0.2.0"></a>
+## [0.2.0] - 2020-05-28
+
+- Allow conditional association with ALB
+- Feature/updates ([#3](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/3))
 
 
 <a name="0.1.0"></a>
@@ -23,5 +29,6 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.0.1...0.1.0

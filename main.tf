@@ -1,53 +1,68 @@
-resource "aws_cloudformation_stack" "waf" {
+resource "aws_wafv2_web_acl" "main" {
   count = var.enabled ? 1 : 0
 
-  name         = "${var.name_prefix}-waf-stack"
-  capabilities = ["CAPABILITY_IAM"]
+  name  = var.name_prefix
+  scope = "REGIONAL"
 
-  template_body = file("${path.module}/cfm/waf.yaml")
+  default_action {
+    block {}
+  }
 
-  parameters = {
-    NamePrefix = var.name_prefix
-    AlbArn     = var.alb_arn != "" ? var.alb_arn : "no"
+  dynamic "rule" {
+    for_each = var.rules
+    content {
+      name     = lookup(rule.value, "name")
+      priority = lookup(rule.value, "priority")
 
-    DefaultActionAllowEnabled = var.enable_DefaultActionAllow ? "yes" : "no"
+      override_action {
+        none {}
+      }
 
-    AWSManagedRulesCommonRuleSetEnabled          = var.enable_CommonRuleSet ? "yes" : "no"
-    AWSManagedRulesAdminProtectionRuleSetEnabled = var.enable_AdminProtectionRuleSet ? "yes" : "no"
-    AWSManagedRulesKnownBadInputsRuleSetEnabled  = var.enable_KnownBadInputsRuleSet ? "yes" : "no"
-    AWSManagedRulesSQLiRuleSetEnabled            = var.enable_SQLiRuleSet ? "yes" : "no"
-    AWSManagedRulesLinuxRuleSetEnabled           = var.enable_LinuxRuleSet ? "yes" : "no"
-    AWSManagedRulesUnixRuleSetEnabled            = var.enable_UnixRuleSet ? "yes" : "no"
-    AWSManagedRulesWindowsRuleSetEnabled         = var.enable_WindowsRuleSet ? "yes" : "no"
-    AWSManagedRulesPHPRuleSetEnabled             = var.enable_PHPRuleSet ? "yes" : "no"
-    AWSManagedRulesWordPressRuleSetEnabled       = var.enable_WordPressRuleSet ? "yes" : "no"
-    AWSManagedRulesAmazonIpReputationListEnabled = var.enable_AmazonIpReputationList ? "yes" : "no"
-    AWSManagedRulesAnonymousIpListEnabled        = var.enable_AnonymousIpList ? "yes" : "no"
+      statement {
+        dynamic "managed_rule_group_statement" {
+          for_each = length(lookup(rule.value, "managed_rule_group_statement", {})) == 0 ? [] : [lookup(rule.value, "managed_rule_group_statement", {})]
+          content {
+            name        = lookup(managed_rule_group_statement.value, "name")
+            vendor_name = lookup(managed_rule_group_statement.value, "vendor_name", "AWS")
 
-    OverrideActionCountCommonRuleSetEnabled          = var.enable_OverrideActionCountCommonRuleSet ? "yes" : "no"
-    OverrideActionCountAdminProtectionRuleSetEnabled = var.enable_OverrideActionCountAdminProtectionRuleSet ? "yes" : "no"
-    OverrideActionCountKnownBadInputsRuleSetEnabled  = var.enable_OverrideActionCountKnownBadInputsRuleSet ? "yes" : "no"
-    OverrideActionCountSQLiRuleSetEnabled            = var.enable_OverrideActionCountSQLiRuleSet ? "yes" : "no"
-    OverrideActionCountLinuxRuleSetEnabled           = var.enable_OverrideActionCountLinuxRuleSet ? "yes" : "no"
-    OverrideActionCountUnixRuleSetEnabled            = var.enable_OverrideActionCountUnixRuleSet ? "yes" : "no"
-    OverrideActionCountWindowsRuleSetEnabled         = var.enable_OverrideActionCountWindowsRuleSet ? "yes" : "no"
-    OverrideActionCountPHPRuleSetEnabled             = var.enable_OverrideActionCountPHPRuleSet ? "yes" : "no"
-    OverrideActionCountWordPressRuleSetEnabled       = var.enable_OverrideActionCountWordPressRuleSet ? "yes" : "no"
-    OverrideActionCountAmazonIpReputationListEnabled = var.enable_OverrideActionCountAmazonIpReputationList ? "yes" : "no"
-    OverrideActionCountAnonymousIpListEnabled        = var.enable_OverrideActionCountAnonymousIpList ? "yes" : "no"
+            dynamic "excluded_rule" {
+              for_each = length(lookup(managed_rule_group_statement.value, "excluded_rule", {})) == 0 ? [] : toset(lookup(managed_rule_group_statement.value, "excluded_rule"))
+              content {
+                name = excluded_rule.value
+              }
+            }
+          }
+        }
+      }
 
-    CommonRuleSetExcludedRules          = var.CommonRuleSetExcludedRules != "" ? var.CommonRuleSetExcludedRules : null
-    AdminProtectionRuleSetExcludedRules = var.AdminProtectionRuleSetExcludedRules != "" ? var.AdminProtectionRuleSetExcludedRules : null
-    KnownBadInputsRuleSetExcludedRules  = var.KnownBadInputsRuleSetExcludedRules != "" ? var.KnownBadInputsRuleSetExcludedRules : null
-    SQLiRuleSetExcludedRules            = var.SQLiRuleSetExcludedRules != "" ? var.SQLiRuleSetExcludedRules : null
-    LinuxRuleSetExcludedRules           = var.LinuxRuleSetExcludedRules != "" ? var.LinuxRuleSetExcludedRules : null
-    UnixRuleSetExcludedRules            = var.UnixRuleSetExcludedRules != "" ? var.UnixRuleSetExcludedRules : null
-    WindowsRuleSetExcludedRules         = var.WindowsRuleSetExcludedRules != "" ? var.WindowsRuleSetExcludedRules : null
-    PHPRuleSetExcludedRules             = var.PHPRuleSetExcludedRules != "" ? var.PHPRuleSetExcludedRules : null
-    WordPressRuleSetExcludedRules       = var.WordPressRuleSetExcludedRules != "" ? var.WordPressRuleSetExcludedRules : null
-    AmazonIpReputationListExcludedRules = var.AmazonIpReputationListExcludedRules != "" ? var.AmazonIpReputationListExcludedRules : null
-    RulesAnonymousIpListExcludedRules   = var.RulesAnonymousIpListExcludedRules != "" ? var.RulesAnonymousIpListExcludedRules : null
+      dynamic "visibility_config" {
+        for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
+        content {
+          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", false)
+          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
+          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", false)
+        }
+      }
+    }
   }
 
   tags = var.tags
+
+  dynamic "visibility_config" {
+    for_each = length(var.visibility_config) == 0 ? [] : [var.visibility_config]
+    content {
+      cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", false)
+      metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-web-acl-metric-name")
+      sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", false)
+    }
+  }
+}
+
+resource "aws_wafv2_web_acl_association" "main" {
+  count = var.enabled && var.create_alb_association ? 1 : 0
+
+  resource_arn = var.alb_arn
+  web_acl_arn  = aws_wafv2_web_acl.main[0].arn
+
+  depends_on = [aws_wafv2_web_acl.main]
 }

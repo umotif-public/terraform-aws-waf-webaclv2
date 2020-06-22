@@ -21,172 +21,19 @@ variable "tags" {
   default     = {}
 }
 
-variable "enable_CommonRuleSet" {
-  type    = bool
-  default = false
+variable "rules" {
+  description = "List of WAF rules."
+  default     = []
 }
 
-variable "enable_AdminProtectionRuleSet" {
-  type    = bool
-  default = false
+variable "visibility_config" {
+  description = "Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration"
+  type        = map(string)
+  default     = {}
 }
 
-variable "enable_KnownBadInputsRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_SQLiRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_LinuxRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_UnixRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_WindowsRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_PHPRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_WordPressRuleSet" {
-  type    = bool
-  default = false
-}
-
-variable "enable_AmazonIpReputationList" {
-  type    = bool
-  default = false
-}
-
-variable "enable_AnonymousIpList" {
-  type    = bool
-  default = false
-}
-
-variable "enable_DefaultActionAllow" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountCommonRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountAdminProtectionRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountKnownBadInputsRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountSQLiRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountLinuxRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountUnixRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountWindowsRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountPHPRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountWordPressRuleSet" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountAmazonIpReputationList" {
-  type    = bool
-  default = true
-}
-
-variable "enable_OverrideActionCountAnonymousIpList" {
-  type    = bool
-  default = true
-}
-
-variable "CommonRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "AdminProtectionRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "KnownBadInputsRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "SQLiRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "LinuxRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "UnixRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "WindowsRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "PHPRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "WordPressRuleSetExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "AmazonIpReputationListExcludedRules" {
-  type    = string
-  default = ""
-}
-
-variable "RulesAnonymousIpListExcludedRules" {
-  type    = string
-  default = ""
+variable "create_alb_association" {
+  type        = bool
+  description = "Whether to create alb accotication with WAF web acl"
+  default     = true
 }

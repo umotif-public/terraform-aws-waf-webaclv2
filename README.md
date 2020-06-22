@@ -86,6 +86,7 @@ default_action {
 }
 ```
 This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162
+
 2. There is a terraform provider issue where you can't update tags once your WAFv2 is deployed. Issue reported -> https://github.com/terraform-providers/terraform-provider-aws/issues/13863
 
 ## Examples

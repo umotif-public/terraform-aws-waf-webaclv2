@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 
 
 
+<a name="1.0.0"></a>
+## [1.0.0] - 2020-06-22
+
+- Rewrite module to fully use aws terraform provider ([#6](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/6))
+
+
 <a name="0.2.0"></a>
 ## [0.2.0] - 2020-05-28
 
@@ -29,6 +35,7 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.2.0...1.0.0
 [0.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.0.1...0.1.0

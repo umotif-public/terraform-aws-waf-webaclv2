@@ -2,11 +2,7 @@
 
 Terraform module to configure WAF WebACL V2 for Application Load Balancer.
 
-This module is initally configured to use cloudformation as Terraform doesn't support WAFv2 API. Issue tracking progress on this can be found -> https://github.com/terraform-providers/terraform-provider-aws/issues/11046.
-
-This module will progress to version 1.0.0 once full support from Terraform is implemented and provided as part of terraform-aws-provider.
-
-Module support all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+Module supports all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
 
 ## Terraform versions
 
@@ -19,19 +15,78 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "0.1.0"
+  version = "~> 1.0.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
 
-  enable_CommonRuleSet = true
-  enable_PHPRuleSet    = true
+  create_alb_association = true
+
+  visibility_config = {
+    cloudwatch_metrics_enabled = false
+    metric_name                = "test-waf-setup-waf-main-metrics"
+    sampled_requests_enabled   = false
+  }
+
+  rules = [
+    {
+      name     = "AWSManagedRulesCommonRuleSet-rule-1"
+      priority = "1"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesCommonRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesCommonRuleSet"
+        vendor_name = "AWS"
+        excluded_rule = [
+          "SizeRestrictions_QUERYSTRING",
+          "SizeRestrictions_BODY",
+          "GenericRFI_QUERYARGUMENTS"
+        ]
+      }
+    },
+    {
+      name     = "AWSManagedRulesKnownBadInputsRuleSet-rule-2"
+      priority = "2"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+  ]
+
+  tags = {
+    "Name" = "test-waf-setup"
+    "Env"  = "test"
+  }
 }
 ```
 
 ## Assumptions
 
 Module is to be used with Terraform > 0.12.
+
+## Current Limitations/Issues
+
+1. All rules deployed via this module are set to blocking mode. At this stage, I was unable to find a way to pass following block as an environment variable (feel free to create a PR to resolve it):
+```tf
+default_action {
+    block {}
+}
+```
+This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162
+2. There is a terraform provider issue where you can't update tags once your WAFv2 is deployed. Issue reported -> https://github.com/terraform-providers/terraform-provider-aws/issues/13863
 
 ## Examples
 
@@ -44,60 +99,37 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-No requirements.
+| Name | Version |
+|------|---------|
+| terraform | ~> 0.12.6 |
+| aws | ~> 2.67 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| aws | ~> 2.67 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| AdminProtectionRuleSetExcludedRules | n/a | `string` | `""` | no |
-| AmazonIpReputationListExcludedRules | n/a | `string` | `""` | no |
-| CommonRuleSetExcludedRules | n/a | `string` | `""` | no |
-| KnownBadInputsRuleSetExcludedRules | n/a | `string` | `""` | no |
-| LinuxRuleSetExcludedRules | n/a | `string` | `""` | no |
-| PHPRuleSetExcludedRules | n/a | `string` | `""` | no |
-| RulesAnonymousIpListExcludedRules | n/a | `string` | `""` | no |
-| SQLiRuleSetExcludedRules | n/a | `string` | `""` | no |
-| UnixRuleSetExcludedRules | n/a | `string` | `""` | no |
-| WindowsRuleSetExcludedRules | n/a | `string` | `""` | no |
-| WordPressRuleSetExcludedRules | n/a | `string` | `""` | no |
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
-| enable\_AdminProtectionRuleSet | n/a | `bool` | `false` | no |
-| enable\_AmazonIpReputationList | n/a | `bool` | `false` | no |
-| enable\_AnonymousIpList | n/a | `bool` | `false` | no |
-| enable\_CommonRuleSet | n/a | `bool` | `false` | no |
-| enable\_DefaultActionAllow | n/a | `bool` | `true` | no |
-| enable\_KnownBadInputsRuleSet | n/a | `bool` | `false` | no |
-| enable\_LinuxRuleSet | n/a | `bool` | `false` | no |
-| enable\_OverrideActionCountAdminProtectionRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountAmazonIpReputationList | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountAnonymousIpList | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountCommonRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountKnownBadInputsRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountLinuxRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountPHPRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountSQLiRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountUnixRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountWindowsRuleSet | n/a | `bool` | `true` | no |
-| enable\_OverrideActionCountWordPressRuleSet | n/a | `bool` | `true` | no |
-| enable\_PHPRuleSet | n/a | `bool` | `false` | no |
-| enable\_SQLiRuleSet | n/a | `bool` | `false` | no |
-| enable\_UnixRuleSet | n/a | `bool` | `false` | no |
-| enable\_WindowsRuleSet | n/a | `bool` | `false` | no |
-| enable\_WordPressRuleSet | n/a | `bool` | `false` | no |
+| create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
 | name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
+| rules | List of WAF rules. | `list` | `[]` | no |
 | tags | A map of tags (key-value pairs) passed to resources. | `map(string)` | `{}` | no |
+| visibility\_config | Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration | `map(string)` | `{}` | no |
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| web\_acl\_arn | n/a |
+| web\_acl\_capacity | n/a |
+| web\_acl\_id | n/a |
+| web\_acl\_name | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

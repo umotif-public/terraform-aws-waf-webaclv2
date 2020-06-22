@@ -26,7 +26,7 @@ module "vpc" {
 #####
 module "alb" {
   source  = "umotif-public/alb/aws"
-  version = "~> 1.0"
+  version = "~> 1.2.0"
 
   name_prefix        = "alb-example"
   load_balancer_type = "application"
@@ -77,7 +77,7 @@ resource "aws_ecs_cluster" "cluster" {
 
 module "fargate" {
   source  = "umotif-public/ecs-fargate/aws"
-  version = "~> 1.1.1"
+  version = "~> 3.0.0"
 
   name_prefix        = "ecs-fargate-example"
   vpc_id             = module.vpc.vpc_id
@@ -98,27 +98,77 @@ module "fargate" {
   }
 }
 
+#####
+# Web Application Firewall configuration
+#####
 module "waf" {
   source = "../.."
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
 
-  enable_DefaultActionAllow = true
+  create_alb_association = true
 
-  enable_CommonRuleSet         = true
-  enable_PHPRuleSet            = true
-  enable_LinuxRuleSet          = true
-  enable_SQLiRuleSet           = true
-  enable_KnownBadInputsRuleSet = true
-  enable_UnixRuleSet           = true
+  visibility_config = {
+    cloudwatch_metrics_enabled = false
+    metric_name                = "test-waf-setup-waf-main-metrics"
+    sampled_requests_enabled   = false
+  }
 
-  enable_OverrideActionCountCommonRuleSet         = false
-  enable_OverrideActionCountPHPRuleSet            = false
-  enable_OverrideActionCountLinuxRuleSet          = false
-  enable_OverrideActionCountSQLiRuleSet           = false
-  enable_OverrideActionCountKnownBadInputsRuleSet = false
-  enable_OverrideActionCountUnixRuleSet           = false
+  rules = [
+    {
+      name     = "AWSManagedRulesCommonRuleSet-rule-1"
+      priority = "1"
 
-  CommonRuleSetExcludedRules = "NoUserAgent_HEADER,UserAgent_BadBots_HEADER,SizeRestrictions_QUERYSTRING"
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesCommonRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesCommonRuleSet"
+        vendor_name = "AWS"
+        excluded_rule = [
+          "SizeRestrictions_QUERYSTRING",
+          "SizeRestrictions_BODY",
+          "GenericRFI_QUERYARGUMENTS"
+        ]
+      }
+    },
+    {
+      name     = "AWSManagedRulesKnownBadInputsRuleSet-rule-2"
+      priority = "2"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    },
+    {
+      name     = "AWSManagedRulesPHPRuleSet-rule-3"
+      priority = "3"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesPHPRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesPHPRuleSet"
+        vendor_name = "AWS"
+      }
+    }
+  ]
+
+  tags = {
+    "Environment" = "test"
+  }
 }

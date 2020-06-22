@@ -79,10 +79,10 @@ Module is to be used with Terraform > 0.12.
 
 ## Current Limitations/Issues
 
-1. All rules deployed via this module are set to blocking mode. At this stage, I was unable to find a way to pass following block as an environment variable (feel free to create a PR to resolve it):
+1. All rules deployed via this module are set to allowing mode. At this stage, I was unable to find a way to pass following block as an environment variable (feel free to create a PR to resolve it):
 ```tf
 default_action {
-    block {}
+    allow {}
 }
 ```
 This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162

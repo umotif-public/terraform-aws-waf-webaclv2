@@ -5,7 +5,7 @@ resource "aws_wafv2_web_acl" "main" {
   scope = "REGIONAL"
 
   default_action {
-    block {}
+    allow {}
   }
 
   dynamic "rule" {
@@ -38,9 +38,9 @@ resource "aws_wafv2_web_acl" "main" {
       dynamic "visibility_config" {
         for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
         content {
-          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", false)
+          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
           metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
-          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", false)
+          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
         }
       }
     }
@@ -51,9 +51,9 @@ resource "aws_wafv2_web_acl" "main" {
   dynamic "visibility_config" {
     for_each = length(var.visibility_config) == 0 ? [] : [var.visibility_config]
     content {
-      cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", false)
+      cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
       metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-web-acl-metric-name")
-      sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", false)
+      sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
     }
   }
 }

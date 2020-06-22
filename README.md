@@ -115,7 +115,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
-| create\_alb\_association | Whether to create alb accotication with WAF web acl | `bool` | `true` | no |
+| create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
 | name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
 | rules | List of WAF rules. | `list` | `[]` | no |

@@ -34,6 +34,6 @@ variable "visibility_config" {
 
 variable "create_alb_association" {
   type        = bool
-  description = "Whether to create alb accotication with WAF web acl"
+  description = "Whether to create alb association with WAF web acl"
   default     = true
 }

@@ -124,7 +124,12 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| web\_acl\_arn | n/a |
+| web\_acl\_capacity | n/a |
+| web\_acl\_id | n/a |
+| web\_acl\_name | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

@@ -1,13 +1,15 @@
-# locals {
-#   waf_outputs = coalescelist(aws_cloudformation_stack.waf.*.outputs, [{}])[0]
-# }
+output "web_acl_name" {
+  value = join("", aws_wafv2_web_acl.main.*.name)
+}
 
-# output waf_name {
-#   description = "The name of the created WAF Web ACL"
-#   value       = lookup(local.waf_outputs, "WAFWebName", null)
-# }
+output "web_acl_arn" {
+  value = join("", aws_wafv2_web_acl.main.*.arn)
+}
 
-# output waf_arn {
-#   description = "The arn of the created WAF Web ACL"
-#   value       = lookup(local.waf_outputs, "WAFWebArn", null)
-# }
+output "web_acl_id" {
+  value = join("", aws_wafv2_web_acl.main.*.id)
+}
+
+output "web_acl_capacity" {
+  value = join("", aws_wafv2_web_acl.main.*.capacity)
+}

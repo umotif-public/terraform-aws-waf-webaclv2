@@ -98,7 +98,7 @@ EOF
 }
 
 resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
-  name        = "terraform-kinesis-firehose-test-stream"
+  name        = "aws-waf-logs-kinesis-firehose-test-stream"
   destination = "s3"
 
   s3_configuration {
@@ -124,9 +124,6 @@ module "wafv2" {
     {
       single_header = {
         name = "user-agent"
-      },
-      single_query_argument = {
-        name = "username"
       }
     }
   ]

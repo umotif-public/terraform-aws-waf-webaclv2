@@ -81,7 +81,11 @@ default_action {
 ```
 This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162
 
-2. New issue with logging configuration is reported and can be tracked -> https://github.com/terraform-providers/terraform-provider-aws/issues/13955
+## Logging configuration
+
+When you enable logging configuration for WAFv2. Remember to follow naming convention defined in https://docs.aws.amazon.com/waf/latest/developerguide/logging.html.
+
+Importantly, make sure that Amazon Kinesis Data Firehose is using a name starting with the prefix aws-waf-logs-.
 
 ## Examples
 

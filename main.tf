@@ -1,3 +1,6 @@
+#####
+# WAFv2 web acl
+#####
 resource "aws_wafv2_web_acl" "main" {
   count = var.enabled ? 1 : 0
 
@@ -58,6 +61,9 @@ resource "aws_wafv2_web_acl" "main" {
   }
 }
 
+#####
+# WAFv2 web acl association with ALB
+#####
 resource "aws_wafv2_web_acl_association" "main" {
   count = var.enabled && var.create_alb_association ? 1 : 0
 
@@ -65,4 +71,33 @@ resource "aws_wafv2_web_acl_association" "main" {
   web_acl_arn  = aws_wafv2_web_acl.main[0].arn
 
   depends_on = [aws_wafv2_web_acl.main]
+}
+
+#####
+# WAFv2 web acl logging configuration with kinesis firehose
+#####
+resource "aws_wafv2_web_acl_logging_configuration" "main" {
+  count = var.enabled && var.create_logging_configuration ? 1 : 0
+
+  log_destination_configs = var.log_destination_configs #["${aws_kinesis_firehose_delivery_stream.example.arn}"]
+  resource_arn            = aws_wafv2_web_acl.main[0].arn
+
+  dynamic "redacted_fields" {
+    for_each = var.redacted_fields
+    content {
+      dynamic "single_header" {
+        for_each = length(lookup(redacted_fields.value, "single_header", {})) == 0 ? [] : [lookup(redacted_fields.value, "single_header", {})]
+        content {
+          name = lookup(single_header.value, "name", null)
+        }
+      }
+
+      dynamic "single_query_argument" {
+        for_each = length(lookup(redacted_fields.value, "single_query_argument", {})) == 0 ? [] : [lookup(redacted_fields.value, "single_query_argument", {})]
+        content {
+          name = lookup(single_query_argument.value, "name", null)
+        }
+      }
+    }
+  }
 }

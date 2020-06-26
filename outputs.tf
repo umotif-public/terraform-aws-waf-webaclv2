@@ -1,15 +1,19 @@
 output "web_acl_name" {
-  value = join("", aws_wafv2_web_acl.main.*.name)
+  description = "The name of the WAFv2 WebACL."
+  value       = join("", aws_wafv2_web_acl.main.*.name)
 }
 
 output "web_acl_arn" {
-  value = join("", aws_wafv2_web_acl.main.*.arn)
+  description = "The ARN of the WAFv2 WebACL."
+  value       = join("", aws_wafv2_web_acl.main.*.arn)
 }
 
 output "web_acl_id" {
-  value = join("", aws_wafv2_web_acl.main.*.id)
+  description = "The ID of the WAFv2 WebACL."
+  value       = join("", aws_wafv2_web_acl.main.*.id)
 }
 
 output "web_acl_capacity" {
-  value = join("", aws_wafv2_web_acl.main.*.capacity)
+  description = "The web ACL capacity units (WCUs) currently being used by this web ACL."
+  value       = join("", aws_wafv2_web_acl.main.*.capacity)
 }

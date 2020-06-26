@@ -15,7 +15,7 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.0.0"
+  version = "~> 1.1.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -23,9 +23,7 @@ module "waf" {
   create_alb_association = true
 
   visibility_config = {
-    cloudwatch_metrics_enabled = false
     metric_name                = "test-waf-setup-waf-main-metrics"
-    sampled_requests_enabled   = false
   }
 
   rules = [
@@ -34,9 +32,7 @@ module "waf" {
       priority = "1"
 
       visibility_config = {
-        cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesCommonRuleSet-metric"
-        sampled_requests_enabled   = false
       }
 
       managed_rule_group_statement = {
@@ -54,9 +50,7 @@ module "waf" {
       priority = "2"
 
       visibility_config = {
-        cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
-        sampled_requests_enabled   = false
       }
 
       managed_rule_group_statement = {
@@ -87,11 +81,12 @@ default_action {
 ```
 This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162
 
-2. There is a terraform provider issue where you can't update tags once your WAFv2 is deployed. Issue reported -> https://github.com/terraform-providers/terraform-provider-aws/issues/13863
+2. New issue with logging configuration is reported and can be tracked -> https://github.com/terraform-providers/terraform-provider-aws/issues/13955
 
 ## Examples
 
 * [WAF ACL](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/core)
+* [WAF ACL with configuration logging](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-logging-configuration)
 
 ## Authors
 
@@ -103,13 +98,13 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | Name | Version |
 |------|---------|
 | terraform | ~> 0.12.6 |
-| aws | ~> 2.67 |
+| aws | ~> 2.68 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.67 |
+| aws | ~> 2.68 |
 
 ## Inputs
 
@@ -117,8 +112,11 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 |------|-------------|------|---------|:--------:|
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
+| create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
+| log\_destination\_configs | The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported. | `list(string)` | `[]` | no |
 | name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
+| redacted\_fields | The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported. | `list` | `[]` | no |
 | rules | List of WAF rules. | `list` | `[]` | no |
 | tags | A map of tags (key-value pairs) passed to resources. | `map(string)` | `{}` | no |
 | visibility\_config | Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration | `map(string)` | `{}` | no |
@@ -127,10 +125,10 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 
 | Name | Description |
 |------|-------------|
-| web\_acl\_arn | n/a |
-| web\_acl\_capacity | n/a |
-| web\_acl\_id | n/a |
-| web\_acl\_name | n/a |
+| web\_acl\_arn | The ARN of the WAFv2 WebACL. |
+| web\_acl\_capacity | The web ACL capacity units (WCUs) currently being used by this web ACL. |
+| web\_acl\_id | The ID of the WAFv2 WebACL. |
+| web\_acl\_name | The name of the WAFv2 WebACL. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

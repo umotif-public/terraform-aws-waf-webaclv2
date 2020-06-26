@@ -35,79 +35,101 @@ module "alb" {
   subnets            = module.vpc.public_subnets
 }
 
-resource "aws_lb_listener" "alb_80" {
-  load_balancer_arn = module.alb.arn
-  port              = "80"
-  protocol          = "HTTP"
+#####
+# Firehose configuration
+#####
 
-  default_action {
-    type             = "forward"
-    target_group_arn = module.fargate.target_group_arn
-  }
+resource "aws_s3_bucket" "bucket" {
+  bucket = "firehose-stream-test-bucket"
+  acl    = "private"
 }
 
-#####
-# Security Group Config
-#####
-resource "aws_security_group_rule" "alb_ingress_80" {
-  security_group_id = module.alb.security_group_id
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
-  cidr_blocks       = ["0.0.0.0/0"]
-  ipv6_cidr_blocks  = ["::/0"]
+resource "aws_iam_role" "firehose" {
+  name = "firehose-stream-test-role"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "firehose.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
 }
 
-resource "aws_security_group_rule" "task_ingress_80" {
-  security_group_id        = module.fargate.service_sg_id
-  type                     = "ingress"
-  protocol                 = "tcp"
-  from_port                = 80
-  to_port                  = 80
-  source_security_group_id = module.alb.security_group_id
+resource "aws_iam_role_policy" "custom-policy" {
+  name   = "firehose-role-custom-policy"
+  role   = aws_iam_role.firehose.id
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:GetBucketLocation",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "${aws_s3_bucket.bucket.arn}",
+        "${aws_s3_bucket.bucket.arn}/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:CreateServiceLinkedRole",
+      "Resource": "arn:aws:iam::*:role/aws-service-role/wafv2.amazonaws.com/AWSServiceRoleForWAFV2Logging"
+    }
+  ]
+}
+EOF
 }
 
-#####
-# ECS cluster and fargate
-#####
-resource "aws_ecs_cluster" "cluster" {
-  name = "example-ecs-cluster"
-}
+resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
+  name        = "terraform-kinesis-firehose-test-stream"
+  destination = "s3"
 
-module "fargate" {
-  source  = "umotif-public/ecs-fargate/aws"
-  version = "~> 3.0.0"
-
-  name_prefix        = "ecs-fargate-example"
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.public_subnets
-  lb_arn             = module.alb.arn
-  cluster_id         = aws_ecs_cluster.cluster.id
-
-  task_container_image   = "marcincuber/2048-game:latest"
-  task_definition_cpu    = 256
-  task_definition_memory = 512
-
-  task_container_port             = 80
-  task_container_assign_public_ip = true
-
-  health_check = {
-    port = "traffic-port"
-    path = "/"
+  s3_configuration {
+    role_arn   = aws_iam_role.firehose.arn
+    bucket_arn = aws_s3_bucket.bucket.arn
   }
 }
 
 #####
 # Web Application Firewall configuration
 #####
-module "waf" {
+module "wafv2" {
   source = "../.."
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
 
   create_alb_association = true
+
+  create_logging_configuration = true
+  log_destination_configs      = [aws_kinesis_firehose_delivery_stream.test_stream.arn]
+  redacted_fields = [
+    {
+      single_header = {
+        name = "user-agent"
+      },
+      single_query_argument = {
+        name = "username"
+      }
+    }
+  ]
 
   visibility_config = {
     cloudwatch_metrics_enabled = false

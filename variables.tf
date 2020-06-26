@@ -37,3 +37,20 @@ variable "create_alb_association" {
   description = "Whether to create alb association with WAF web acl"
   default     = true
 }
+
+variable "create_logging_configuration" {
+  type        = bool
+  description = "Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose."
+  default     = false
+}
+
+variable "log_destination_configs" {
+  type        = list(string)
+  description = "The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported."
+  default     = []
+}
+
+variable "redacted_fields" {
+  description = "The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported."
+  default     = []
+}

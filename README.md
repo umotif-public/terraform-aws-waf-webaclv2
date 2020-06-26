@@ -15,7 +15,7 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.0.0"
+  version = "~> 1.1.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -23,9 +23,7 @@ module "waf" {
   create_alb_association = true
 
   visibility_config = {
-    cloudwatch_metrics_enabled = false
     metric_name                = "test-waf-setup-waf-main-metrics"
-    sampled_requests_enabled   = false
   }
 
   rules = [
@@ -34,9 +32,7 @@ module "waf" {
       priority = "1"
 
       visibility_config = {
-        cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesCommonRuleSet-metric"
-        sampled_requests_enabled   = false
       }
 
       managed_rule_group_statement = {
@@ -54,9 +50,7 @@ module "waf" {
       priority = "2"
 
       visibility_config = {
-        cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
-        sampled_requests_enabled   = false
       }
 
       managed_rule_group_statement = {

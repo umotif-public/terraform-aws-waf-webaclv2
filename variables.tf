@@ -54,3 +54,9 @@ variable "redacted_fields" {
   description = "The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported."
   default     = []
 }
+
+variable "allow_default_action" {
+  type        = bool
+  description = "Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default."
+  default     = true
+}

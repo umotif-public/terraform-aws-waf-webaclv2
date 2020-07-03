@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- Update example and fix example config ([#9](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/9))
+
+
+<a name="1.1.0"></a>
+## [1.1.0] - 2020-06-26
+
+- Feature/wafv2 improvements ([#8](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/8))
+
+
+<a name="1.0.1"></a>
+## [1.0.1] - 2020-06-22
+
+- Update default values to reduce duplication ([#7](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/7))
+- update CHANGELOG.md
 
 
 <a name="1.0.0"></a>
@@ -35,7 +49,9 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.0.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.0.1...1.1.0
+[1.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.2.0...1.0.0
 [0.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/0.0.1...0.1.0

@@ -15,12 +15,14 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.1.0"
+  version = "~> 1.2.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
 
   create_alb_association = true
+
+  allow_default_action = true # set to allow if not specified
 
   visibility_config = {
     metric_name                = "test-waf-setup-waf-main-metrics"
@@ -30,6 +32,8 @@ module "waf" {
     {
       name     = "AWSManagedRulesCommonRuleSet-rule-1"
       priority = "1"
+
+      override_action = "none" # set to none if not specified
 
       visibility_config = {
         metric_name                = "AWSManagedRulesCommonRuleSet-metric"
@@ -49,12 +53,29 @@ module "waf" {
       name     = "AWSManagedRulesKnownBadInputsRuleSet-rule-2"
       priority = "2"
 
+      override_action = "count"
+
       visibility_config = {
         metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
       }
 
       managed_rule_group_statement = {
         name        = "AWSManagedRulesKnownBadInputsRuleSet"
+        vendor_name = "AWS"
+      }
+    },
+    {
+      name     = "AWSManagedRulesPHPRuleSet-rule-3"
+      priority = "3"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesPHPRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesPHPRuleSet"
         vendor_name = "AWS"
       }
     }
@@ -70,16 +91,6 @@ module "waf" {
 ## Assumptions
 
 Module is to be used with Terraform > 0.12.
-
-## Current Limitations/Issues
-
-1. All rules deployed via this module are set to allowing mode. At this stage, I was unable to find a way to pass following block as an environment variable (feel free to create a PR to resolve it):
-```tf
-default_action {
-    allow {}
-}
-```
-This problem is tracked -> https://discuss.hashicorp.com/t/conditional-block-or-allow-variable-for-wafv2-resource-when-using-override-action-or-default-action/10162
 
 ## Logging configuration
 
@@ -115,6 +126,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
+| allow\_default\_action | Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default. | `bool` | `true` | no |
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |

@@ -8,7 +8,15 @@ resource "aws_wafv2_web_acl" "main" {
   scope = "REGIONAL"
 
   default_action {
-    allow {}
+    dynamic "allow" {
+      for_each = var.allow_default_action ? [1] : []
+      content {}
+    }
+
+    dynamic "block" {
+      for_each = var.allow_default_action ? [] : [1]
+      content {}
+    }
   }
 
   dynamic "rule" {
@@ -18,7 +26,15 @@ resource "aws_wafv2_web_acl" "main" {
       priority = lookup(rule.value, "priority")
 
       override_action {
-        none {}
+        dynamic "none" {
+          for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
+          content {}
+        }
+
+        dynamic "count" {
+          for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
+          content {}
+        }
       }
 
       statement {

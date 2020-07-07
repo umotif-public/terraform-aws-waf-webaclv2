@@ -5,7 +5,7 @@ resource "aws_wafv2_web_acl" "main" {
   count = var.enabled ? 1 : 0
 
   name  = var.name_prefix
-  scope = "REGIONAL"
+  scope = var.scope
 
   default_action {
     dynamic "allow" {

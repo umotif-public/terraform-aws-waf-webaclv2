@@ -60,3 +60,9 @@ variable "allow_default_action" {
   description = "Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default."
   default     = true
 }
+
+variable "scope" {
+  type        = string
+  description = "Specifies whether this is for an AWS CloudFront distribution or for a regional application. Valid values are CLOUDFRONT or REGIONAL. To work with CloudFront, you must also specify the region us-east-1 (N. Virginia) on the AWS provider."
+  default     = "REGIONAL"
+}

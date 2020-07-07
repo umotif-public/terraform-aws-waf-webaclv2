@@ -1,6 +1,6 @@
 # terraform-aws-waf-webaclv2
 
-Terraform module to configure WAF WebACL V2 for Application Load Balancer.
+Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cloudfront distribution.
 
 Module supports all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
 
@@ -15,10 +15,12 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.2.0"
+  version = "~> 1.3.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
+
+  scope = "REGIONAL"
 
   create_alb_association = true
 
@@ -88,6 +90,19 @@ module "waf" {
 }
 ```
 
+### Cloudfront configuration
+
+```hcl
+module "waf" {
+  source = "umotif-public/waf-webaclv2/aws"
+  version = "~> 1.3.0"
+
+  name_prefix = "test-waf-setup-cloudfront"
+  scope = "CLOUDFRONT"
+  create_alb_association = false
+  ...
+```
+
 ## Assumptions
 
 Module is to be used with Terraform > 0.12.
@@ -134,6 +149,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
 | redacted\_fields | The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported. | `list` | `[]` | no |
 | rules | List of WAF rules. | `list` | `[]` | no |
+| scope | Specifies whether this is for an AWS CloudFront distribution or for a regional application. Valid values are CLOUDFRONT or REGIONAL. To work with CloudFront, you must also specify the region us-east-1 (N. Virginia) on the AWS provider. | `string` | `"REGIONAL"` | no |
 | tags | A map of tags (key-value pairs) passed to resources. | `map(string)` | `{}` | no |
 | visibility\_config | Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration | `map(string)` | `{}` | no |
 

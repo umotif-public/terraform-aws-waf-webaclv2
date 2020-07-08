@@ -93,7 +93,18 @@ module "waf" {
 ### Cloudfront configuration
 
 ```hcl
+provider "aws" {
+  alias = "us-east"
+
+  version = "~> 2.68"
+  region  = "us-east-1"
+}
+
 module "waf" {
+  providers = {
+    aws = aws.us-east
+  }
+
   source = "umotif-public/waf-webaclv2/aws"
   version = "~> 1.3.0"
 
@@ -101,6 +112,7 @@ module "waf" {
   scope = "CLOUDFRONT"
   create_alb_association = false
   ...
+}
 ```
 
 ## Assumptions

@@ -153,6 +153,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
+| alb\_arn\_list | Application Load Balancer ARN list | `list` | [] | no |
 | allow\_default\_action | Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default. | `bool` | `true` | no |
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |

@@ -90,7 +90,7 @@ resource "aws_wafv2_web_acl_association" "main" {
 }
 
 resource "aws_wafv2_web_acl_association" "alb_list" {
-  count = var.enabled && length(var.alb_arn_list) > 0 ? length(var.alb_arn_list) : 0
+  count = var.enabled && var.create_alb_association && length(var.alb_arn_list) > 0 ? length(var.alb_arn_list) : 0
 
   resource_arn = var.alb_arn_list[count.index]
   web_acl_arn  = aws_wafv2_web_acl.main[0].arn

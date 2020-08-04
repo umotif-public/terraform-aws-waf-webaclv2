@@ -81,9 +81,18 @@ resource "aws_wafv2_web_acl" "main" {
 # WAFv2 web acl association with ALB
 #####
 resource "aws_wafv2_web_acl_association" "main" {
-  count = var.enabled && var.create_alb_association ? 1 : 0
+  count = var.enabled && var.create_alb_association && length(var.alb_arn_list) == 0 ? 1 : 0
 
   resource_arn = var.alb_arn
+  web_acl_arn  = aws_wafv2_web_acl.main[0].arn
+
+  depends_on = [aws_wafv2_web_acl.main]
+}
+
+resource "aws_wafv2_web_acl_association" "alb_list" {
+  count = var.enabled && var.create_alb_association && length(var.alb_arn_list) > 0 ? length(var.alb_arn_list) : 0
+
+  resource_arn = var.alb_arn_list[count.index]
   web_acl_arn  = aws_wafv2_web_acl.main[0].arn
 
   depends_on = [aws_wafv2_web_acl.main]

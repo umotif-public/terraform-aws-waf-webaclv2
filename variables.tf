@@ -15,6 +15,12 @@ variable "alb_arn" {
   default     = ""
 }
 
+variable "alb_arn_list" {
+  type        = list(string)
+  description = "Application Load Balancer ARN list"
+  default     = []
+}
+
 variable "tags" {
   description = "A map of tags (key-value pairs) passed to resources."
   type        = map(string)

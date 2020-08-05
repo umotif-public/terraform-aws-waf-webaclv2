@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Add ability to support multiple ALBs
+- Update module versions to support v3 provider
+
+
+<a name="1.4.0"></a>
+## [1.4.0] - 2020-08-04
+
+- Add ability to support multiple ALBs ([#13](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/13))
+- Improve documentation ([#12](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/12))
+
 
 <a name="1.3.0"></a>
 ## [1.3.0] - 2020-07-07
@@ -61,7 +69,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.4.0...HEAD
+[1.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.0.1...1.1.0

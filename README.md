@@ -15,7 +15,7 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.3.0"
+  version = "~> 1.4.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -106,7 +106,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.3.0"
+  version = "~> 1.4.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -139,21 +139,21 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 
 | Name | Version |
 |------|---------|
-| terraform | ~> 0.12.6 |
-| aws | ~> 2.68 |
+| terraform | >= 0.12.6, < 0.14 |
+| aws | >= 2.68, < 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.68 |
+| aws | >= 2.68, < 4.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | alb\_arn | Application Load Balancer ARN | `string` | `""` | no |
-| alb\_arn\_list | Application Load Balancer ARN list | `list` | [] | no |
+| alb\_arn\_list | Application Load Balancer ARN list | `list(string)` | `[]` | no |
 | allow\_default\_action | Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default. | `bool` | `true` | no |
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |

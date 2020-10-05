@@ -2,11 +2,16 @@
 
 Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cloudfront distribution.
 
-Module supports all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+Supported WAF v2 components:
+
+- Module supports all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+- Associating WAFv2 ACL with one or more Application Load Balancers (ALB)
+- Blocking IP Sets
+- Rate limiting IPs
 
 ## Terraform versions
 
-Terraform 0.12. Pin module version to `~> v1.0`. Submit pull-requests to `master` branch.
+Terraform 0.12 and 0.13. Pin module version to `~> v1.0`. Submit pull-requests to `master` branch.
 
 ## Usage
 
@@ -15,7 +20,7 @@ Please pin down version of this module to exact version.
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.4.0"
+  version = "~> 1.5.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -27,7 +32,7 @@ module "waf" {
   allow_default_action = true # set to allow if not specified
 
   visibility_config = {
-    metric_name                = "test-waf-setup-waf-main-metrics"
+    metric_name = "test-waf-setup-waf-main-metrics"
   }
 
   rules = [
@@ -58,7 +63,7 @@ module "waf" {
       override_action = "count"
 
       visibility_config = {
-        metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
+        metric_name = "AWSManagedRulesKnownBadInputsRuleSet-metric"
       }
 
       managed_rule_group_statement = {
@@ -96,7 +101,7 @@ module "waf" {
 provider "aws" {
   alias = "us-east"
 
-  version = "~> 2.68"
+  version = ">= 2.70"
   region  = "us-east-1"
 }
 
@@ -106,7 +111,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 1.4.0"
+  version = "~> 1.5.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -129,6 +134,7 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 
 * [WAF ACL](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/core)
 * [WAF ACL with configuration logging](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-logging-configuration)
+* [WAF ACL with ip rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-ip-rules)
 
 ## Authors
 
@@ -140,13 +146,13 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | Name | Version |
 |------|---------|
 | terraform | >= 0.12.6, < 0.14 |
-| aws | >= 2.68, < 4.0 |
+| aws | >= 2.70, < 4.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 2.68, < 4.0 |
+| aws | >= 2.70, < 4.0 |
 
 ## Inputs
 
@@ -158,6 +164,8 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
+| ip\_rate\_based\_rule | A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span | `any` | `null` | no |
+| ip\_set\_rules | List of WAF ip set rules to detect web requests coming from particular IP addresses or address ranges. | `list` | `[]` | no |
 | log\_destination\_configs | The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported. | `list(string)` | `[]` | no |
 | name\_prefix | Name prefix used to create resources. | `string` | n/a | yes |
 | redacted\_fields | The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported. | `list` | `[]` | no |

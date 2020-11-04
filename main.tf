@@ -35,6 +35,10 @@ resource "aws_wafv2_web_acl" "main" {
           for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
           content {}
         }
+        dynamic "block" {
+          for_each = lookup(rule.value, "override_action", {}) == "block" ? [1] : []
+          content {}
+        }
       }
 
       statement {

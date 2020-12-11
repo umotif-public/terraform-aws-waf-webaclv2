@@ -1,3 +1,5 @@
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/umotif-public/terraform-aws-waf-webaclv2?style=social)
+
 # terraform-aws-waf-webaclv2
 
 Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cloudfront distribution.

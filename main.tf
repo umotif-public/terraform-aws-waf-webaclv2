@@ -25,15 +25,36 @@ resource "aws_wafv2_web_acl" "main" {
       name     = lookup(rule.value, "name")
       priority = lookup(rule.value, "priority")
 
-      override_action {
-        dynamic "none" {
-          for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
-          content {}
+      dynamic "override_action" {
+        for_each = length(lookup(rule.value, "override_action", {})) == 0 ? [] : [1]
+        content {
+          dynamic "none" {
+            for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
+            content {}
+          }
+        
+          dynamic "count" {
+            for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
+            content {}
+          }
         }
+      }
 
-        dynamic "count" {
-          for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
-          content {}
+      dynamic "action" {
+        for_each = length(lookup(rule.value, "action", {})) == 0 ? [] : [1]
+        content {
+          dynamic "block" {
+            for_each = lookup(rule.value, "action", "allow") == "block" ? [1] : []
+            content {}
+          }
+          dynamic "allow" {
+            for_each = lookup(rule.value, "action", "allow") == "allow" ? [1] : []
+            content {}
+          }
+          dynamic "count" {
+            for_each = lookup(rule.value, "action", "allow") == "count" ? [1] : []
+            content {}
+          }
         }
       }
 
@@ -50,6 +71,18 @@ resource "aws_wafv2_web_acl" "main" {
                 name = excluded_rule.value
               }
             }
+          }
+        }
+        dynamic "geo_match_statement" {
+          for_each = length(lookup(rule.value, "geo_match_statement", {})) == 0 ? [] : [lookup(rule.value, "geo_match_statement", {})]
+          content {
+            country_codes = lookup(geo_match_statement.value, "country_codes")
+          }
+        }
+        dynamic "ip_set_reference_statement" {
+          for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
+          content {
+            arn = lookup(ip_set_reference_statement.value, "arn")
           }
         }
       }

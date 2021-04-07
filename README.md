@@ -6,7 +6,7 @@ Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cl
 
 Supported WAF v2 components:
 
-- Module supports all AWS managed rules defained in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+- Module supports all AWS managed rules defined in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
 - Associating WAFv2 ACL with one or more Application Load Balancers (ALB)
 - Blocking IP Sets
 - Rate limiting IPs

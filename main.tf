@@ -25,36 +25,15 @@ resource "aws_wafv2_web_acl" "main" {
       name     = lookup(rule.value, "name")
       priority = lookup(rule.value, "priority")
 
-      dynamic "override_action" {
-        for_each = length(lookup(rule.value, "override_action", {})) == 0 ? [] : [1]
-        content {
-          dynamic "none" {
-            for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
-            content {}
-          }
-        
-          dynamic "count" {
-            for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
-            content {}
-          }
+      override_action {
+        dynamic "none" {
+          for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
+          content {}
         }
-      }
 
-      dynamic "action" {
-        for_each = length(lookup(rule.value, "action", {})) == 0 ? [] : [1]
-        content {
-          dynamic "block" {
-            for_each = lookup(rule.value, "action", "allow") == "block" ? [1] : []
-            content {}
-          }
-          dynamic "allow" {
-            for_each = lookup(rule.value, "action", "allow") == "allow" ? [1] : []
-            content {}
-          }
-          dynamic "count" {
-            for_each = lookup(rule.value, "action", "allow") == "count" ? [1] : []
-            content {}
-          }
+        dynamic "count" {
+          for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
+          content {}
         }
       }
 
@@ -73,16 +52,47 @@ resource "aws_wafv2_web_acl" "main" {
             }
           }
         }
+      }
+
+      dynamic "visibility_config" {
+        for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
+        content {
+          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
+          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
+          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
+        }
+      }
+    }
+  }
+
+  dynamic "rule" {
+    for_each = var.geo_match_rules
+    content {
+      name     = lookup(rule.value, "name")
+      priority = lookup(rule.value, "priority")
+
+      action {
+        dynamic "allow" {
+          for_each = length(lookup(rule.value, "action", {})) == 0 || lookup(rule.value, "action", {}) == "allow" ? [1] : []
+          content {}
+        }
+
+        dynamic "count" {
+          for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
+          content {}
+        }
+
+        dynamic "block" {
+          for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
+          content {}
+        }
+      }
+
+      statement {
         dynamic "geo_match_statement" {
           for_each = length(lookup(rule.value, "geo_match_statement", {})) == 0 ? [] : [lookup(rule.value, "geo_match_statement", {})]
           content {
             country_codes = lookup(geo_match_statement.value, "country_codes")
-          }
-        }
-        dynamic "ip_set_reference_statement" {
-          for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
-          content {
-            arn = lookup(ip_set_reference_statement.value, "arn")
           }
         }
       }
@@ -91,7 +101,7 @@ resource "aws_wafv2_web_acl" "main" {
         for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
         content {
           cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
-          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
+          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-geo-match-metric-name")
           sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
         }
       }

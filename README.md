@@ -166,6 +166,7 @@ Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](http
 | create\_alb\_association | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | create\_logging\_configuration | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
 | enabled | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
+| geo\_match\_rules | List of WAF geo match rules to detect web requests coming from a particular set of contry codes. | `list` | `[]` | no |
 | ip\_rate\_based\_rule | A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span | `any` | `null` | no |
 | ip\_set\_rules | List of WAF ip set rules to detect web requests coming from particular IP addresses or address ranges. | `list` | `[]` | no |
 | log\_destination\_configs | The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported. | `list(string)` | `[]` | no |

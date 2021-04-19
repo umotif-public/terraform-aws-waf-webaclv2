@@ -42,6 +42,11 @@ variable "ip_rate_based_rule" {
   default     = null
 }
 
+variable "geo_match_rules" {
+  description = "List of WAF geo match rules to detect web requests coming from a particular set of contry codes."
+  default     = []
+}
+
 variable "visibility_config" {
   description = "Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration"
   type        = map(string)

@@ -111,6 +111,25 @@ module "waf" {
     }
   ]
 
+  geo_match_rules = [
+    {
+      name     = "block_country_codes"
+      priority = "4"
+
+      action = "block"
+
+      geo_match_statement = {
+        country_codes = ["US", "NL"]
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "block_country_codes-metric"
+        sampled_requests_enabled   = false
+      }
+    }
+  ]
+
   tags = {
     "Environment" = "test"
   }

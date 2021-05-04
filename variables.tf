@@ -29,21 +29,25 @@ variable "tags" {
 
 variable "rules" {
   description = "List of WAF rules."
+  type        = any
   default     = []
 }
 
 variable "ip_set_rules" {
   description = "List of WAF ip set rules to detect web requests coming from particular IP addresses or address ranges."
+  type        = any
   default     = []
 }
 
 variable "ip_rate_based_rule" {
   description = "A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span"
+  type        = any
   default     = null
 }
 
 variable "geo_match_rules" {
   description = "List of WAF geo match rules to detect web requests coming from a particular set of contry codes."
+  type        = any
   default     = []
 }
 
@@ -73,6 +77,7 @@ variable "log_destination_configs" {
 
 variable "redacted_fields" {
   description = "The parts of the request that you want to keep out of the logs. Up to 100 `redacted_fields` blocks are supported."
+  type        = any
   default     = []
 }
 
@@ -86,4 +91,10 @@ variable "scope" {
   type        = string
   description = "Specifies whether this is for an AWS CloudFront distribution or for a regional application. Valid values are CLOUDFRONT or REGIONAL. To work with CloudFront, you must also specify the region us-east-1 (N. Virginia) on the AWS provider."
   default     = "REGIONAL"
+}
+
+variable "logging_filter" {
+  type        = any
+  description = "A configuration block that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation."
+  default     = {}
 }

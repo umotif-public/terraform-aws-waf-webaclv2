@@ -6,19 +6,12 @@ provider "aws" {
 #####
 # VPC and subnets
 #####
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 2.44"
+data "aws_vpc" "default" {
+  default = true
+}
 
-  name = "simple-vpc"
-
-  cidr = "10.0.0.0/16"
-
-  azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-
-  enable_nat_gateway = false
+data "aws_subnet_ids" "all" {
+  vpc_id = data.aws_vpc.default.id
 }
 
 #####
@@ -26,13 +19,13 @@ module "vpc" {
 #####
 module "alb" {
   source  = "umotif-public/alb/aws"
-  version = "~> 1.2.0"
+  version = "~> 2.0.0"
 
-  name_prefix        = "alb-example"
+  name_prefix        = "alb-waf-example"
   load_balancer_type = "application"
   internal           = false
-  vpc_id             = module.vpc.vpc_id
-  subnets            = module.vpc.public_subnets
+  vpc_id             = data.aws_vpc.default.id
+  subnets            = data.aws_subnet_ids.all.ids
 }
 
 #####
@@ -128,6 +121,40 @@ module "wafv2" {
     }
   ]
 
+  logging_filter = {
+    default_behavior = "DROP"
+
+    filter = [
+      {
+        behavior    = "KEEP"
+        requirement = "MEETS_ANY"
+        condition = [
+          {
+            action_condition = {
+              action = "ALLOW"
+            }
+          },
+        ]
+      },
+      {
+        behavior    = "DROP"
+        requirement = "MEETS_ALL"
+        condition = [
+          {
+            action_condition = {
+              action = "COUNT"
+            }
+          },
+          {
+            label_name_condition = {
+              label_name = "awswaf:111122223333:rulegroup:testRules:LabelNameZ"
+            }
+          }
+        ]
+      }
+    ]
+  }
+
   visibility_config = {
     cloudwatch_metrics_enabled = false
     metric_name                = "test-waf-setup-waf-main-metrics"
@@ -181,7 +208,7 @@ module "wafv2" {
       }
 
       managed_rule_group_statement = {
-        name        = "AWSManagedRulesPHPRuleSet"
+        name        = "AWSManagedRulesBotControlRuleSet"
         vendor_name = "AWS"
       }
     }

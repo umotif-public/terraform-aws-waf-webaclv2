@@ -2,23 +2,15 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-
 #####
 # VPC and subnets
 #####
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "~> 2.44"
+data "aws_vpc" "default" {
+  default = true
+}
 
-  name = "simple-waf-test-vpc"
-
-  cidr = "10.0.0.0/16"
-
-  azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
-
-  enable_nat_gateway = false
+data "aws_subnet_ids" "all" {
+  vpc_id = data.aws_vpc.default.id
 }
 
 #####
@@ -26,13 +18,13 @@ module "vpc" {
 #####
 module "alb" {
   source  = "umotif-public/alb/aws"
-  version = "~> 1.2.0"
+  version = "~> 2.0.0"
 
-  name_prefix        = "alb-example"
+  name_prefix        = "alb-waf-example"
   load_balancer_type = "application"
   internal           = false
-  vpc_id             = module.vpc.vpc_id
-  subnets            = module.vpc.public_subnets
+  vpc_id             = data.aws_vpc.default.id
+  subnets            = data.aws_subnet_ids.all.ids
 }
 
 #####
@@ -108,13 +100,28 @@ module "waf" {
         name        = "AWSManagedRulesPHPRuleSet"
         vendor_name = "AWS"
       }
+    },
+    {
+      name     = "AWSManagedRulesBotControlRuleSet-rule-4"
+      priority = "4"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesBotControlRuleSet-metric"
+        sampled_requests_enabled   = false
+      }
+
+      managed_rule_group_statement = {
+        name        = "AWSManagedRulesBotControlRuleSet"
+        vendor_name = "AWS"
+      }
     }
   ]
 
   geo_match_rules = [
     {
       name     = "block_country_codes"
-      priority = "4"
+      priority = "5"
 
       action = "block"
 

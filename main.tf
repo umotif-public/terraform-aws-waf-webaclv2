@@ -66,6 +66,77 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   dynamic "rule" {
+    for_each = var.byte_match_rules
+    content {
+      name     = lookup(rule.value, "name")
+      priority = lookup(rule.value, "priority")
+
+      override_action {
+        dynamic "allow" {
+          for_each = length(lookup(rule.value, "action", {})) == 0 || lookup(rule.value, "action", {}) == "allow" ? [1] : []
+          content {}
+        }
+        dynamic "none" {
+          for_each = length(lookup(rule.value, "override_action", {})) == 0 || lookup(rule.value, "override_action", {}) == "none" ? [1] : []
+          content {}
+        }
+
+        dynamic "count" {
+          for_each = lookup(rule.value, "override_action", {}) == "count" ? [1] : []
+          content {}
+        }
+      }
+
+      statement {
+        dynamic "managed_rule_group_statement" {
+          for_each = length(lookup(rule.value, "managed_rule_group_statement", {})) == 0 ? [] : [lookup(rule.value, "managed_rule_group_statement", {})]
+          content {
+            name        = lookup(managed_rule_group_statement.value, "name")
+            vendor_name = lookup(managed_rule_group_statement.value, "vendor_name", "AWS")
+
+            dynamic "excluded_rule" {
+              for_each = length(lookup(managed_rule_group_statement.value, "excluded_rule", {})) == 0 ? [] : toset(lookup(managed_rule_group_statement.value, "excluded_rule"))
+              content {
+                name = excluded_rule.value
+              }
+            }
+          }
+        }
+
+        dynamic "byte_match_statement" {
+          for_each = length(lookup(rule.value, "byte_match_statement", {})) == 0 ? [] : [lookup(rule.value, "byte_match_statement", {})]
+          content {
+            dynamic "field_to_match" {
+              for_each = lookup(byte_match_statement.value, "field_to_match") == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+              content {
+                dynamic "uri_path" {
+                  for_each = lookup(field_to_match.value, "uri_path") == 0 ? [] : [lookup(field_to_match.value, "uri_path", {})]
+                  content {}
+                }
+              }
+            }
+            positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+            search_string = lookup(byte_match_statement.value, "search_string")
+            text_transformation {
+              priority = lookup(byte_match_statement.value, "priority")
+              type = lookup(byte_match_statement.value, "type")
+            }
+          }
+        }
+      }
+
+      dynamic "visibility_config" {
+        for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
+        content {
+          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
+          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
+          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
+        }
+      }
+    }
+  }
+
+  dynamic "rule" {
     for_each = var.geo_match_rules
     content {
       name     = lookup(rule.value, "name")

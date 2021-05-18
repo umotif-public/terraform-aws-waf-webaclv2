@@ -51,6 +51,12 @@ variable "geo_match_rules" {
   default     = []
 }
 
+variable "byte_match_rules" {
+  description = "List of WAF byte match rules to detect web requests with a specific field to search on"
+  type        = any
+  default     = []
+}
+
 variable "visibility_config" {
   description = "Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration"
   type        = map(string)

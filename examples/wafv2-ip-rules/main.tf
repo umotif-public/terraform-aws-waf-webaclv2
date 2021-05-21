@@ -76,6 +76,21 @@ module "waf" {
       rate_based_statement = {
         limit              = 100
         aggregate_key_type = "IP"
+
+        # Optional scope_down_statement to refine what gets rate limited
+        scope_down_statement = {
+          not_statement = { # not statement to rate limit everything except the following path
+            byte_match_statement = {
+              field_to_match = {
+                uri_path = "{}"
+              }
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/path/to/match"
+              priority              = 0
+              type                  = "NONE"
+            }
+          }
+        }
       }
 
       visibility_config = {

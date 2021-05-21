@@ -88,6 +88,120 @@ module "waf" {
         name        = "AWSManagedRulesPHPRuleSet"
         vendor_name = "AWS"
       }
+    },
+    ### Byte Match Rule example
+    {
+      name     = "ByteMatchRule-4"
+      priority = "4"
+
+      override_action = "count"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "ByteMatchRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      byte_match_statement = {
+        field_to_match = {
+          uri_path = "{}"
+        }
+        positional_constraint = "STARTS_WITH"
+        search_string         = "/path/to/match"
+        priority              = 0
+        type                  = "NONE"
+      }
+    },
+    ### Geo Match Rule example
+    {
+      name     = "GeoMatchRule-5"
+      priority = "5"
+
+      action = "allow"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "GeoMatchRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      geo_match_statement = {
+        country_codes = ["NL", "GB", "US"]
+      }
+    },
+    ### IP Set Rule example
+    {
+      name     = "IpSetRule-6"
+      priority = "6"
+
+      action = "allow"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "IpSetRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      ip_set_reference_statement = {
+        arn = "arn:aws:wafv2:eu-west-1:111122223333:regional/ipset/ip-set-test/a1bcdef2-1234-123a-abc0-1234a5bc67d8"
+      }
+    },
+    ### IP Rate Based Rule example
+    {
+      name     = "IpRateBasedRule-7"
+      priority = "7"
+
+      action = "block"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "IpRateBasedRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      rate_based_statement = {
+        limit              = 100
+        aggregate_key_type = "IP"
+        # Optional scope_down_statement to refine what gets rate limited
+        scope_down_statement = {
+          not_statement = {
+            byte_match_statement = {
+              field_to_match = {
+                uri_path = "{}"
+              }
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/path/to/match"
+              priority              = 0
+              type                  = "NONE"
+            }
+          }
+        }
+      }
+    },
+    ### NOT rule example (can be applied to byte_match, geo_match, and ip_set rules)
+    {
+      name     = "NotByteMatchRule-8"
+      priority = "8"
+
+      override_action = "count"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "NotByteMatchRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      not_statement {
+        byte_match_statement = {
+          field_to_match = {
+            uri_path = "{}"
+          }
+          positional_constraint = "STARTS_WITH"
+          search_string         = "/path/to/match"
+          priority              = 0
+          type                  = "NONE"
+        }
+      }
     }
   ]
 
@@ -176,9 +290,6 @@ No modules.
 | <a name="input_create_alb_association"></a> [create\_alb\_association](#input\_create\_alb\_association) | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | <a name="input_create_logging_configuration"></a> [create\_logging\_configuration](#input\_create\_logging\_configuration) | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
-| <a name="input_geo_match_rules"></a> [geo\_match\_rules](#input\_geo\_match\_rules) | List of WAF geo match rules to detect web requests coming from a particular set of contry codes. | `any` | `[]` | no |
-| <a name="input_ip_rate_based_rule"></a> [ip\_rate\_based\_rule](#input\_ip\_rate\_based\_rule) | A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span | `any` | `null` | no |
-| <a name="input_ip_set_rules"></a> [ip\_set\_rules](#input\_ip\_set\_rules) | List of WAF ip set rules to detect web requests coming from particular IP addresses or address ranges. | `any` | `[]` | no |
 | <a name="input_log_destination_configs"></a> [log\_destination\_configs](#input\_log\_destination\_configs) | The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported. | `list(string)` | `[]` | no |
 | <a name="input_logging_filter"></a> [logging\_filter](#input\_logging\_filter) | A configuration block that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation. | `any` | `{}` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | Name prefix used to create resources. | `string` | n/a | yes |

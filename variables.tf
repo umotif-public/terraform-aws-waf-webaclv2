@@ -33,30 +33,6 @@ variable "rules" {
   default     = []
 }
 
-variable "ip_set_rules" {
-  description = "List of WAF ip set rules to detect web requests coming from particular IP addresses or address ranges."
-  type        = any
-  default     = []
-}
-
-variable "ip_rate_based_rule" {
-  description = "A rate-based rule tracks the rate of requests for each originating IP address, and triggers the rule action when the rate exceeds a limit that you specify on the number of requests in any 5-minute time span"
-  type        = any
-  default     = null
-}
-
-variable "geo_match_rules" {
-  description = "List of WAF geo match rules to detect web requests coming from a particular set of contry codes."
-  type        = any
-  default     = []
-}
-
-variable "byte_match_rules" {
-  description = "List of WAF byte match rules to detect web requests with a specific field to search on"
-  type        = any
-  default     = null
-}
-
 variable "visibility_config" {
   description = "Visibility config for WAFv2 web acl. https://www.terraform.io/docs/providers/aws/r/wafv2_web_acl.html#visibility-configuration"
   type        = map(string)

@@ -25,6 +25,7 @@ resource "aws_wafv2_web_acl" "main" {
       name     = lookup(rule.value, "name")
       priority = lookup(rule.value, "priority")
 
+      # Action block is required for geo_match, ip_set, and ip_rate_based rules
       dynamic "action" {
         for_each = length(lookup(rule.value, "action", {})) == 0 ? [] : [1]
         content {
@@ -124,6 +125,136 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
+        # ip_set_statement
+        dynamic "ip_set_reference_statement" {
+          for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
+          content {
+            arn = lookup(ip_set_reference_statement.value, "arn")
+          }
+        }
+
+        # rate_based_statement
+        dynamic "rate_based_statement" {
+          for_each = length(lookup(rule.value, "rate_based_statement", {})) == 0 ? [] : [lookup(rule.value, "rate_based_statement", {})]
+          content {
+            limit              = lookup(rate_based_statement.value, "limit")
+            aggregate_key_type = lookup(rate_based_statement.value, "aggregate_key_type", "IP")
+
+            dynamic "forwarded_ip_config" {
+              for_each = length(lookup(rule.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(rule.value, "forwarded_ip_config", {})]
+              content {
+                fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
+                header_name       = lookup(forwarded_ip_config.value, "header_name")
+              }
+            }
+
+            dynamic "scope_down_statement" {
+              for_each = length(lookup(rate_based_statement.value, "scope_down_statement", {})) == 0 ? [] : [lookup(rate_based_statement.value, "scope_down_statement", {})]
+              content {
+                # scope down byte_match_statement
+                dynamic "byte_match_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "byte_match_statement", {})]
+                  content {
+                    dynamic "field_to_match" {
+                      for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                      content {
+                        dynamic "uri_path" {
+                          for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                          content {}
+                        }
+                        dynamic "all_query_arguments" {
+                          for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                          content {}
+                        }
+                        dynamic "body" {
+                          for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                          content {}
+                        }
+                        dynamic "method" {
+                          for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                          content {}
+                        }
+                        dynamic "query_string" {
+                          for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                          content {}
+                        }
+                      }
+                    }
+                    positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                    search_string         = lookup(byte_match_statement.value, "search_string")
+                    text_transformation {
+                      priority = lookup(byte_match_statement.value, "priority")
+                      type     = lookup(byte_match_statement.value, "type")
+                    }
+                  }
+                }
+
+                # scope down geo_match_statement
+                dynamic "geo_match_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "geo_match_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "geo_match_statement", {})]
+                  content {
+                    country_codes = lookup(geo_match_statement.value, "country_codes")
+                  }
+                }
+
+                # scope down NOT statements
+                dynamic "not_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "not_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "not_statement", {})]
+                  content {
+                    statement {
+                      # scope down NOT byte_match_statement
+                      dynamic "byte_match_statement" {
+                        for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                            }
+                          }
+                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                          search_string         = lookup(byte_match_statement.value, "search_string")
+                          text_transformation {
+                            priority = lookup(byte_match_statement.value, "priority")
+                            type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # scope down geo_match_statement
+                      dynamic "geo_match_statement" {
+                        for_each = length(lookup(not_statement.value, "geo_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "geo_match_statement", {})]
+                        content {
+                          country_codes = lookup(geo_match_statement.value, "country_codes")
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
         ### NOT STATEMENTS
         dynamic "not_statement" {
           for_each = length(lookup(rule.value, "not_statement", {})) == 0 ? [] : [lookup(rule.value, "not_statement", {})]
@@ -175,202 +306,24 @@ resource "aws_wafv2_web_acl" "main" {
                   country_codes = lookup(geo_match_statement.value, "country_codes")
                 }
               }
+
+              # NOT ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
             }
           }
         }
       }
-      ### END NOT STATEMENTS
 
       dynamic "visibility_config" {
         for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
         content {
           cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
           metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-default-rule-metric-name")
-          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
-        }
-      }
-    }
-  }
-
-  dynamic "rule" {
-    for_each = var.ip_set_rules
-    content {
-      name     = lookup(rule.value, "name")
-      priority = lookup(rule.value, "priority")
-
-      action {
-        dynamic "allow" {
-          for_each = length(lookup(rule.value, "action", {})) == 0 || lookup(rule.value, "action", {}) == "allow" ? [1] : []
-          content {}
-        }
-
-        dynamic "count" {
-          for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
-          content {}
-        }
-
-        dynamic "block" {
-          for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
-          content {}
-        }
-      }
-
-      statement {
-        dynamic "ip_set_reference_statement" {
-          for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
-          content {
-            arn = lookup(ip_set_reference_statement.value, "arn")
-          }
-        }
-      }
-
-      dynamic "visibility_config" {
-        for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
-        content {
-          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
-          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-ip-rule-metric-name")
-          sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
-        }
-      }
-    }
-  }
-
-  dynamic "rule" {
-    for_each = var.ip_rate_based_rule != null ? [var.ip_rate_based_rule] : []
-    content {
-      name     = lookup(rule.value, "name")
-      priority = lookup(rule.value, "priority")
-
-      action {
-        dynamic "count" {
-          for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
-          content {}
-        }
-
-        dynamic "block" {
-          for_each = length(lookup(rule.value, "action", {})) == 0 || lookup(rule.value, "action", {}) == "block" ? [1] : []
-          content {}
-        }
-      }
-
-      statement {
-        dynamic "rate_based_statement" {
-          for_each = length(lookup(rule.value, "rate_based_statement", {})) == 0 ? [] : [lookup(rule.value, "rate_based_statement", {})]
-          content {
-            limit              = lookup(rate_based_statement.value, "limit")
-            aggregate_key_type = lookup(rate_based_statement.value, "aggregate_key_type", "IP")
-
-            dynamic "forwarded_ip_config" {
-              for_each = length(lookup(rule.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(rule.value, "forwarded_ip_config", {})]
-              content {
-                fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
-                header_name       = lookup(forwarded_ip_config.value, "header_name")
-              }
-            }
-
-            dynamic "scope_down_statement" {
-              for_each = length(lookup(rate_based_statement.value, "scope_down_statement", {})) == 0 ? [] : [lookup(rate_based_statement.value, "scope_down_statement", {})]
-              content {
-                # byte_match_statement
-                dynamic "byte_match_statement" {
-                  for_each = length(lookup(scope_down_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "byte_match_statement", {})]
-                  content {
-                    dynamic "field_to_match" {
-                      for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
-                      content {
-                        dynamic "uri_path" {
-                          for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
-                          content {}
-                        }
-                        dynamic "all_query_arguments" {
-                          for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
-                          content {}
-                        }
-                        dynamic "body" {
-                          for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
-                          content {}
-                        }
-                        dynamic "method" {
-                          for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
-                          content {}
-                        }
-                        dynamic "query_string" {
-                          for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
-                          content {}
-                        }
-                      }
-                    }
-                    positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
-                    search_string         = lookup(byte_match_statement.value, "search_string")
-                    text_transformation {
-                      priority = lookup(byte_match_statement.value, "priority")
-                      type     = lookup(byte_match_statement.value, "type")
-                    }
-                  }
-                }
-
-                # NOT statements
-                dynamic "not_statement" {
-                  for_each = length(lookup(scope_down_statement.value, "not_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "not_statement", {})]
-                  content {
-                    statement {
-                      # NOT byte_match_statement
-                      dynamic "byte_match_statement" {
-                        for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
-                        content {
-                          dynamic "field_to_match" {
-                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
-                            content {
-                              dynamic "uri_path" {
-                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
-                                content {}
-                              }
-                              dynamic "all_query_arguments" {
-                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
-                                content {}
-                              }
-                              dynamic "body" {
-                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
-                                content {}
-                              }
-                              dynamic "method" {
-                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
-                                content {}
-                              }
-                              dynamic "query_string" {
-                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
-                                content {}
-                              }
-                            }
-                          }
-                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
-                          search_string         = lookup(byte_match_statement.value, "search_string")
-                          text_transformation {
-                            priority = lookup(byte_match_statement.value, "priority")
-                            type     = lookup(byte_match_statement.value, "type")
-                          }
-                        }
-                      }
-
-                      # NOT geo_match_statement
-                    }
-                  }
-                }
-
-                # AND statements
-
-                # OR statements
-              }
-            }
-          }
-        }
-      }
-
-      dynamic "visibility_config" {
-        for_each = length(lookup(rule.value, "visibility_config")) == 0 ? [] : [lookup(rule.value, "visibility_config", {})]
-        content {
-          cloudwatch_metrics_enabled = lookup(visibility_config.value, "cloudwatch_metrics_enabled", true)
-          metric_name                = lookup(visibility_config.value, "metric_name", "${var.name_prefix}-ip-rate-based-rule-metric-name")
           sampled_requests_enabled   = lookup(visibility_config.value, "sampled_requests_enabled", true)
         }
       }

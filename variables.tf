@@ -54,7 +54,7 @@ variable "geo_match_rules" {
 variable "byte_match_rules" {
   description = "List of WAF byte match rules to detect web requests with a specific field to search on"
   type        = any
-  default     = []
+  default     = null
 }
 
 variable "visibility_config" {

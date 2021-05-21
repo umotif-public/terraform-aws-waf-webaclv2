@@ -67,14 +67,27 @@ module "waf" {
           "GenericRFI_QUERYARGUMENTS"
         ]
       }
-    }
-  ]
+    },
+    {
+      name     = "ip-rate-limit"
+      priority = 2
+      action   = "count"
 
-  ip_set_rules = [
+      rate_based_statement = {
+        limit              = 100
+        aggregate_key_type = "IP"
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
     {
       name     = "allow-custom-ip-set"
       priority = 5
-      # action   = "count" # if not set, action defaults to allow
+      action   = "count"
+
       ip_set_reference_statement = {
         arn = aws_wafv2_ip_set.custom_ip_set.arn
       }
@@ -88,6 +101,7 @@ module "waf" {
       name     = "block-ip-set"
       priority = 6
       action   = "block"
+
       ip_set_reference_statement = {
         arn = aws_wafv2_ip_set.block_ip_set.arn
       }
@@ -99,22 +113,6 @@ module "waf" {
       }
     }
   ]
-
-  ip_rate_based_rule = {
-    name     = "ip-rate-limit"
-    priority = 2
-    # action   = "count" # if not set, action defaults to block
-
-    rate_based_statement = {
-      limit              = 100
-      aggregate_key_type = "IP"
-    }
-
-    visibility_config = {
-      cloudwatch_metrics_enabled = false
-      sampled_requests_enabled   = false
-    }
-  }
 
   tags = {
     "Environment" = "test"

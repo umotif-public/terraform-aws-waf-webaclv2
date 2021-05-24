@@ -491,10 +491,6 @@ resource "aws_wafv2_web_acl" "main" {
                     }
                   }
                 }
-
-
-
-
               }
             }
           }
@@ -807,7 +803,6 @@ resource "aws_wafv2_web_acl" "main" {
             }
           }
         }
-
       }
 
       dynamic "visibility_config" {

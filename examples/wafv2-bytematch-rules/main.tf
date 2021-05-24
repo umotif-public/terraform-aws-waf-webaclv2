@@ -68,7 +68,7 @@ module "waf" {
     },
     {
       name     = "block-if-request-body-contains-hotmail-email"
-      priority = 2
+      priority = 3
       action   = "block"
 
       byte_match_statement = {

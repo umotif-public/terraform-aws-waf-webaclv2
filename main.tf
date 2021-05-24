@@ -250,6 +250,251 @@ resource "aws_wafv2_web_acl" "main" {
                     }
                   }
                 }
+
+                ### scope down AND statements (Currently only supports TWO statements)
+                dynamic "and_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "and_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "and_statement", {})]
+                  content {
+                    # First AND statements
+                    statement {
+                      # byte_match_statement
+                      dynamic "byte_match_statement" {
+                        for_each = length(lookup(and_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_1", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                            }
+                          }
+                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                          search_string         = lookup(byte_match_statement.value, "search_string")
+                          text_transformation {
+                            priority = lookup(byte_match_statement.value, "priority")
+                            type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # geo_match_statement
+                      dynamic "geo_match_statement" {
+                        for_each = length(lookup(and_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_1", {})]
+                        content {
+                          country_codes = lookup(geo_match_statement.value, "country_codes")
+                        }
+                      }
+
+                      # ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(and_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_1", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
+                    }
+
+                    # Second AND statements
+                    statement {
+                      # byte_match_statement
+                      dynamic "byte_match_statement" {
+                        for_each = length(lookup(and_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_2", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                            }
+                          }
+                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                          search_string         = lookup(byte_match_statement.value, "search_string")
+                          text_transformation {
+                            priority = lookup(byte_match_statement.value, "priority")
+                            type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # geo_match_statement
+                      dynamic "geo_match_statement" {
+                        for_each = length(lookup(and_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_2", {})]
+                        content {
+                          country_codes = lookup(geo_match_statement.value, "country_codes")
+                        }
+                      }
+
+                      # ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(and_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_2", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
+                    }
+                  }
+                }
+
+
+                ### scope down OR statements (Currently only supports TWO statements)
+                dynamic "or_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "or_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "or_statement", {})]
+                  content {
+                    # First OR statements
+                    statement {
+                      # byte_match_statement
+                      dynamic "byte_match_statement" {
+                        for_each = length(lookup(or_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_1", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                            }
+                          }
+                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                          search_string         = lookup(byte_match_statement.value, "search_string")
+                          text_transformation {
+                            priority = lookup(byte_match_statement.value, "priority")
+                            type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # geo_match_statement
+                      dynamic "geo_match_statement" {
+                        for_each = length(lookup(or_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_1", {})]
+                        content {
+                          country_codes = lookup(geo_match_statement.value, "country_codes")
+                        }
+                      }
+
+                      # ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(or_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_1", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
+                    }
+
+                    # Second OR statements
+                    statement {
+                      # byte_match_statement
+                      dynamic "byte_match_statement" {
+                        for_each = length(lookup(or_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_2", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                            }
+                          }
+                          positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                          search_string         = lookup(byte_match_statement.value, "search_string")
+                          text_transformation {
+                            priority = lookup(byte_match_statement.value, "priority")
+                            type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # geo_match_statement
+                      dynamic "geo_match_statement" {
+                        for_each = length(lookup(or_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_2", {})]
+                        content {
+                          country_codes = lookup(geo_match_statement.value, "country_codes")
+                        }
+                      }
+
+                      # ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(or_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_2", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
+                    }
+                  }
+                }
+
+
+
+
               }
             }
           }
@@ -317,6 +562,252 @@ resource "aws_wafv2_web_acl" "main" {
             }
           }
         }
+
+        ### AND STATEMENTS (currently only supports two)
+        dynamic "and_statement" {
+          for_each = length(lookup(rule.value, "and_statement", {})) == 0 ? [] : [lookup(rule.value, "and_statement", {})]
+          content {
+            # First AND statements
+            statement {
+
+              # AND byte_match_statement
+              dynamic "byte_match_statement" {
+                for_each = length(lookup(and_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_1", {})]
+                content {
+                  dynamic "field_to_match" {
+                    for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                    content {
+                      dynamic "uri_path" {
+                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                        content {}
+                      }
+                      dynamic "all_query_arguments" {
+                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                        content {}
+                      }
+                      dynamic "body" {
+                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                        content {}
+                      }
+                      dynamic "method" {
+                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                        content {}
+                      }
+                      dynamic "query_string" {
+                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                        content {}
+                      }
+                    }
+                  }
+                  positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                  search_string         = lookup(byte_match_statement.value, "search_string")
+                  text_transformation {
+                    priority = lookup(byte_match_statement.value, "priority")
+                    type     = lookup(byte_match_statement.value, "type")
+                  }
+                }
+              }
+
+              # AND geo_match_statement
+              dynamic "geo_match_statement" {
+                for_each = length(lookup(and_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_1", {})]
+                content {
+                  country_codes = lookup(geo_match_statement.value, "country_codes")
+                }
+              }
+
+              # AND ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(and_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_1", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
+            }
+
+            # Second AND statements
+            statement {
+
+              # AND byte_match_statement
+              dynamic "byte_match_statement" {
+                for_each = length(lookup(and_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_2", {})]
+                content {
+                  dynamic "field_to_match" {
+                    for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                    content {
+                      dynamic "uri_path" {
+                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                        content {}
+                      }
+                      dynamic "all_query_arguments" {
+                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                        content {}
+                      }
+                      dynamic "body" {
+                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                        content {}
+                      }
+                      dynamic "method" {
+                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                        content {}
+                      }
+                      dynamic "query_string" {
+                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                        content {}
+                      }
+                    }
+                  }
+                  positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                  search_string         = lookup(byte_match_statement.value, "search_string")
+                  text_transformation {
+                    priority = lookup(byte_match_statement.value, "priority")
+                    type     = lookup(byte_match_statement.value, "type")
+                  }
+                }
+              }
+
+              # AND geo_match_statement
+              dynamic "geo_match_statement" {
+                for_each = length(lookup(and_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_2", {})]
+                content {
+                  country_codes = lookup(geo_match_statement.value, "country_codes")
+                }
+              }
+
+              # AND ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(and_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_2", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
+            }
+
+          }
+        }
+
+        ### OR STATEMENTS (currently only supports two)
+        dynamic "or_statement" {
+          for_each = length(lookup(rule.value, "or_statement", {})) == 0 ? [] : [lookup(rule.value, "or_statement", {})]
+          content {
+            # First OR statements
+            statement {
+
+              # OR byte_match_statement
+              dynamic "byte_match_statement" {
+                for_each = length(lookup(or_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_1", {})]
+                content {
+                  dynamic "field_to_match" {
+                    for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                    content {
+                      dynamic "uri_path" {
+                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                        content {}
+                      }
+                      dynamic "all_query_arguments" {
+                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                        content {}
+                      }
+                      dynamic "body" {
+                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                        content {}
+                      }
+                      dynamic "method" {
+                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                        content {}
+                      }
+                      dynamic "query_string" {
+                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                        content {}
+                      }
+                    }
+                  }
+                  positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                  search_string         = lookup(byte_match_statement.value, "search_string")
+                  text_transformation {
+                    priority = lookup(byte_match_statement.value, "priority")
+                    type     = lookup(byte_match_statement.value, "type")
+                  }
+                }
+              }
+
+              # OR geo_match_statement
+              dynamic "geo_match_statement" {
+                for_each = length(lookup(or_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_1", {})]
+                content {
+                  country_codes = lookup(geo_match_statement.value, "country_codes")
+                }
+              }
+
+              # OR ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(or_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_1", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
+            }
+
+            # Second OR statements
+            statement {
+
+              # OR byte_match_statement
+              dynamic "byte_match_statement" {
+                for_each = length(lookup(or_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_2", {})]
+                content {
+                  dynamic "field_to_match" {
+                    for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                    content {
+                      dynamic "uri_path" {
+                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                        content {}
+                      }
+                      dynamic "all_query_arguments" {
+                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                        content {}
+                      }
+                      dynamic "body" {
+                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                        content {}
+                      }
+                      dynamic "method" {
+                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                        content {}
+                      }
+                      dynamic "query_string" {
+                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                        content {}
+                      }
+                    }
+                  }
+                  positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                  search_string         = lookup(byte_match_statement.value, "search_string")
+                  text_transformation {
+                    priority = lookup(byte_match_statement.value, "priority")
+                    type     = lookup(byte_match_statement.value, "type")
+                  }
+                }
+              }
+
+              # OR geo_match_statement
+              dynamic "geo_match_statement" {
+                for_each = length(lookup(or_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_2", {})]
+                content {
+                  country_codes = lookup(geo_match_statement.value, "country_codes")
+                }
+              }
+
+              # OR ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(or_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_2", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
+            }
+          }
+        }
+
       }
 
       dynamic "visibility_config" {

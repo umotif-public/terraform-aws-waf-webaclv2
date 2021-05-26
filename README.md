@@ -93,7 +93,8 @@ module "waf" {
     },
     ### Byte Match Rule example
     # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#byte-match-statement
-    # for all of the options available
+    # for all of the options available.
+    # Additional examples available in the examples directory
     {
       name     = "ByteMatchRule-4"
       priority = "4"

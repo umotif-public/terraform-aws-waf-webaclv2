@@ -30,7 +30,7 @@ resource "aws_wafv2_web_acl" "main" {
         for_each = length(lookup(rule.value, "action", {})) == 0 ? [] : [1]
         content {
           dynamic "allow" {
-            for_each = length(lookup(rule.value, "action", {})) == 0 || lookup(rule.value, "action", {}) == "allow" ? [1] : []
+            for_each = lookup(rule.value, "action", {}) == "allow" ? [1] : []
             content {}
           }
 

@@ -90,6 +90,8 @@ module "waf" {
       name     = "AWSManagedRulesPHPRuleSet-rule-3"
       priority = "3"
 
+      override_action = "none"
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesPHPRuleSet-metric"
@@ -105,6 +107,8 @@ module "waf" {
       name     = "AWSManagedRulesBotControlRuleSet-rule-4"
       priority = "4"
 
+      override_action = "none"
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesBotControlRuleSet-metric"
@@ -115,23 +119,18 @@ module "waf" {
         name        = "AWSManagedRulesBotControlRuleSet"
         vendor_name = "AWS"
       }
-    }
-  ]
-
-  geo_match_rules = [
+    },
     {
-      name     = "block_country_codes"
+      name     = "block-nl-us-traffic"
       priority = "5"
-
-      action = "block"
+      action   = "block"
 
       geo_match_statement = {
-        country_codes = ["US", "NL"]
+        country_codes = ["NL", "US"]
       }
 
       visibility_config = {
         cloudwatch_metrics_enabled = false
-        metric_name                = "block_country_codes-metric"
         sampled_requests_enabled   = false
       }
     }

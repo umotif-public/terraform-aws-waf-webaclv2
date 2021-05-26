@@ -43,7 +43,7 @@ module "waf" {
       name     = "AWSManagedRulesCommonRuleSet-rule-1"
       priority = "1"
 
-      override_action = "none" # set to none if not specified
+      override_action = "none"
 
       visibility_config = {
         metric_name                = "AWSManagedRulesCommonRuleSet-metric"
@@ -78,6 +78,8 @@ module "waf" {
       name     = "AWSManagedRulesPHPRuleSet-rule-3"
       priority = "3"
 
+      override_action = "none"
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesPHPRuleSet-metric"
@@ -90,6 +92,8 @@ module "waf" {
       }
     },
     ### Byte Match Rule example
+    # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#byte-match-statement
+    # for all of the options available
     {
       name     = "ByteMatchRule-4"
       priority = "4"
@@ -183,7 +187,7 @@ module "waf" {
       name     = "NotByteMatchRule-8"
       priority = "8"
 
-      override_action = "count"
+      action = "count"
 
       visibility_config = {
         cloudwatch_metrics_enabled = false

@@ -46,6 +46,7 @@ resource "aws_wafv2_web_acl" "main" {
         }
       }
 
+      # Only used for managed_rule_group_statements to override the default action
       dynamic "override_action" {
         for_each = length(lookup(rule.value, "override_action", {})) == 0 ? [] : [1]
         content {
@@ -63,7 +64,6 @@ resource "aws_wafv2_web_acl" "main" {
 
       statement {
 
-        # managed_rule_group_statement
         dynamic "managed_rule_group_statement" {
           for_each = length(lookup(rule.value, "managed_rule_group_statement", {})) == 0 ? [] : [lookup(rule.value, "managed_rule_group_statement", {})]
           content {
@@ -79,7 +79,6 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
-        # byte_match_statement
         dynamic "byte_match_statement" {
           for_each = length(lookup(rule.value, "byte_match_statement", {})) == 0 ? [] : [lookup(rule.value, "byte_match_statement", {})]
           content {
@@ -117,7 +116,6 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
-        # geo_match_statement
         dynamic "geo_match_statement" {
           for_each = length(lookup(rule.value, "geo_match_statement", {})) == 0 ? [] : [lookup(rule.value, "geo_match_statement", {})]
           content {
@@ -125,7 +123,6 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
-        # ip_set_statement
         dynamic "ip_set_reference_statement" {
           for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
           content {
@@ -133,7 +130,6 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
-        # rate_based_statement
         dynamic "rate_based_statement" {
           for_each = length(lookup(rule.value, "rate_based_statement", {})) == 0 ? [] : [lookup(rule.value, "rate_based_statement", {})]
           content {
@@ -240,7 +236,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # scope down geo_match_statement
+                      # scope down NOT geo_match_statement
                       dynamic "geo_match_statement" {
                         for_each = length(lookup(not_statement.value, "geo_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "geo_match_statement", {})]
                         content {
@@ -257,7 +253,7 @@ resource "aws_wafv2_web_acl" "main" {
                   content {
                     # First AND statements
                     statement {
-                      # byte_match_statement
+                      # First scope down AND byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(and_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_1", {})]
                         content {
@@ -295,7 +291,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # geo_match_statement
+                      # First scope down AND geo_match_statement
                       dynamic "geo_match_statement" {
                         for_each = length(lookup(and_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_1", {})]
                         content {
@@ -303,7 +299,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # ip_set_statement
+                      # First scope down AND ip_set_statement
                       dynamic "ip_set_reference_statement" {
                         for_each = length(lookup(and_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_1", {})]
                         content {
@@ -314,7 +310,7 @@ resource "aws_wafv2_web_acl" "main" {
 
                     # Second AND statements
                     statement {
-                      # byte_match_statement
+                      # Second scope down AND byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(and_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "byte_match_statement_2", {})]
                         content {
@@ -352,7 +348,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # geo_match_statement
+                      # Second scope down AND geo_match_statement
                       dynamic "geo_match_statement" {
                         for_each = length(lookup(and_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "geo_match_statement_2", {})]
                         content {
@@ -360,7 +356,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # ip_set_statement
+                      # Second scope down AND ip_set_statement
                       dynamic "ip_set_reference_statement" {
                         for_each = length(lookup(and_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(and_statement.value, "ip_set_reference_statement_2", {})]
                         content {
@@ -378,7 +374,7 @@ resource "aws_wafv2_web_acl" "main" {
                   content {
                     # First OR statements
                     statement {
-                      # byte_match_statement
+                      # First scope down OR byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(or_statement.value, "byte_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_1", {})]
                         content {
@@ -416,7 +412,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # geo_match_statement
+                      # First scope down OR geo_match_statement
                       dynamic "geo_match_statement" {
                         for_each = length(lookup(or_statement.value, "geo_match_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_1", {})]
                         content {
@@ -424,7 +420,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # ip_set_statement
+                      # First scope down OR ip_set_statement
                       dynamic "ip_set_reference_statement" {
                         for_each = length(lookup(or_statement.value, "ip_set_reference_statement_1", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_1", {})]
                         content {
@@ -435,7 +431,7 @@ resource "aws_wafv2_web_acl" "main" {
 
                     # Second OR statements
                     statement {
-                      # byte_match_statement
+                      # Second scope down OR byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(or_statement.value, "byte_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "byte_match_statement_2", {})]
                         content {
@@ -473,7 +469,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # geo_match_statement
+                      # Second scope down OR geo_match_statement
                       dynamic "geo_match_statement" {
                         for_each = length(lookup(or_statement.value, "geo_match_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "geo_match_statement_2", {})]
                         content {
@@ -481,7 +477,7 @@ resource "aws_wafv2_web_acl" "main" {
                         }
                       }
 
-                      # ip_set_statement
+                      # Second scope down OR ip_set_statement
                       dynamic "ip_set_reference_statement" {
                         for_each = length(lookup(or_statement.value, "ip_set_reference_statement_2", {})) == 0 ? [] : [lookup(or_statement.value, "ip_set_reference_statement_2", {})]
                         content {

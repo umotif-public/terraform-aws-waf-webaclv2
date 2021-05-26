@@ -9,7 +9,6 @@ module "waf" {
   source = "../.."
 
   name_prefix = "test-waf-setup"
-  alb_arn     = aws_lb.test.arn
 
   allow_default_action = true
 

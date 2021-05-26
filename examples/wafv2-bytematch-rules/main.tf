@@ -48,7 +48,7 @@ module "waf" {
     },
     {
       name     = "block-specific-uri-path"
-      priority = 2
+      priority = "2"
       action   = "block"
 
       byte_match_statement = {
@@ -58,7 +58,7 @@ module "waf" {
         positional_constraint = "STARTS_WITH"
         search_string         = "/path/to/match"
         priority              = 0
-        type                  = "NONE"
+        type                  = "NONE" # The text transformation type
       }
 
       visibility_config = {
@@ -68,7 +68,7 @@ module "waf" {
     },
     {
       name     = "block-if-request-body-contains-hotmail-email"
-      priority = 3
+      priority = "3"
       action   = "block"
 
       byte_match_statement = {
@@ -78,7 +78,27 @@ module "waf" {
         positional_constraint = "CONTAINS"
         search_string         = "@hotmail.com"
         priority              = 0
-        type                  = "NONE"
+        type                  = "NONE" # The text transformation type
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
+    {
+      name     = "block-all-post-requests"
+      priority = "4"
+      action   = "block"
+
+      byte_match_statement = {
+        field_to_match = {
+          method = "{}"
+        }
+        positional_constraint = "EXACTLY"
+        search_string         = "post"
+        priority              = 0
+        type                  = "LOWERCASE" # The text transformation type
       }
 
       visibility_config = {

@@ -48,7 +48,7 @@ module "waf" {
     },
     {
       name     = "allow-nl-gb-us-traffic-only"
-      priority = 2
+      priority = "2"
       action   = "allow"
 
       geo_match_statement = {

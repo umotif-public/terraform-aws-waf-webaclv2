@@ -70,7 +70,7 @@ module "waf" {
     },
     {
       name     = "ip-rate-limit"
-      priority = 2
+      priority = "2"
       action   = "count"
 
       rate_based_statement = {
@@ -100,7 +100,7 @@ module "waf" {
     },
     {
       name     = "allow-custom-ip-set"
-      priority = 5
+      priority = "3"
       action   = "count"
 
       ip_set_reference_statement = {
@@ -114,7 +114,7 @@ module "waf" {
     },
     {
       name     = "block-ip-set"
-      priority = 6
+      priority = "4"
       action   = "block"
 
       ip_set_reference_statement = {

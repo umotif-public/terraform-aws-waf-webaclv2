@@ -3,6 +3,21 @@ provider "aws" {
 }
 
 #####
+# IP set resources
+#####
+resource "aws_wafv2_ip_set" "custom_ip_set" {
+  name = "custom-ip-set"
+
+  scope              = "REGIONAL"
+  ip_address_version = "IPV4"
+
+  addresses = [
+    "10.0.0.0/16",
+    "10.10.0.0/16"
+  ]
+}
+
+#####
 # Web Application Firewall configuration
 #####
 module "waf" {
@@ -14,7 +29,7 @@ module "waf" {
 
   scope = "REGIONAL"
 
-  create_alb_association = true
+  create_alb_association = false
 
   visibility_config = {
     cloudwatch_metrics_enabled = false
@@ -47,23 +62,29 @@ module "waf" {
     },
     {
       ### AND rule example
-      name     = "block-specific-uri-path-and-request-from-germany"
+      name     = "block-specific-uri-path-and-requests-from-nl-gb-and-us"
       priority = 2
       action   = "block"
 
       and_statement = {
-        byte_match_statement_1 = {
-          field_to_match = {
-            uri_path = "{}"
+        statements = [ # 2 or more statements are required for AND
+          {
+            byte_match_statement = {
+              field_to_match = {
+                uri_path = "{}"
+              }
+              positional_constraint = "STARTS_WITH"
+              search_string         = "/path/to/match"
+              priority              = 0
+              type                  = "NONE"
+            }
+          },
+          {
+            geo_match_statement = {
+              country_codes = ["NL", "GB", "US"]
+            }
           }
-          positional_constraint = "STARTS_WITH"
-          search_string         = "/path/to/match"
-          priority              = 0
-          type                  = "NONE"
-        }
-        geo_match_statement_2 = {
-          country_codes = ["NL", "GB", "US"]
-        }
+        ]
       }
 
       visibility_config = {
@@ -73,23 +94,29 @@ module "waf" {
     },
     {
       ### OR rule example
-      name     = "block-specific-ip-or-body-contains-hotmail"
+      name     = "block-specific-ip-set-or-body-contains-hotmail"
       priority = 3
       action   = "block"
 
       or_statement = {
-        ip_set_reference_statement_1 = {
-          arn = aws_wafv2_ip_set.custom_ip_set.arn
-        }
-        byte_match_statement_2 = {
-          field_to_match = {
-            body = "{}"
+        statements = [ # 2 or more statements are required for OR
+          {
+            ip_set_reference_statement = {
+              arn = aws_wafv2_ip_set.custom_ip_set.arn
+            }
+          },
+          {
+            byte_match_statement = {
+              field_to_match = {
+                body = "{}"
+              }
+              positional_constraint = "CONTAINS"
+              search_string         = "@hotmail.com"
+              priority              = 0
+              type                  = "NONE"
+            }
           }
-          positional_constraint = "CONTAINS"
-          search_string         = "@hotmail.com"
-          priority              = 0
-          type                  = "NONE"
-        }
+        ]
       }
 
       visibility_config = {

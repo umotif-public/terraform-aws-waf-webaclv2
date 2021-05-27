@@ -9,13 +9,12 @@ module "waf" {
   source = "../.."
 
   name_prefix = "test-waf-setup"
-  alb_arn     = aws_lb.test.arn
 
   allow_default_action = true
 
   scope = "REGIONAL"
 
-  create_alb_association = true
+  create_alb_association = false
 
   visibility_config = {
     cloudwatch_metrics_enabled = false

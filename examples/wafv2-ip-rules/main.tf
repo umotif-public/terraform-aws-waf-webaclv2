@@ -99,8 +99,58 @@ module "waf" {
       }
     },
     {
-      name     = "allow-custom-ip-set"
+      name     = "ip-rate-limit-with-or-scope-down"
       priority = "3"
+      action   = "count"
+
+      rate_based_statement = {
+        limit              = 100
+        aggregate_key_type = "IP"
+
+        # Optional scope_down_statement to refine what gets rate limited
+        scope_down_statement = {
+          or_statement = { # OR and AND statements require 2 or more statements to function
+            statements = [
+              {
+                byte_match_statement = {
+                  field_to_match = {
+                    uri_path = "{}"
+                  }
+                  positional_constraint = "STARTS_WITH"
+                  search_string         = "/api"
+                  priority              = 0
+                  type                  = "NONE"
+                }
+              },
+              {
+                byte_match_statement = {
+                  field_to_match = {
+                    body = "{}"
+                  }
+                  positional_constraint = "CONTAINS"
+                  search_string         = "@gmail.com"
+                  priority              = 0
+                  type                  = "NONE"
+                }
+              },
+              {
+                geo_match_statement = {
+                  country_codes = ["NL", "GB", "US"]
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
+    {
+      name     = "allow-custom-ip-set"
+      priority = "4"
       action   = "count"
 
       ip_set_reference_statement = {
@@ -114,7 +164,7 @@ module "waf" {
     },
     {
       name     = "block-ip-set"
-      priority = "4"
+      priority = "5"
       action   = "block"
 
       ip_set_reference_statement = {

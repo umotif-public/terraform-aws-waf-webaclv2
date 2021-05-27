@@ -99,7 +99,7 @@ module "waf" {
       name     = "ByteMatchRule-4"
       priority = "4"
 
-      override_action = "count"
+      action = "count"
 
       visibility_config = {
         cloudwatch_metrics_enabled = false

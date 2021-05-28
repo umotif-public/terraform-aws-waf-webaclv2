@@ -38,6 +38,21 @@ output "web_acl_assoc_acl_arn" {
   value       = module.wafv2.web_acl_assoc_acl_arn
 }
 
+output "web_acl_assoc_alb_list_id" {
+  description = "The ID of the Web ACL Association"
+  value       = module.wafv2.web_acl_assoc_id
+}
+
+output "web_acl_assoc_alb_list_resource_arn" {
+  description = "The ARN of the ALB attached to the Web ACL Association"
+  value       = module.wafv2.web_acl_assoc_resource_arn
+}
+
+output "web_acl_assoc_alb_list_acl_arn" {
+  description = "The ARN of the Web ACL attached to the Web ACL Association"
+  value       = module.wafv2.web_acl_assoc_acl_arn
+}
+
 output "logging_s3_bucket_id" {
   description = "The ID of the S3 bucket used for logging"
   value       = aws_s3_bucket.bucket.id

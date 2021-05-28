@@ -100,7 +100,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
   ip-rules-terratest:
-    name: Terratest of AND OR syntax
+    name: Terratest of IP Rules syntax
     runs-on: ubuntu-20.04
     env:
       working-directory: ./test/ip-rules-test
@@ -145,7 +145,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
   logging-config-terratest:
-    name: Terratest of AND OR syntax
+    name: Terratest of logging config syntax
     runs-on: ubuntu-20.04
     env:
       working-directory: ./test/logging-config-test

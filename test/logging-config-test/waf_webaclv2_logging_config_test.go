@@ -35,6 +35,10 @@ func TestWafWebAclV2Core(t *testing.T) {
 	WebAclAssociationResourceArn := terraform.Output(t, terraformOptions, "web_acl_assoc_resource_arn")
 	WebAclAssociationAclArn := terraform.Output(t, terraformOptions, "web_acl_assoc_acl_arn")
 
+	WebAclAssociationAlbListId := terraform.Output(t, terraformOptions, "web_acl_assoc_alb_list_id")
+	WebAclAssociationAlbListResourceArn := terraform.Output(t, terraformOptions, "web_acl_assoc_alb_list_resource_arn")
+	WebAclAssociationAlbListAclArn := terraform.Output(t, terraformOptions, "web_acl_assoc_alb_list_acl_arn")
+
 	// Logging Outputs
 	KinesisStreamArn := terraform.Output(t, terraformOptions, "kinesis_firehose_delivery_stream_arn")
 	IamRoleArn := terraform.Output(t, terraformOptions, "logging_iam_role_arn")
@@ -60,6 +64,13 @@ func TestWafWebAclV2Core(t *testing.T) {
 	assert.Contains(t, WebAclAssociationResourceArn, "loadbalancer/app/alb-waf-example")
 	assert.Contains(t, WebAclAssociationAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclAssociationAclArn, "regional/webacl/test-waf-setup")
+
+	assert.Contains(t, WebAclAssociationAlbListId, "arn:aws:wafv2:eu-west-1")
+	assert.Contains(t, WebAclAssociationAlbListId, "regional/webacl/test-waf-setup")
+	assert.Contains(t, WebAclAssociationAlbListResourceArn, "arn:aws:elasticloadbalancing:eu-west-1")
+	assert.Contains(t, WebAclAssociationAlbListResourceArn, "loadbalancer/app/alb-waf-example")
+	assert.Contains(t, WebAclAssociationAlbListAclArn, "arn:aws:wafv2:eu-west-1:")
+	assert.Contains(t, WebAclAssociationAlbListAclArn, "regional/webacl/test-waf-setup")
 
 	assert.Contains(t, KinesisStreamArn, "arn:aws:firehose:eu-west-1")
 	assert.Contains(t, KinesisStreamArn, "deliverystream/aws-waf-logs-kinesis-firehose-test-stream")

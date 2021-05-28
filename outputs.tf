@@ -30,15 +30,30 @@ output "web_acl_rule_names" {
 
 output "web_acl_assoc_id" {
   description = "The ID of the Web ACL Association"
-  value       = join("", aws_wafv2_web_acl_association.main.*.id)
+  value       = var.create_alb_association ? join("", aws_wafv2_web_acl_association.main[0].*.id) : ""
 }
 
 output "web_acl_assoc_resource_arn" {
   description = "The ARN of the ALB attached to the Web ACL Association"
-  value       = join("", aws_wafv2_web_acl_association.main.*.resource_arn)
+  value       = var.create_alb_association ? join("", aws_wafv2_web_acl_association.main[0].*.resource_arn) : ""
 }
 
 output "web_acl_assoc_acl_arn" {
   description = "The ARN of the Web ACL attached to the Web ACL Association"
-  value       = join("", aws_wafv2_web_acl_association.main.*.web_acl_arn)
+  value       = var.create_alb_association ? join("", aws_wafv2_web_acl_association.main[0].*.web_acl_arn) : ""
+}
+
+output "web_acl_assoc_alb_list_id" {
+  description = "The ID of the Web ACL Association for the alb_list resource"
+  value       = var.create_alb_association && length(var.alb_arn_list) > 0 ? join(", ", aws_wafv2_web_acl_association.alb_list[0].*.id) : ""
+}
+
+output "web_acl_assoc_alb_list_resource_arn" {
+  description = "The ARN of the ALB attached to the Web ACL Association for the alb_list resource"
+  value       = var.create_alb_association && length(var.alb_arn_list) > 0 ? join(", ", aws_wafv2_web_acl_association.alb_list[0].*.resource_arn) : ""
+}
+
+output "web_acl_assoc_alb_list_acl_arn" {
+  description = "The ARN of the Web ACL attached to the Web ACL Association for the alb_list resource"
+  value       = var.create_alb_association && length(var.alb_arn_list) > 0 ? join(", ", aws_wafv2_web_acl_association.alb_list[0].*.web_acl_arn) : ""
 }

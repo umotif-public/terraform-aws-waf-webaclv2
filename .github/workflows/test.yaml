@@ -188,3 +188,48 @@ jobs:
     - name: Run Go Tests
       run: go test -v -timeout 30m
       working-directory: ${{env.working-directory}}
+
+  geomatch-terratest:
+    name: Terratest of logging config syntax
+    runs-on: ubuntu-20.04
+    env:
+      working-directory: ./test/geomatch-test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.16.3
+    - name: Install dependencies
+      run: |
+        go mod download
+        go get -u golang.org/x/lint/golint
+      working-directory: ${{env.working-directory}}
+    - name: Run checks
+      run: |
+        go vet .
+        golint .
+      working-directory: ${{env.working-directory}}
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-1
+        role-skip-session-tagging: true
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        role-duration-seconds: 1800
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.15.4
+        terraform_wrapper: false
+
+    - name: Run Go Tests
+      run: go test -v -timeout 30m
+      working-directory: ${{env.working-directory}}

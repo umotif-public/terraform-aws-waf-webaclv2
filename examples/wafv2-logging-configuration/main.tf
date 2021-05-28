@@ -166,6 +166,8 @@ module "wafv2" {
       name     = "AWSManagedRulesCommonRuleSet-rule-1"
       priority = "1"
 
+      override_action = "none"
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesCommonRuleSet-metric"
@@ -186,6 +188,8 @@ module "wafv2" {
       name     = "AWSManagedRulesKnownBadInputsRuleSet-rule-2"
       priority = "2"
 
+      override_action = "none"
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "AWSManagedRulesKnownBadInputsRuleSet-metric"
@@ -200,6 +204,8 @@ module "wafv2" {
     {
       name     = "AWSManagedRulesPHPRuleSet-rule-3"
       priority = "3"
+
+      override_action = "none"
 
       visibility_config = {
         cloudwatch_metrics_enabled = false

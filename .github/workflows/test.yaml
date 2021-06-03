@@ -9,9 +9,39 @@ on:
       - master
 
 jobs:
+  validate:
+    runs-on: ubuntu-latest
+    name: Terraform Validate
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.15.5
+          terraform_wrapper: false
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Validate Module
+        env:
+          AWS_REGION: 'eu-west-1'
+        run: terraform validate
+
+      - name: Validate Examples
+        run: |
+          for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+            cd ${example}
+            terraform init
+            terraform validate
+            cd -
+          done
+
   and-or-terratest:
     name: Terratest of AND OR syntax
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       working-directory: ./test/and-or-test
 
@@ -47,7 +77,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.15.4
+        terraform_version: 0.15.5
         terraform_wrapper: false
 
     - name: Run Go Tests
@@ -92,7 +122,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.15.4
+        terraform_version: 0.15.5
         terraform_wrapper: false
 
     - name: Run Go Tests
@@ -137,7 +167,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.15.4
+        terraform_version: 0.15.5
         terraform_wrapper: false
 
     - name: Run Go Tests
@@ -182,7 +212,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.15.4
+        terraform_version: 0.15.5
         terraform_wrapper: false
 
     - name: Run Go Tests
@@ -227,7 +257,7 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: 0.15.4
+        terraform_version: 0.15.5
         terraform_wrapper: false
 
     - name: Run Go Tests

@@ -8,11 +8,11 @@ on:
     branches:
       - master
 
-jobs:
-  env:
-    TF_VERSION: 0.13.0
-    GO_VERSION: 1.16.3
+env:
+  TF_VERSION: 0.13.0
+  GO_VERSION: 1.16.3
 
+jobs:
   validate:
     runs-on: ubuntu-latest
     name: Terraform Validate

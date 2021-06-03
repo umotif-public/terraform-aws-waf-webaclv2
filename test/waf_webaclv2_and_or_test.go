@@ -10,14 +10,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWafWebAclV2Core(t *testing.T) {
+func TestWafWebAclV2AndOr(t *testing.T) {
 	// Random generate a string for naming resources
 	uniqueID := strings.ToLower(random.UniqueId())
 	resourceName := fmt.Sprintf("test%s", uniqueID)
 
 	// retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../examples/wafv2-and-or-rules",
+		TerraformDir: "../examples/wafv2-and-or-rules",
 		Upgrade:      true,
 
 		// Variables to pass using -var-file option

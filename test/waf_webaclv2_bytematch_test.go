@@ -10,14 +10,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWafWebAclV2Core(t *testing.T) {
+func TestWafWebAclV2Bytematch(t *testing.T) {
 	// Random generate a string for naming resources
 	uniqueID := strings.ToLower(random.UniqueId())
 	resourceName := fmt.Sprintf("test%s", uniqueID)
 
 	// retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../examples/wafv2-ip-rules",
+		TerraformDir: "../examples/wafv2-bytematch-rules",
 		Upgrade:      true,
 
 		// Variables to pass using -var-file option
@@ -42,19 +42,11 @@ func TestWafWebAclV2Core(t *testing.T) {
 	// Rule outputs
 	WebAclRuleNames := terraform.Output(t, terraformOptions, "web_acl_rule_names")
 
-	// IP Set outputs
-	BlockIpSetArn := terraform.Output(t, terraformOptions, "block_ip_set_arn")
-	CustomIpSetArn := terraform.Output(t, terraformOptions, "custom_ip_set_arn")
-
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, WebAclName, "test"+uniqueID)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
 	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "721")
-	assert.Equal(t, WebAclRuleNames, "block-ip-set, allow-custom-ip-set, ip-rate-limit, ip-rate-limit-with-or-scope-down, AWSManagedRulesCommonRuleSet-rule-1")
-	assert.Contains(t, BlockIpSetArn, "arn:aws:wafv2:eu-west-1:")
-	assert.Contains(t, BlockIpSetArn, "regional/ipset/test"+uniqueID+"-generated-ips")
-	assert.Contains(t, CustomIpSetArn, "arn:aws:wafv2:eu-west-1:")
-	assert.Contains(t, CustomIpSetArn, "regional/ipset/test"+uniqueID+"-custom-ip-set")
+	assert.Equal(t, WebAclCapacity, "736")
+	assert.Equal(t, WebAclRuleNames, "block-all-post-requests, block-if-request-body-contains-hotmail-email, block-single-user, block-specific-uri-path, AWSManagedRulesCommonRuleSet-rule-1")
 }

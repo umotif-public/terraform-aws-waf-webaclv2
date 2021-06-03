@@ -10,14 +10,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWafWebAclV2Core(t *testing.T) {
+func TestWafWebAclV2Geomatch(t *testing.T) {
 	// Random generate a string for naming resources
 	uniqueID := strings.ToLower(random.UniqueId())
 	resourceName := fmt.Sprintf("test%s", uniqueID)
 
 	// retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../examples/wafv2-bytematch-rules",
+		TerraformDir: "../examples/wafv2-geo-rules",
 		Upgrade:      true,
 
 		// Variables to pass using -var-file option
@@ -47,6 +47,6 @@ func TestWafWebAclV2Core(t *testing.T) {
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
 	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "736")
-	assert.Equal(t, WebAclRuleNames, "block-all-post-requests, block-if-request-body-contains-hotmail-email, block-single-user, block-specific-uri-path, AWSManagedRulesCommonRuleSet-rule-1")
+	assert.Equal(t, WebAclCapacity, "701")
+	assert.Equal(t, WebAclRuleNames, "allow-nl-gb-us-traffic-only, AWSManagedRulesCommonRuleSet-rule-1")
 }

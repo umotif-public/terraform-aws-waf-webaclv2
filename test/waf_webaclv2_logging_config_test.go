@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWafWebAclV2Core(t *testing.T) {
+func TestWafWebAclV2Logging(t *testing.T) {
 	// retryable errors in terraform testing.
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../examples/wafv2-logging-configuration",
+		TerraformDir: "../examples/wafv2-logging-configuration",
 		Upgrade:      true,
 	})
 

@@ -9,22 +9,6 @@ on:
       - master
 
 jobs:
-  fmt:
-    runs-on: ubuntu-latest
-    name: Terraform fmt
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.15.4
-          terraform_wrapper: false
-
-      - name: Terraform fmt
-        run: terraform fmt -check -diff -recursive
-
   validate:
     runs-on: ubuntu-latest
     name: Terraform Validate

@@ -256,7 +256,10 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 
 ## Authors
 
-Module managed by [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](https://www.linkedin.com/in/marcincuber/).
+Module managed by:
+* [Marcin Cuber](https://github.com/marcincuber) [LinkedIn](https://www.linkedin.com/in/marcincuber/)
+* [Sean Pascual](https://github.com/seanpascual) [LinkedIn](https://www.linkedin.com/in/sean-edward-pascual)
+* [Abdul Wahid](https://github.com/Ohid25) [LinkedIn](https://www.linkedin.com/in/abdul-wahid/)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -309,22 +312,41 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_web_acl_arn"></a> [web\_acl\_arn](#output\_web\_acl\_arn) | The ARN of the WAFv2 WebACL. |
+| <a name="output_web_acl_assoc_acl_arn"></a> [web\_acl\_assoc\_acl\_arn](#output\_web\_acl\_assoc\_acl\_arn) | The ARN of the Web ACL attached to the Web ACL Association |
+| <a name="output_web_acl_assoc_id"></a> [web\_acl\_assoc\_id](#output\_web\_acl\_assoc\_id) | The ID of the Web ACL Association |
+| <a name="output_web_acl_assoc_resource_arn"></a> [web\_acl\_assoc\_resource\_arn](#output\_web\_acl\_assoc\_resource\_arn) | The ARN of the ALB attached to the Web ACL Association |
 | <a name="output_web_acl_capacity"></a> [web\_acl\_capacity](#output\_web\_acl\_capacity) | The web ACL capacity units (WCUs) currently being used by this web ACL. |
 | <a name="output_web_acl_id"></a> [web\_acl\_id](#output\_web\_acl\_id) | The ID of the WAFv2 WebACL. |
 | <a name="output_web_acl_name"></a> [web\_acl\_name](#output\_web\_acl\_name) | The name of the WAFv2 WebACL. |
+| <a name="output_web_acl_rule_names"></a> [web\_acl\_rule\_names](#output\_web\_acl\_rule\_names) | List of created rule names |
+| <a name="output_web_acl_visibility_config_name"></a> [web\_acl\_visibility\_config\_name](#output\_web\_acl\_visibility\_config\_name) | The web ACL visibility config name |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## License
 
 See LICENSE for full details.
 
-## Pre-commit hooks
+## Pre-commit hooks & Golang for Terratest
 
 ### Install dependencies
 
 * [`pre-commit`](https://pre-commit.com/#install)
 * [`terraform-docs`](https://github.com/segmentio/terraform-docs) required for `terraform_docs` hooks.
 * [`TFLint`](https://github.com/terraform-linters/tflint) required for `terraform_tflint` hook.
+
+#### Terratest
+
+We are using [Terratest](https://terratest.gruntwork.io/) to run tests on this module.
+
+```bash
+brew install go
+# Change to the test directory
+cd test
+# Get dependencies
+go mod download
+# Run tests
+go test -v -timeout 30m
+```
 
 #### MacOS
 

@@ -6,7 +6,7 @@ provider "aws" {
 # IP set resources
 #####
 resource "aws_wafv2_ip_set" "block_ip_set" {
-  name = "generated-ips"
+  name = "${var.name_prefix}-generated-ips"
 
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
@@ -16,7 +16,7 @@ resource "aws_wafv2_ip_set" "block_ip_set" {
 }
 
 resource "aws_wafv2_ip_set" "custom_ip_set" {
-  name = "custom-ip-set"
+  name = "${var.name_prefix}-custom-ip-set"
 
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
@@ -33,7 +33,7 @@ resource "aws_wafv2_ip_set" "custom_ip_set" {
 module "waf" {
   source = "../.."
 
-  name_prefix = "test-waf-setup"
+  name_prefix = var.name_prefix
 
   allow_default_action = true
 
@@ -41,7 +41,7 @@ module "waf" {
 
   visibility_config = {
     cloudwatch_metrics_enabled = false
-    metric_name                = "test-waf-setup-waf-main-metrics"
+    metric_name                = "${var.name_prefix}-waf-setup-waf-main-metrics"
     sampled_requests_enabled   = false
   }
 

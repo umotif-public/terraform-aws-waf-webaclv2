@@ -8,7 +8,7 @@ provider "aws" {
 module "waf" {
   source = "../.."
 
-  name_prefix = "test-waf-setup"
+  name_prefix = var.name_prefix
 
   allow_default_action = true
 
@@ -18,7 +18,7 @@ module "waf" {
 
   visibility_config = {
     cloudwatch_metrics_enabled = false
-    metric_name                = "test-waf-setup-waf-main-metrics"
+    metric_name                = "${var.name_prefix}-waf-setup-waf-main-metrics"
     sampled_requests_enabled   = false
   }
 
@@ -96,6 +96,29 @@ module "waf" {
         }
         positional_constraint = "EXACTLY"
         search_string         = "post"
+        priority              = 0
+        type                  = "LOWERCASE" # The text transformation type
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
+    {
+      # Blocks a single user by checking the username header
+      name     = "block-single-user"
+      priority = "5"
+      action   = "block"
+
+      byte_match_statement = {
+        field_to_match = {
+          single_header = {
+            name = "Username"
+          }
+        }
+        positional_constraint = "EXACTLY"
+        search_string         = "testuser"
         priority              = 0
         type                  = "LOWERCASE" # The text transformation type
       }

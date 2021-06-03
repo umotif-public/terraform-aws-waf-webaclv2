@@ -190,7 +190,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
   geomatch-terratest:
-    name: Terratest of logging config syntax
+    name: Terratest of geomatch config syntax
     runs-on: ubuntu-20.04
     env:
       working-directory: ./test/geomatch-test

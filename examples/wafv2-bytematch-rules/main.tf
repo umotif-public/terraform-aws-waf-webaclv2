@@ -104,6 +104,27 @@ module "waf" {
         cloudwatch_metrics_enabled = false
         sampled_requests_enabled   = false
       }
+    },
+    {
+      # Blocks a single user by checking the username header
+      name     = "block-single-user"
+      priority = "5"
+      action   = "block"
+
+      byte_match_statement = {
+        single_header = {
+          name = "Username"
+        }
+        positional_constraint = "EXACTLY"
+        search_string         = "testuser"
+        priority              = 0
+        type                  = "LOWERCASE" # The text transformation type
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
     }
   ]
 

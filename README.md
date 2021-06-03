@@ -28,7 +28,7 @@ If referring directly to the code instead of a pinned version, take note that fr
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 2.0.0"
+  version = "~> 3.0.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn

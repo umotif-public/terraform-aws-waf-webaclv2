@@ -105,6 +105,12 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                   content {}
                 }
+                dynamic "single_header" {
+                  for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                  content {
+                    name = lower(lookup(single_header.value, "name"))
+                  }
+                }
               }
             }
             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -174,6 +180,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                           content {}
                         }
+                        dynamic "single_header" {
+                          for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                          content {
+                            name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
                       }
                     }
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -224,6 +236,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "query_string" {
                                 for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                                 content {}
+                              }
+                              dynamic "single_header" {
+                                for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                content {
+                                  name = lower(lookup(single_header.value, "name"))
+                                }
                               }
                             }
                           }
@@ -281,6 +299,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "query_string" {
                                   for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                                   content {}
+                                }
+                                dynamic "single_header" {
+                                  for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                  content {
+                                    name = lower(lookup(single_header.value, "name"))
+                                  }
                                 }
                               }
                             }
@@ -348,6 +372,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "query_string" {
                                   for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                                   content {}
+                                }
+                                dynamic "single_header" {
+                                  for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                  content {
+                                    name = lower(lookup(single_header.value, "name"))
+                                  }
                                 }
                               }
                             }
@@ -417,6 +447,12 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                         content {}
                       }
+                      dynamic "single_header" {
+                        for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                        content {
+                          name = lower(lookup(single_header.value, "name"))
+                        }
+                      }
                     }
                   }
                   positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -482,6 +518,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "query_string" {
                           for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                           content {}
+                        }
+                        dynamic "single_header" {
+                          for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                          content {
+                            name = lower(lookup(single_header.value, "name"))
+                          }
                         }
                       }
                     }
@@ -549,6 +591,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "query_string" {
                           for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
                           content {}
+                        }
+                        dynamic "single_header" {
+                          for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                          content {
+                            name = lower(lookup(single_header.value, "name"))
+                          }
                         }
                       }
                     }

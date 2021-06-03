@@ -3,10 +3,10 @@ name: Terratest
 on:
   push:
     branches:
-      - '!master'
+      - '!main'
   pull_request:
     branches:
-      - master
+      - main
 
 env:
   TF_VERSION: 0.13.0

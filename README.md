@@ -9,16 +9,21 @@ Supported WAF v2 components:
 - Module supports all AWS managed rules defined in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
 - Associating WAFv2 ACL with one or more Application Load Balancers (ALB)
 - Blocking IP Sets
-- Rate limiting IPs
+- Rate limiting IPs (and optional scopedown statements)
+- Byte Match statements
+- Geo set statements
+- Logical Statements (AND, OR, NOT)
 
 ## Terraform versions
 
-Terraform 0.13+ Pin module version to `~> v2.0`. Submit pull-requests to `master` branch.
+Terraform 0.13+ Pin module version to `~> v3.0`. Submit pull-requests to `main` branch.
 Terraform 0.12 < 0.13. Pin module version to `~> v1.0`.
 
 ## Usage
 
-Please pin down version of this module to exact version.
+Please pin down version of this module to exact version
+
+If referring directly to the code instead of a pinned version, take note that from release 3.0.0 all future changes will only be made to the `main` branch.
 
 ```hcl
 module "waf" {
@@ -233,7 +238,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 2.0.0"
+  version = "~> 3.0.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -253,6 +258,9 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 * [WAF ACL](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/core)
 * [WAF ACL with configuration logging](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-logging-configuration)
 * [WAF ACL with ip rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-ip-rules)
+* [WAF ACL with bytematch rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-bytematch-rules)
+* [WAF ACL with geo match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-geo-rules)
+* [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/master/examples/wafv2-and-or-rules)
 
 ## Authors
 

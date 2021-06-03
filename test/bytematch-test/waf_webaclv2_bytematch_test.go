@@ -47,6 +47,6 @@ func TestWafWebAclV2Core(t *testing.T) {
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
 	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "724")
-	assert.Equal(t, WebAclRuleNames, "block-all-post-requests, block-if-request-body-contains-hotmail-email, block-specific-uri-path, AWSManagedRulesCommonRuleSet-rule-1")
+	assert.Equal(t, WebAclCapacity, "736")
+	assert.Equal(t, WebAclRuleNames, "block-all-post-requests, block-if-request-body-contains-hotmail-email, block-single-user, block-specific-uri-path, AWSManagedRulesCommonRuleSet-rule-1")
 }

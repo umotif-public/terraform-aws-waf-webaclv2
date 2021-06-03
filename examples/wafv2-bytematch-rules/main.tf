@@ -112,8 +112,10 @@ module "waf" {
       action   = "block"
 
       byte_match_statement = {
-        single_header = {
-          name = "Username"
+        field_to_match = {
+          single_header = {
+            name = "Username"
+          }
         }
         positional_constraint = "EXACTLY"
         search_string         = "testuser"

@@ -340,8 +340,8 @@ We are using [Terratest](https://terratest.gruntwork.io/) to run tests on this m
 
 ```bash
 brew install go
-# Change to one of the test directories (It's recommended to run all 4 tests)
-cd test/logging-config-test
+# Change to the test directory
+cd test
 # Get dependencies
 go mod download
 # Run tests

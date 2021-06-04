@@ -16,7 +16,7 @@ Supported WAF v2 components:
 
 ## Terraform versions
 
-Terraform 0.13+ Pin module version to `~> v3.0.1`. Submit pull-requests to `main` branch.
+Terraform 0.13+ Pin module version to `~> v3.0`. Submit pull-requests to `main` branch.
 Terraform 0.12 < 0.13. Pin module version to `~> v1.0`.
 
 ## Usage

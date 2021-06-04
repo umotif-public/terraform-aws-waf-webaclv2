@@ -28,7 +28,7 @@ If referring directly to the code instead of a pinned version, take note that fr
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.0"
+  version = "~> 3.0.1"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -238,7 +238,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.0"
+  version = "~> 3.0.1"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -281,7 +281,7 @@ Module managed by:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.38 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.38.0 |
 
 ## Modules
 
@@ -321,6 +321,9 @@ No modules.
 |------|-------------|
 | <a name="output_web_acl_arn"></a> [web\_acl\_arn](#output\_web\_acl\_arn) | The ARN of the WAFv2 WebACL. |
 | <a name="output_web_acl_assoc_acl_arn"></a> [web\_acl\_assoc\_acl\_arn](#output\_web\_acl\_assoc\_acl\_arn) | The ARN of the Web ACL attached to the Web ACL Association |
+| <a name="output_web_acl_assoc_alb_list_acl_arn"></a> [web\_acl\_assoc\_alb\_list\_acl\_arn](#output\_web\_acl\_assoc\_alb\_list\_acl\_arn) | The ARN of the Web ACL attached to the Web ACL Association for the alb\_list resource |
+| <a name="output_web_acl_assoc_alb_list_id"></a> [web\_acl\_assoc\_alb\_list\_id](#output\_web\_acl\_assoc\_alb\_list\_id) | The ID of the Web ACL Association for the alb\_list resource |
+| <a name="output_web_acl_assoc_alb_list_resource_arn"></a> [web\_acl\_assoc\_alb\_list\_resource\_arn](#output\_web\_acl\_assoc\_alb\_list\_resource\_arn) | The ARN of the ALB attached to the Web ACL Association for the alb\_list resource |
 | <a name="output_web_acl_assoc_id"></a> [web\_acl\_assoc\_id](#output\_web\_acl\_assoc\_id) | The ID of the Web ACL Association |
 | <a name="output_web_acl_assoc_resource_arn"></a> [web\_acl\_assoc\_resource\_arn](#output\_web\_acl\_assoc\_resource\_arn) | The ARN of the ALB attached to the Web ACL Association |
 | <a name="output_web_acl_capacity"></a> [web\_acl\_capacity](#output\_web\_acl\_capacity) | The web ACL capacity units (WCUs) currently being used by this web ACL. |

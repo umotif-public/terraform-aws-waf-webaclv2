@@ -84,5 +84,5 @@ variable "logging_filter" {
 variable "web_acl_description" {
   type        = string
   description = "A friendly description of the WebACL"
-  default     = ""
+  default     = null
 }

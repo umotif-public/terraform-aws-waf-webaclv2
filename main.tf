@@ -7,6 +7,8 @@ resource "aws_wafv2_web_acl" "main" {
   name  = var.name_prefix
   scope = var.scope
 
+  description = var.web_acl_description
+
   default_action {
     dynamic "allow" {
       for_each = var.allow_default_action ? [1] : []

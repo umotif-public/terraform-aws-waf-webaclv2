@@ -5,7 +5,58 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Update module versions to support v3 provider
+- Add optional description for WebACL
+- use correct loop var for not_statements ([#30](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/30))
+- Fix failing terratests ([#31](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/31))
+
+
+<a name="3.0.1"></a>
+## [3.0.1] - 2021-06-04
+
+- Update outputs to only output when the WAF is enabled ([#28](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/28))
+
+
+<a name="3.0.0"></a>
+## [3.0.0] - 2021-06-03
+
+- RUpdated github action to refer to main branch instead of master ([#27](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/27))
+- Update example to refer to 3.0.0 of the module ([#26](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/26))
+- Readme update ([#25](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/25))
+- Added Terratests ([#22](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/22))
+- Added missing single_header ([#24](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/24))
+- Added byte match statements ([#21](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/21))
+
+
+<a name="2.0.0"></a>
+## [2.0.0] - 2021-05-04
+
+- Module upgrade with logging filter support ([#20](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/20))
+
+
+<a name="1.6.0"></a>
+## [1.6.0] - 2021-04-19
+
+- Added actions, geo match and IP set  ([#18](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/18))
+- spelling ([#19](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/19))
+- Update README.md
+
+
+<a name="1.5.1"></a>
+## [1.5.1] - 2020-11-09
+
+- Update module to remove 0.14 limit ([#17](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/17))
+
+
+<a name="1.5.0"></a>
+## [1.5.0] - 2020-10-05
+
+- Add support for IP sets and rate limiting ([#15](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/15))
+
+
+<a name="1.4.1"></a>
+## [1.4.1] - 2020-08-05
+
+- v3 aws provider support ([#14](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/14))
 
 
 <a name="1.4.0"></a>
@@ -69,7 +120,14 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.4.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.1...HEAD
+[3.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.0...3.0.1
+[3.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/2.0.0...3.0.0
+[2.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.6.0...2.0.0
+[1.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.5.1...1.6.0
+[1.5.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.5.0...1.5.1
+[1.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.4.1...1.5.0
+[1.4.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.4.0...1.4.1
 [1.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.3.0...1.4.0
 [1.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.1.0...1.2.0

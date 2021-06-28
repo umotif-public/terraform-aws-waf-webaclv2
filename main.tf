@@ -466,7 +466,7 @@ resource "aws_wafv2_web_acl" "main" {
 
               # NOT geo_match_statement
               dynamic "geo_match_statement" {
-                for_each = length(lookup(rule.value, "geo_match_statement", {})) == 0 ? [] : [lookup(rule.value, "geo_match_statement", {})]
+                for_each = length(lookup(not_statement.value, "geo_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "geo_match_statement", {})]
                 content {
                   country_codes = lookup(geo_match_statement.value, "country_codes")
                 }
@@ -474,7 +474,7 @@ resource "aws_wafv2_web_acl" "main" {
 
               # NOT ip_set_statement
               dynamic "ip_set_reference_statement" {
-                for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
+                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                 content {
                   arn = lookup(ip_set_reference_statement.value, "arn")
                 }

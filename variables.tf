@@ -80,3 +80,9 @@ variable "logging_filter" {
   description = "A configuration block that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation."
   default     = {}
 }
+
+variable "description" {
+  type        = string
+  description = "A friendly description of the WebACL"
+  default     = null
+}

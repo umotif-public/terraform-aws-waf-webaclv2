@@ -28,7 +28,7 @@ If referring directly to the code instead of a pinned version, take note that fr
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.1"
+  version = "~> 3.1.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -238,7 +238,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.1"
+  version = "~> 3.1.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -281,7 +281,7 @@ Module managed by:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.42.0 |
 
 ## Modules
 
@@ -305,6 +305,7 @@ No modules.
 | <a name="input_allow_default_action"></a> [allow\_default\_action](#input\_allow\_default\_action) | Set to `true` for WAF to allow requests by default. Set to `false` for WAF to block requests by default. | `bool` | `true` | no |
 | <a name="input_create_alb_association"></a> [create\_alb\_association](#input\_create\_alb\_association) | Whether to create alb association with WAF web acl | `bool` | `true` | no |
 | <a name="input_create_logging_configuration"></a> [create\_logging\_configuration](#input\_create\_logging\_configuration) | Whether to create logging configuration in order start logging from a WAFv2 Web ACL to Amazon Kinesis Data Firehose. | `bool` | `false` | no |
+| <a name="input_description"></a> [description](#input\_description) | A friendly description of the WebACL | `string` | `null` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Whether to create the resources. Set to `false` to prevent the module from creating any resources | `bool` | `true` | no |
 | <a name="input_log_destination_configs"></a> [log\_destination\_configs](#input\_log\_destination\_configs) | The Amazon Kinesis Data Firehose Amazon Resource Name (ARNs) that you want to associate with the web ACL. Currently, only 1 ARN is supported. | `list(string)` | `[]` | no |
 | <a name="input_logging_filter"></a> [logging\_filter](#input\_logging\_filter) | A configuration block that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation. | `any` | `{}` | no |

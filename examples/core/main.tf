@@ -48,6 +48,7 @@ module "waf" {
 
   rules = [
     {
+      # Uses optional excluded_rules to exclude certain managed rules
       name     = "AWSManagedRulesCommonRuleSet-rule-1"
       priority = "1"
 
@@ -87,6 +88,7 @@ module "waf" {
       }
     },
     {
+      # Uses an optional scope down statement to further refine what the rule is being applied to
       name     = "AWSManagedRulesPHPRuleSet-rule-3"
       priority = "3"
 
@@ -101,6 +103,13 @@ module "waf" {
       managed_rule_group_statement = {
         name        = "AWSManagedRulesPHPRuleSet"
         vendor_name = "AWS"
+
+        # Optional scope_down_statement
+        scope_down_statement = {
+          geo_match_statement = {
+            country_codes = ["NL", "GB", "US"]
+          }
+        }
       }
     },
     {

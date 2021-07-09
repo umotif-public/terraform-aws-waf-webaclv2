@@ -6,7 +6,7 @@ Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cl
 
 Supported WAF v2 components:
 
-- Module supports all AWS managed rules defined in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+- Module supports all AWS managed rules defined in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html (and optional scopedown statements).
 - Associating WAFv2 ACL with one or more Application Load Balancers (ALB)
 - Blocking IP Sets
 - Rate limiting IPs (and optional scopedown statements)
@@ -28,7 +28,7 @@ If referring directly to the code instead of a pinned version, take note that fr
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.1.0"
+  version = "~> 3.2.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -228,7 +228,7 @@ module "waf" {
 provider "aws" {
   alias = "us-east"
 
-  version = ">= 3.38"
+  version = ">= 3.50"
   region  = "us-east-1"
 }
 
@@ -238,7 +238,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.1.0"
+  version = "~> 3.2.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -275,13 +275,13 @@ Module managed by:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.38 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.42.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.50.0 |
 
 ## Modules
 

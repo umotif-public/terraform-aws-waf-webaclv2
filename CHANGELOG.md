@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Add optional description for WebACL
+
+
+<a name="3.1.0"></a>
+## [3.1.0] - 2021-06-28
+
+- Add optional description fior WebACL ([#32](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/32))
 - use correct loop var for not_statements ([#30](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/30))
 - Fix failing terratests ([#31](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/31))
 
@@ -22,9 +27,9 @@ All notable changes to this project will be documented in this file.
 - RUpdated github action to refer to main branch instead of master ([#27](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/27))
 - Update example to refer to 3.0.0 of the module ([#26](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/26))
 - Readme update ([#25](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/25))
-- Added Terratests ([#22](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/22))
+- DEVOPS-957 Terratests ([#22](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/22))
 - Added missing single_header ([#24](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/24))
-- Added byte match statements ([#21](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/21))
+- Feature/devops 953 byte match statements ([#21](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/21))
 
 
 <a name="2.0.0"></a>
@@ -120,7 +125,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.1...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.0...HEAD
+[3.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.1...3.1.0
 [3.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/1.6.0...2.0.0

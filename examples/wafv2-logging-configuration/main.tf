@@ -33,7 +33,7 @@ module "alb" {
 #####
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "firehose-stream-test-bucket"
+  bucket = "aws-waf-firehose-stream-test-bucket"
   acl    = "private"
 }
 

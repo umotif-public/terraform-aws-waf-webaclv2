@@ -424,7 +424,7 @@ resource "aws_wafv2_web_acl" "main" {
 
               # Scope down AND ip_set_statement
               dynamic "ip_set_reference_statement" {
-                for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
+                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                 content {
                   arn = lookup(ip_set_reference_statement.value, "arn")
                 }

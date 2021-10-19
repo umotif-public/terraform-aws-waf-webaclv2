@@ -13,6 +13,7 @@ Supported WAF v2 components:
 - Byte Match statements
 - Geo set statements
 - Logical Statements (AND, OR, NOT)
+- Size constraint statements
 
 ## Terraform versions
 
@@ -212,7 +213,36 @@ module "waf" {
           type                  = "NONE"
         }
       }
-    }
+    },
+    ### Size constraint Rule example
+    # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#size-constraint-statement
+    # for all of the options available.
+    # Additional examples available in the examples directory
+    {
+      name     = "BodySizeConstraint"
+      priority = 0
+      size_constraint_statement = {
+        field_to_match = {
+          body = "{}"
+        }
+        comparision_operator = "GT"
+        size                 = 8192
+        text_transformation = [
+          {
+            priority = 0
+            type     = "NONE"
+          }
+        ]
+      }
+
+      action = "count"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = true
+        metric_name                = "BodySizeConstraint"
+        sampled_requests_enabled   = true
+      }
+    },
   ]
 
   tags = {
@@ -281,7 +311,7 @@ Module managed by:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50 |
 
 ## Modules
 

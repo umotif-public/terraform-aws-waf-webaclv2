@@ -225,14 +225,10 @@ module "waf" {
         field_to_match = {
           body = "{}"
         }
-        comparision_operator = "GT"
-        size                 = 8192
-        text_transformation = [
-          {
-            priority = 0
-            type     = "NONE"
-          }
-        ]
+        comparison_operator = "GT"
+        size                = 8192
+        priority            = 0
+        type                = "NONE"
       }
 
       action = "count"

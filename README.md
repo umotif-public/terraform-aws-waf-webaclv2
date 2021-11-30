@@ -14,6 +14,7 @@ Supported WAF v2 components:
 - Geo set statements
 - Logical Statements (AND, OR, NOT)
 - Size constraint statements
+- Label Match statements
 
 ## Terraform versions
 
@@ -287,6 +288,8 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 * [WAF ACL with bytematch rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-bytematch-rules)
 * [WAF ACL with geo match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-geo-rules)
 * [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-and-or-rules)
+* [WAF ACL with label match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-labelmatch-rules)
+
 
 ## Authors
 

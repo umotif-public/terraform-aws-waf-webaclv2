@@ -84,6 +84,6 @@ func TestWafWebAclV2Logging(t *testing.T) {
 	assert.Equal(t, IamRolePolicyName, "firehose-role-custom-policy")
 	assert.Equal(t, IamRolePolicyRole, "firehose-stream-test-role")
 
-	assert.Equal(t, S3BucketArn, "arn:aws:s3:::firehose-stream-test-bucket")
-	assert.Equal(t, S3BucketId, "firehose-stream-test-bucket")
+	assert.Equal(t, S3BucketArn, "arn:aws:s3:::aws-waf-firehose-stream-test-bucket")
+	assert.Equal(t, S3BucketId, "aws-waf-firehose-stream-test-bucket")
 }

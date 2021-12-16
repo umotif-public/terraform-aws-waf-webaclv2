@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- Adds Label Match Statement
+
+
+<a name="3.3.0"></a>
+## [3.3.0] - 2021-10-20
+
+- feat(rules): add size constraint statement ([#41](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/41))
+
+
+<a name="3.2.0"></a>
+## [3.2.0] - 2021-07-21
+
+- Scopedown on managerules ([#40](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/40))
+
+
+<a name="3.1.1"></a>
+## [3.1.1] - 2021-07-09
+
+- Switched to try for ALB outputs ([#36](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/36))
+- Fix issue where using alb_arn_list will cause outputs to fail ([#35](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/35))
 
 
 <a name="3.1.0"></a>
@@ -125,7 +145,10 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.3.0...HEAD
+[3.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.2.0...3.3.0
+[3.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.1...3.2.0
+[3.1.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.0...3.1.1
 [3.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.1...3.1.0
 [3.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/2.0.0...3.0.0

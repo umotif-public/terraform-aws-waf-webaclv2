@@ -30,7 +30,7 @@ If referring directly to the code instead of a pinned version, take note that fr
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.1.0"
+  version = "~> 3.0.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -265,7 +265,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.1.0"
+  version = "~> 3.0.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"

@@ -139,6 +139,13 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(scope_down_statement.value, "not_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "not_statement", {})]
                   content {
                     statement {
+                      # Scope down AND ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
                       # scope down NOT byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
@@ -261,6 +268,83 @@ resource "aws_wafv2_web_acl" "main" {
                             arn = lookup(ip_set_reference_statement.value, "arn")
                           }
                         }
+
+                        dynamic "not_statement" {
+                          for_each = length(lookup(statement.value, "not_statement", {})) == 0 ? [] : [lookup(statement.value, "not_statement", {})]
+                          content {
+                            statement {
+                              # Scope down NOT ip_set_statement
+                              dynamic "ip_set_reference_statement" {
+                                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
+                                content {
+                                  arn = lookup(ip_set_reference_statement.value, "arn")
+                                }
+                              }
+                              # scope down NOT byte_match_statement
+                              dynamic "byte_match_statement" {
+                                for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
+                                content {
+                                  dynamic "field_to_match" {
+                                    for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
+                                    content {
+                                      dynamic "uri_path" {
+                                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                        content {}
+                                      }
+                                      dynamic "all_query_arguments" {
+                                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                        content {}
+                                      }
+                                      dynamic "body" {
+                                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                        content {}
+                                      }
+                                      dynamic "method" {
+                                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                        content {}
+                                      }
+                                      dynamic "query_string" {
+                                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                        content {}
+                                      }
+                                      dynamic "single_header" {
+                                        for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                        content {
+                                          name = lower(lookup(single_header.value, "name"))
+                                        }
+                                      }
+                                    }
+                                  }
+                                  positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
+                                  search_string         = lookup(byte_match_statement.value, "search_string")
+                                  text_transformation {
+                                    priority = lookup(byte_match_statement.value, "priority")
+                                    type     = lookup(byte_match_statement.value, "type")
+                                  }
+                                }
+                              }
+
+                              # scope down NOT geo_match_statement
+                              dynamic "geo_match_statement" {
+                                for_each = length(lookup(not_statement.value, "geo_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "geo_match_statement", {})]
+                                content {
+                                  country_codes = lookup(geo_match_statement.value, "country_codes")
+                                }
+                              }
+
+                              # Scope down NOT label_match_statement
+                              dynamic "label_match_statement" {
+                                for_each = length(lookup(not_statement.value, "label_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "label_match_statement", {})]
+                                content {
+                                  key   = lookup(label_match_statement.value, "key")
+                                  scope = lookup(label_match_statement.value, "scope")
+                                }
+                              }
+                            }
+                          }
+                        }
+
+
                       }
                     }
                   }
@@ -526,6 +610,13 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(scope_down_statement.value, "not_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "not_statement", {})]
                   content {
                     statement {
+                      # Scope down NOT ip_set_statement
+                      dynamic "ip_set_reference_statement" {
+                        for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
+                        content {
+                          arn = lookup(ip_set_reference_statement.value, "arn")
+                        }
+                      }
                       # scope down NOT byte_match_statement
                       dynamic "byte_match_statement" {
                         for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
@@ -668,10 +759,21 @@ resource "aws_wafv2_web_acl" "main" {
                         }
 
                         # Scope down AND not_statement
+
+                        #scope_down -> and_Statement -> statement -> not_statement -> statement -> ip_set
+
+
                         dynamic "not_statement" {
                           for_each = length(lookup(statement.value, "not_statement", {})) == 0 ? [] : [lookup(statement.value, "not_statement", {})]
                           content {
                             statement {
+                              # Scope down NOT ip_set_statement
+                              dynamic "ip_set_reference_statement" {
+                                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
+                                content {
+                                  arn = lookup(ip_set_reference_statement.value, "arn")
+                                }
+                              }
                               # scope down NOT byte_match_statement
                               dynamic "byte_match_statement" {
                                 for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]
@@ -900,6 +1002,13 @@ resource "aws_wafv2_web_acl" "main" {
           content {
             statement {
 
+              # Scope down NOT ip_set_statement
+              dynamic "ip_set_reference_statement" {
+                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
+                content {
+                  arn = lookup(ip_set_reference_statement.value, "arn")
+                }
+              }
               # NOT byte_match_statement
               dynamic "byte_match_statement" {
                 for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]

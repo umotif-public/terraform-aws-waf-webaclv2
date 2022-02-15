@@ -1,6 +1,9 @@
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/umotif-public/terraform-aws-waf-webaclv2?style=social)
-
 # terraform-aws-waf-webaclv2
+
+## Note:
+originally created by [umotif-public](https://registry.terraform.io/modules/umotif-public/waf-webaclv2/aws/latest). We are improving this module by adding more
+functionalities. 
 
 Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cloudfront distribution.
 
@@ -15,6 +18,7 @@ Supported WAF v2 components:
 - Logical Statements (AND, OR, NOT)
 - Size constraint statements
 - Label Match statements
+- Regex pattern set reference statement
 
 ## Terraform versions
 
@@ -397,3 +401,4 @@ brew install pre-commit terraform-docs tflint
 brew tap git-chglog/git-chglog
 brew install git-chglog
 ```
+

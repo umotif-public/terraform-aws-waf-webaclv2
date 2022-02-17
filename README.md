@@ -15,6 +15,7 @@ Supported WAF v2 components:
 - Logical Statements (AND, OR, NOT)
 - Size constraint statements
 - Label Match statements
+- Regex Pattern Match statements
 
 ## Terraform versions
 
@@ -240,6 +241,36 @@ module "waf" {
         sampled_requests_enabled   = true
       }
     },
+    ### Regex Pattern Set Reference Rule example
+    # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#regex-pattern-set-reference-statement
+    # for all of the options available.
+    # Additional examples available in the examples directory
+    {
+      name = "MatchRegexRule-1"
+      priority = "1"
+
+      action = "none"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = true
+        metric_name                = "RegexBadBotsUserAgent-metric"
+        sampled_requests_enabled   = false
+      }
+
+      # You need to previously create you regex pattern
+      # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_regex_pattern_set
+      # for all of the options available.
+      regex_pattern_set_reference_statement = {
+        arn       = aws_wafv2_regex_pattern_set.example.arn
+        field_to_match = {
+          single_header = {
+            name = "user-agent"
+          }
+        }
+        priority  = 0
+        type      = "LOWERCASE" # The text transformation type
+      }
+    }
   ]
 
   tags = {
@@ -289,6 +320,7 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 * [WAF ACL with geo match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-geo-rules)
 * [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-and-or-rules)
 * [WAF ACL with label match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-labelmatch-rules)
+* [WAF ACL with regex pattern rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-regex-pattern-rules)
 
 
 ## Authors

@@ -1,4 +1,4 @@
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/umotif-public/terraform-aws-waf-webaclv2?style=social)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/umotif-public/terraform-aws-waf-webaclv2)](https://github.com/umotif-public/terraform-aws-waf-webaclv2/releases/latest)
 
 # terraform-aws-waf-webaclv2
 

@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Adds Label Match Statement
+- Added support for forwarded_ip_config inside of geo_match_statement
+
+
+<a name="3.6.0"></a>
+## [3.6.0] - 2022-02-21
+
+- feat(rules): add regex pattern rules support ([#48](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/48))
+
+
+<a name="3.5.0"></a>
+## [3.5.0] - 2022-01-12
+
+- ipset in multiple not statements ([#44](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/44))
+
+
+<a name="3.4.0"></a>
+## [3.4.0] - 2021-12-16
+
+- Adds Label Match Statement ([#43](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/43))
 
 
 <a name="3.3.0"></a>
@@ -145,7 +163,10 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.3.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0...HEAD
+[3.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.5.0...3.6.0
+[3.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.4.0...3.5.0
+[3.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.3.0...3.4.0
 [3.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.2.0...3.3.0
 [3.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.1...3.2.0
 [3.1.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.1.0...3.1.1

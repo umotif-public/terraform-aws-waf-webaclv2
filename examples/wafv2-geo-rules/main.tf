@@ -51,7 +51,11 @@ module "waf" {
       action   = "allow"
 
       geo_match_statement = {
-        country_codes = ["NL", "GB", "US"]
+        country_codes = ["NL", "GB", "US"],
+        forwarded_ip_config = {
+          header_name       = "X-Forwarded-For"
+          fallback_behavior = "NO_MATCH"
+        }
       }
 
       visibility_config = {

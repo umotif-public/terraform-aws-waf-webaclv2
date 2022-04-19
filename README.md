@@ -204,7 +204,7 @@ module "waf" {
         sampled_requests_enabled   = false
       }
 
-      not_statement {
+      not_statement = {
         byte_match_statement = {
           field_to_match = {
             uri_path = "{}"

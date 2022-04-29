@@ -1343,13 +1343,6 @@ resource "aws_wafv2_web_acl" "main" {
           content {
             statement {
 
-              # Scope down NOT ip_set_statement
-              dynamic "ip_set_reference_statement" {
-                for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
-                content {
-                  arn = lookup(ip_set_reference_statement.value, "arn")
-                }
-              }
               # NOT byte_match_statement
               dynamic "byte_match_statement" {
                 for_each = length(lookup(not_statement.value, "byte_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "byte_match_statement", {})]

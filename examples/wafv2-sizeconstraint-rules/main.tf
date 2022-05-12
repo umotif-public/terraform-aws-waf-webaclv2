@@ -38,6 +38,7 @@ module "waf" {
       managed_rule_group_statement = {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
+        version     = "Version_2.0"
         excluded_rule = [
           "SizeRestrictions_QUERYSTRING",
           "SizeRestrictions_BODY",

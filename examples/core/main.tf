@@ -9,8 +9,11 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
+data "aws_subnets" "all" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 #####
@@ -24,7 +27,7 @@ module "alb" {
   load_balancer_type = "application"
   internal           = false
   vpc_id             = data.aws_vpc.default.id
-  subnets            = data.aws_subnet_ids.all.ids
+  subnets            = data.aws_subnets.all.ids
 }
 
 #####

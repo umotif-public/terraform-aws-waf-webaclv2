@@ -86,3 +86,10 @@ variable "description" {
   description = "A friendly description of the WebACL"
   default     = null
 }
+
+
+variable "custom_response_code" {
+  type        = string
+  description = "The HTTP response code for non managed rule group statements block actions."
+  default     = 403
+}

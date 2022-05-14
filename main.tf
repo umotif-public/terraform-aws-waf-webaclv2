@@ -17,7 +17,11 @@ resource "aws_wafv2_web_acl" "main" {
 
     dynamic "block" {
       for_each = var.allow_default_action ? [] : [1]
-      content {}
+      content {
+          custom_response {
+            response_code = var.custom_response_code
+          }
+      }
     }
   }
 
@@ -43,7 +47,11 @@ resource "aws_wafv2_web_acl" "main" {
 
           dynamic "block" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
-            content {}
+            content {
+                custom_response {
+                  response_code = var.custom_response_code
+                }
+            }
           }
         }
       }

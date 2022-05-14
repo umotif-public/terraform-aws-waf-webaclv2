@@ -89,7 +89,7 @@ variable "description" {
 
 
 variable "custom_response_code" {
-  type        = string
+  type        = number
   description = "The HTTP response code for non managed rule group statements block actions."
   default     = 403
 }

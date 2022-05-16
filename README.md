@@ -16,6 +16,7 @@ Supported WAF v2 components:
 - Size constraint statements
 - Label Match statements
 - Regex Pattern Match statements
+- Custom responses
 
 ## Terraform versions
 

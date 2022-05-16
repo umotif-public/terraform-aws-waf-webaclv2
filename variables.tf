@@ -87,8 +87,14 @@ variable "description" {
   default     = null
 }
 
-variable "custom_response_code" {
-  type        = number
-  description = "The HTTP response code for non managed rule group statements block actions."
-  default     = 403
+variable "enable_custom_response" {
+  type        = bool
+  description = "Set to `true` to define custom responses (status code, body, and/or headers) for non managed rule group statements block actions."
+  default     = false
+}
+
+variable "custom_response_body" {
+  type        = map(string)
+  description = "A custom response body to be referenced on a per rule basis."
+  default     = {}
 }

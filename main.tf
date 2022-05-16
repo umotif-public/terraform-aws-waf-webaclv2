@@ -9,6 +9,16 @@ resource "aws_wafv2_web_acl" "main" {
 
   description = var.description
 
+  dynamic "custom_response_body" {
+    for_each = var.enable_custom_response ? [1] : []
+    content {
+      # NOTE: enable_custom_response can be true just for a rule to define a custom_response_code, thus need to populate custom_response_body with default settings to appease AWS even if it is never referenced.
+      key = try(var.custom_response_body.key, "default")
+      content = try(var.custom_response_body.content, "You are not authorized.")
+      content_type = try(var.custom_response_body.content_type, "TEXT_PLAIN")
+    }
+  }
+
   default_action {
     dynamic "allow" {
       for_each = var.allow_default_action ? [1] : []
@@ -17,11 +27,8 @@ resource "aws_wafv2_web_acl" "main" {
 
     dynamic "block" {
       for_each = var.allow_default_action ? [] : [1]
-      content {
-          custom_response {
-            response_code = var.custom_response_code
-          }
-      }
+      # Despite seemingly would want to add default custom_response defintions here, the docs state an empyt configuration block is required. ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#default-action
+      content {}
     }
   }
 
@@ -48,8 +55,19 @@ resource "aws_wafv2_web_acl" "main" {
           dynamic "block" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
             content {
-                custom_response {
-                  response_code = var.custom_response_code
+                dynamic "custom_response" {
+                  for_each = var.enable_custom_response ? [1] : []
+                  content {
+                    custom_response_body_key = lookup(rule.value, "custom_response_key", null)
+                    response_code = lookup(rule.value, "custom_response_code", 403)
+                    dynamic "response_header" {
+                      for_each = lookup(rule.value, "custom_response_headers", [])
+                      content {
+                        name  = lookup(response_header.value, "name")
+                        value = lookup(response_header.value, "value")
+                      }
+                    }
+                  }
                 }
             }
           }

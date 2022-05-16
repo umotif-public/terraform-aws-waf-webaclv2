@@ -21,6 +21,15 @@ resource "aws_wafv2_web_acl" "main" {
     }
   }
 
+  dynamic "custom_response_body" {
+    for_each = var.custom_response_bodies
+    content {
+      key          = custom_response_body.value.key
+      content      = custom_response_body.value.content
+      content_type = custom_response_body.value.content_type
+    }
+  }
+
   dynamic "rule" {
     for_each = var.rules
     content {
@@ -43,7 +52,22 @@ resource "aws_wafv2_web_acl" "main" {
 
           dynamic "block" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
-            content {}
+            content {
+              dynamic "custom_response" {
+                for_each = lookup(rule.value, "custom_response", {}) != {} ? [1] : []
+                content {
+                  custom_response_body_key = lookup(rule.value.custom_response, "custom_response_body_key", null)
+                  response_code            = rule.value.custom_response.response_code
+                  dynamic "response_header" {
+                    for_each = lookup(rule.value.custom_response, "response_headers", [])
+                    content {
+                      name  = response_header.value.name
+                      value = response_header.value.value
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

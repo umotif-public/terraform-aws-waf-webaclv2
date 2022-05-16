@@ -87,14 +87,12 @@ variable "description" {
   default     = null
 }
 
-variable "enable_custom_response" {
-  type        = bool
-  description = "Set to `true` to define custom responses (status code, body, and/or headers) for non managed rule group statements block actions."
-  default     = false
-}
-
-variable "custom_response_body" {
-  type        = map(string)
-  description = "A custom response body to be referenced on a per rule basis."
-  default     = {}
+variable "custom_response_bodies" {
+  type = list(object({
+    key          = string
+    content      = string
+    content_type = string
+  }))
+  description = "A custom response body to be referenced on a per rule basis. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#custom-response-body"
+  default     = []
 }

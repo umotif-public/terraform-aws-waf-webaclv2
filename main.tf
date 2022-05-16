@@ -10,12 +10,11 @@ resource "aws_wafv2_web_acl" "main" {
   description = var.description
 
   dynamic "custom_response_body" {
-    for_each = var.enable_custom_response ? [1] : []
+    for_each = var.custom_response_bodies
     content {
-      # NOTE: enable_custom_response can be true just for a rule to define a custom_response_code, thus need to populate custom_response_body with default settings to appease AWS even if it is never referenced.
-      key          = try(var.custom_response_body.key, "default")
-      content      = try(var.custom_response_body.content, "You are not authorized.")
-      content_type = try(var.custom_response_body.content_type, "TEXT_PLAIN")
+      key          = custom_response_body.value.key
+      content      = custom_response_body.value.content
+      content_type = custom_response_body.value.content_type
     }
   }
 
@@ -56,7 +55,7 @@ resource "aws_wafv2_web_acl" "main" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
             content {
               dynamic "custom_response" {
-                for_each = var.enable_custom_response ? [1] : []
+                for_each = lookup(rule.value, "custom_response", false) == true ? [1] : []
                 content {
                   custom_response_body_key = lookup(rule.value, "custom_response_key", null)
                   response_code            = lookup(rule.value, "custom_response_code", 403)

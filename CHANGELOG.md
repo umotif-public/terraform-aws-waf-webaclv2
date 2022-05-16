@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- [README] updated to list custom responses capabilities.
+- [make] changelog
 - [make] validate.
 - [Formatting] main.tf
 - [Custom Response] handling on per rules basis with dynamic block definitions.

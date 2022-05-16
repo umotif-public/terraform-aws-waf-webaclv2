@@ -16,12 +16,18 @@ module "waf" {
     sampled_requests_enabled   = false
   }
 
-  enable_custom_response = true
-  custom_response_body = {
-    key          = "custom_response_body_1"
-    content      = "You are not authorized to access this resource."
-    content_type = "TEXT_PLAIN"
-  }
+  custom_response_bodies = [
+    {
+      key          = "custom_response_body_1",
+      content      = "You are not authorized to access this resource.",
+      content_type = "TEXT_PLAIN"
+    },
+    {
+      key          = "custom_response_body_2",
+      content      = "You there, are not authorized to access this resource.",
+      content_type = "TEXT_PLAIN"
+    }
+  ]
 
   rules = [
     {
@@ -29,6 +35,7 @@ module "waf" {
       priority = "6"
       action   = "block"
 
+      custom_response      = true
       custom_response_code = 412
       custom_response_key  = "custom_response_body_1"
       custom_response_headers = [

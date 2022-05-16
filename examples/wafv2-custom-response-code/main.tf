@@ -16,14 +16,13 @@ module "waf" {
     sampled_requests_enabled   = false
   }
 
-  enable_custom_response = true
-
   rules = [
     {
       name     = "ip-rate-based"
       priority = "6"
       action   = "block"
 
+      custom_response      = true
       custom_response_code = 412
 
       rate_based_statement = {

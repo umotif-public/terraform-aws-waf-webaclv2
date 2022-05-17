@@ -18,9 +18,10 @@ module "waf" {
 
   rules = [
     {
-      name     = "ip-rate-based"
-      priority = "6"
-      action   = "block"
+      name        = "ip-rate-based"
+      priority    = "6"
+      action      = "block"
+      rule_labels = ["LabelNameA"]
 
       custom_response = {
         response_code = 412

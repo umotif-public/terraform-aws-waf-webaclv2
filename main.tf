@@ -89,6 +89,13 @@ resource "aws_wafv2_web_acl" "main" {
         }
       }
 
+      dynamic "rule_label" {
+        for_each = try(rule.value.rule_labels, [])
+        content {
+          name = rule_label.value
+        }
+      }
+
       statement {
 
         dynamic "managed_rule_group_statement" {

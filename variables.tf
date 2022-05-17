@@ -93,6 +93,6 @@ variable "custom_response_bodies" {
     content      = string
     content_type = string
   }))
-  description = "A custom response body to be referenced on a per rule basis. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#custom-response-body"
+  description = "Custom response bodies to be referenced on a per rule basis. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#custom-response-body"
   default     = []
 }

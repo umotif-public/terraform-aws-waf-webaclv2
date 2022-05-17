@@ -38,7 +38,7 @@ module "waf" {
       }
     },
     {
-      # Note: custom responses can not be applied to AWS managed rule groups directly. Must use a label technical, ref: https://aws.amazon.com/blogs/security/how-to-customize-behavior-of-aws-managed-rules-for-aws-waf/
+      # Note: custom responses can not be applied to AWS managed rule groups directly. Must use a label technique, ref: https://aws.amazon.com/blogs/security/how-to-customize-behavior-of-aws-managed-rules-for-aws-waf/
       name     = "AWSManagedRulesBotControlRuleSet-rule-0"
       priority = "0"
 

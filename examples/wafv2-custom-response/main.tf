@@ -31,9 +31,10 @@ module "waf" {
 
   rules = [
     {
-      name     = "ip-rate-based"
-      priority = "6"
-      action   = "block"
+      name       = "ip-rate-based"
+      priority   = "6"
+      action     = "block"
+      rule_label = "awswaf:custom:ip-rate-based"
 
       custom_response = {
         custom_response_body_key = "default_1",

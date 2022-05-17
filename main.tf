@@ -89,6 +89,13 @@ resource "aws_wafv2_web_acl" "main" {
         }
       }
 
+      dynamic "rule_label" {
+        for_each = length(lookup(rule.value, "rule_label", {})) == 0 ? [] : [1]
+        content {
+          name = lookup(rule.value, "rule_label", null)
+        }
+      }
+
       statement {
 
         dynamic "managed_rule_group_statement" {

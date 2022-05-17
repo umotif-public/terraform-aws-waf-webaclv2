@@ -57,7 +57,7 @@ resource "aws_wafv2_web_acl" "main" {
               dynamic "custom_response" {
                 for_each = length(lookup(rule.value, "custom_response", [])) == 0 ? [] : [lookup(rule.value, "custom_response", {})]
                 content {
-                  custom_response_body_key = lookup(custom_response.value, "response_key", null)
+                  custom_response_body_key = lookup(custom_response.value, "custom_response_body_key", null)
                   response_code            = lookup(custom_response.value, "response_code", 403)
                   dynamic "response_header" {
                     for_each = lookup(custom_response.value, "response_headers", [])

@@ -36,8 +36,8 @@ module "waf" {
       action   = "block"
 
       custom_response = {
-        response_code = 412
-        response_key  = "default_1",
+        custom_response_body_key = "default_1",
+        response_code            = 412
         response_headers = [
           {
             name  = "X-Custom-Header-1"

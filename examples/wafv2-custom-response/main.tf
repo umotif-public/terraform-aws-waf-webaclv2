@@ -24,7 +24,7 @@ module "waf" {
     },
     {
       key          = "custom_response_body_2",
-      content      = "You there, are not authorized to access this resource.",
+      content      = "You there are not authorized to access this resource.",
       content_type = "TEXT_PLAIN"
     }
   ]
@@ -35,19 +35,20 @@ module "waf" {
       priority = "6"
       action   = "block"
 
-      custom_response      = true
-      custom_response_code = 412
-      custom_response_key  = "custom_response_body_1"
-      custom_response_headers = [
-        {
-          name  = "X-Custom-Header"
-          value = "You are not authorized to access this resource."
-        },
-        {
-          name  = "X-Custom-Header-2"
-          value = "You are still not authorized to access this resource."
-        }
-      ]
+      custom_response = {
+        response_code = 412
+        response_key  = "default_1",
+        response_headers = [
+          {
+            name  = "X-Custom-Header-1"
+            value = "You are not authorized to access this resource."
+          },
+          {
+            name  = "X-Custom-Header-2"
+            value = "Not authorized to access this resource."
+          }
+        ]
+      }
 
       rate_based_statement = {
         limit              = 2000 # Note this is by default in a 5-min span, ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#rate_based_statement

@@ -55,12 +55,12 @@ resource "aws_wafv2_web_acl" "main" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
             content {
               dynamic "custom_response" {
-                for_each = lookup(rule.value, "custom_response", false) == true ? [1] : []
+                for_each = length(lookup(rule.value, "custom_response", [])) == 0 ? [] : [lookup(rule.value, "custom_response", {})]
                 content {
-                  custom_response_body_key = lookup(rule.value, "custom_response_key", null)
-                  response_code            = lookup(rule.value, "custom_response_code", 403)
+                  custom_response_body_key = lookup(custom_response.value, "response_key", null)
+                  response_code            = lookup(custom_response.value, "response_code", 403)
                   dynamic "response_header" {
-                    for_each = lookup(rule.value, "custom_response_headers", [])
+                    for_each = lookup(custom_response.value, "response_headers", [])
                     content {
                       name  = lookup(response_header.value, "name")
                       value = lookup(response_header.value, "value")

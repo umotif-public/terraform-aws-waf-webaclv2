@@ -22,8 +22,9 @@ module "waf" {
       priority = "6"
       action   = "block"
 
-      custom_response      = true
-      custom_response_code = 412
+      custom_response = {
+        response_code = 412
+      }
 
       rate_based_statement = {
         limit              = 2000 # Note this is by default in a 5-min span, ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#rate_based_statement

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- [Variable] typo fix.
+- [refactor] response_key to custom_response_body_key to better match underlying tf resource.
+- [Examples] typo fix.
+- [Custom Response] block variable input.
+- [Examples] fix.
+- [Custom Response Bodies] supported for multiplexed custom body definitions. Dropped the enabled variable as not needed.
 - [README] updated to list custom responses capabilities.
 - [make] changelog
 - [make] validate.

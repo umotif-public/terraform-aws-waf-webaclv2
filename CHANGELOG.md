@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- [Variable] typo fix.
+- [refactor] response_key to custom_response_body_key to better match underlying tf resource.
+- [Examples] typo fix.
+- [Custom Response] block variable input.
+- [Examples] fix.
+- [Custom Response Bodies] supported for multiplexed custom body definitions. Dropped the enabled variable as not needed.
+- [README] updated to list custom responses capabilities.
+- [make] changelog
+- [make] validate.
+- [Formatting] main.tf
+- [Custom Response] handling on per rules basis with dynamic block definitions.
+- [Formatting]
+- [Variable] definition typo in type fix.
+- [README] updated with input info.
+- [Block] custom_response http status code.
+
+
+<a name="3.7.3"></a>
+## [3.7.3] - 2022-05-12
+
+- Add 'version' to managed_rule_group_statement ([#55](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/55))
+
+
+<a name="3.7.2"></a>
+## [3.7.2] - 2022-05-12
+
+- removed duplicated code ([#53](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/53))
 
 
 <a name="3.7.1"></a>
@@ -174,10 +201,11 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.1...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.3...HEAD
+[3.7.3]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.2...3.7.3
+[3.7.2]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.1...3.7.2
 [3.7.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.0...3.7.1
-[3.7.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0-patch-1...3.7.0
-[3.6.0-patch-1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0...3.6.0-patch-1
+[3.7.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0...3.7.0
 [3.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.5.0...3.6.0
 [3.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.4.0...3.5.0
 [3.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.3.0...3.4.0

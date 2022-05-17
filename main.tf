@@ -9,6 +9,15 @@ resource "aws_wafv2_web_acl" "main" {
 
   description = var.description
 
+  dynamic "custom_response_body" {
+    for_each = var.custom_response_bodies
+    content {
+      key          = custom_response_body.value.key
+      content      = custom_response_body.value.content
+      content_type = custom_response_body.value.content_type
+    }
+  }
+
   default_action {
     dynamic "allow" {
       for_each = var.allow_default_action ? [1] : []
@@ -17,6 +26,7 @@ resource "aws_wafv2_web_acl" "main" {
 
     dynamic "block" {
       for_each = var.allow_default_action ? [] : [1]
+      # Despite seemingly would want to add default custom_response defintions here, the docs state an empyt configuration block is required. ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#default-action
       content {}
     }
   }
@@ -43,7 +53,22 @@ resource "aws_wafv2_web_acl" "main" {
 
           dynamic "block" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
-            content {}
+            content {
+              dynamic "custom_response" {
+                for_each = length(lookup(rule.value, "custom_response", [])) == 0 ? [] : [lookup(rule.value, "custom_response", {})]
+                content {
+                  custom_response_body_key = lookup(custom_response.value, "custom_response_body_key", null)
+                  response_code            = lookup(custom_response.value, "response_code", 403)
+                  dynamic "response_header" {
+                    for_each = lookup(custom_response.value, "response_headers", [])
+                    content {
+                      name  = lookup(response_header.value, "name")
+                      value = lookup(response_header.value, "value")
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

@@ -86,3 +86,13 @@ variable "description" {
   description = "A friendly description of the WebACL"
   default     = null
 }
+
+variable "custom_response_bodies" {
+  type = list(object({
+    key          = string
+    content      = string
+    content_type = string
+  }))
+  description = "Custom response bodies to be referenced on a per rule basis. https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#custom-response-body"
+  default     = []
+}

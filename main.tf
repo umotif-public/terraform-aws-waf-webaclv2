@@ -724,6 +724,14 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
+        dynamic "label_match_statement" {
+          for_each = length(lookup(rule.value, "label_match_statement", {})) == 0 ? [] : [lookup(rule.value, "label_match_statement", {})]
+          content {
+            key   = lookup(label_match_statement.value, "key")
+            scope = lookup(label_match_statement.value, "scope")
+          }
+        }
+
         dynamic "regex_pattern_set_reference_statement" {
           for_each = length(lookup(rule.value, "regex_pattern_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "regex_pattern_set_reference_statement", {})]
           content {

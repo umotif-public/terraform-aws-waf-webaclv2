@@ -89,10 +89,19 @@ resource "aws_wafv2_web_acl" "main" {
         }
       }
 
+      # dynamic "rule_label" {
+      #   for_each = length(lookup(rule.value, "rule_label", {})) == 0 ? [] : [1]
+      #   content {
+      #     name = lookup(rule.value, "rule_label", null)
+      #   }
+      # }
+
       dynamic "rule_label" {
-        for_each = length(lookup(rule.value, "rule_label", {})) == 0 ? [] : [1]
+        for_each = length(lookup(rule.value, "rule_labels", [])) == 0 ? [] : lookup(rule.value, "rule_labels")
+        # for_each = lookup(rule.value, "rule_labels", [])
         content {
-          name = lookup(rule.value, "rule_label", null)
+          name = rule_label.value # Hmm... this actually is not working....
+          # name = lookup(rule_label.value, "name")
         }
       }
 
@@ -721,6 +730,14 @@ resource "aws_wafv2_web_acl" "main" {
                 header_name       = lookup(forwarded_ip_config.value, "header_name")
               }
             }
+          }
+        }
+
+        dynamic "label_match_statement" {
+          for_each = length(lookup(rule.value, "label_match_statement", {})) == 0 ? [] : [lookup(rule.value, "label_match_statement", {})]
+          content {
+            key   = lookup(label_match_statement.value, "key")
+            scope = lookup(label_match_statement.value, "scope")
           }
         }
 

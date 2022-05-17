@@ -53,6 +53,12 @@ module "waf" {
         limit              = 2000 # Note this is by default in a 5-min span, ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#rate_based_statement
         aggregate_key_type = "IP"
       }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "IPRateBased-metric"
+        sampled_requests_enabled   = false
+      }
     },
     {
       # Note: custom responses can not be applied to AWS managed rule groups directly. Must use a label technical, ref: https://aws.amazon.com/blogs/security/how-to-customize-behavior-of-aws-managed-rules-for-aws-waf/
@@ -71,6 +77,12 @@ module "waf" {
           "SignalAutomatedBrowser",
           "CategoryMonitoring"
         ]
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "AWSManagedRulesBotControlRuleSet-metric"
+        sampled_requests_enabled   = false
       }
     }
   ]

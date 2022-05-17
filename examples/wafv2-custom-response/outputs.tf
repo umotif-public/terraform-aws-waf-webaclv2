@@ -22,13 +22,3 @@ output "web_acl_rule_names" {
   description = "List of created rule names"
   value       = module.waf.web_acl_rule_names
 }
-
-output "custom_ip_set_arn" {
-  description = "The ARN of the Custom IP Set"
-  value       = aws_wafv2_ip_set.custom_ip_set.arn
-}
-
-output "block_ip_set_arn" {
-  description = "The ARN of the Block IP Set"
-  value       = aws_wafv2_ip_set.block_ip_set.arn
-}

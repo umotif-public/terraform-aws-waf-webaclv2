@@ -89,6 +89,13 @@ resource "aws_wafv2_web_acl" "main" {
         }
       }
 
+      dynamic "rule_label" {
+        for_each = try(rule.value.rule_labels, [])
+        content {
+          name = rule_label.value
+        }
+      }
+
       statement {
 
         dynamic "managed_rule_group_statement" {
@@ -721,6 +728,14 @@ resource "aws_wafv2_web_acl" "main" {
           for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
           content {
             arn = lookup(ip_set_reference_statement.value, "arn")
+          }
+        }
+
+        dynamic "label_match_statement" {
+          for_each = length(lookup(rule.value, "label_match_statement", {})) == 0 ? [] : [lookup(rule.value, "label_match_statement", {})]
+          content {
+            key   = lookup(label_match_statement.value, "key")
+            scope = lookup(label_match_statement.value, "scope")
           }
         }
 

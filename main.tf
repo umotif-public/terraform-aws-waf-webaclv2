@@ -662,6 +662,15 @@ resource "aws_wafv2_web_acl" "main" {
                     }
                   }
                 }
+
+                # Scope down label_match_statement
+                dynamic "label_match_statement" {
+                  for_each = length(lookup(scope_down_statement.value, "label_match_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "label_match_statement", {})]
+                  content {
+                    key   = lookup(label_match_statement.value, "key")
+                    scope = lookup(label_match_statement.value, "scope")
+                  }
+                }
               }
             }
           }

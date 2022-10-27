@@ -184,7 +184,7 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                         content {
                           arn = lookup(ip_set_reference_statement.value, "arn")
-                          dynamic "forwarded_ip_config" {
+                          dynamic "ip_set_forwarded_ip_config" {
                             for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                             content {
                               fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -371,7 +371,7 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                           content {
                             arn = lookup(ip_set_reference_statement.value, "arn")
-                            dynamic "forwarded_ip_config" {
+                            dynamic "ip_set_forwarded_ip_config" {
                               for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                               content {
                                 fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -434,7 +434,7 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                                 content {
                                   arn = lookup(ip_set_reference_statement.value, "arn")
-                                  dynamic "forwarded_ip_config" {
+                                  dynamic "ip_set_forwarded_ip_config" {
                                     for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                                     content {
                                       fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -637,7 +637,7 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                           content {
                             arn = lookup(ip_set_reference_statement.value, "arn")
-                            dynamic "forwarded_ip_config" {
+                            dynamic "ip_set_forwarded_ip_config" {
                               for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                               content {
                                 fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -769,7 +769,7 @@ resource "aws_wafv2_web_acl" "main" {
           for_each = length(lookup(rule.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(rule.value, "ip_set_reference_statement", {})]
           content {
             arn = lookup(ip_set_reference_statement.value, "arn")
-            dynamic "forwarded_ip_config" {
+            dynamic "ip_set_forwarded_ip_config" {
               for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
               content {
                 fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1011,7 +1011,7 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                         content {
                           arn = lookup(ip_set_reference_statement.value, "arn")
-                          dynamic "forwarded_ip_config" {
+                          dynamic "ip_set_forwarded_ip_config" {
                             for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                             content {
                               fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1164,7 +1164,7 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                           content {
                             arn = lookup(ip_set_reference_statement.value, "arn")
-                            dynamic "forwarded_ip_config" {
+                            dynamic "ip_set_forwarded_ip_config" {
                               for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                               content {
                                 fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1198,7 +1198,7 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                                 content {
                                   arn = lookup(ip_set_reference_statement.value, "arn")
-                                  dynamic "forwarded_ip_config" {
+                                  dynamic "ip_set_forwarded_ip_config" {
                                     for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                                     content {
                                       fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1355,7 +1355,7 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                           content {
                             arn = lookup(ip_set_reference_statement.value, "arn")
-                            dynamic "forwarded_ip_config" {
+                            dynamic "ip_set_forwarded_ip_config" {
                               for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                               content {
                                 fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1529,7 +1529,7 @@ resource "aws_wafv2_web_acl" "main" {
                 for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                 content {
                   arn = lookup(ip_set_reference_statement.value, "arn")
-                  dynamic "forwarded_ip_config" {
+                  dynamic "ip_set_forwarded_ip_config" {
                     for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                     content {
                       fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1668,7 +1668,7 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                   content {
                     arn = lookup(ip_set_reference_statement.value, "arn")
-                    dynamic "forwarded_ip_config" {
+                    dynamic "ip_set_forwarded_ip_config" {
                       for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                       content {
                         fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1801,7 +1801,7 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                         content {
                           arn = lookup(ip_set_reference_statement.value, "arn")
-                          dynamic "forwarded_ip_config" {
+                          dynamic "ip_set_forwarded_ip_config" {
                             for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                             content {
                               fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -1945,7 +1945,7 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(statement.value, "ip_set_reference_statement", {})]
                   content {
                     arn = lookup(ip_set_reference_statement.value, "arn")
-                    dynamic "forwarded_ip_config" {
+                    dynamic "ip_set_forwarded_ip_config" {
                       for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                       content {
                         fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
@@ -2077,7 +2077,7 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(not_statement.value, "ip_set_reference_statement", {})) == 0 ? [] : [lookup(not_statement.value, "ip_set_reference_statement", {})]
                         content {
                           arn = lookup(ip_set_reference_statement.value, "arn")
-                          dynamic "forwarded_ip_config" {
+                          dynamic "ip_set_forwarded_ip_config" {
                             for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
                             content {
                               fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")

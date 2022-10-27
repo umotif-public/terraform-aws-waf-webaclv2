@@ -5,14 +5,21 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- feat: add label_match_statement to managed_rule_group_statement
-
-
-<a name="3.8.0"></a>
-## [3.8.0] - 2022-05-18
-
-- feat: add label_match_statement & rule_labels ([#58](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/58))
-- Custom Block Response ([#56](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/56))
+- [Variable] typo fix.
+- [refactor] response_key to custom_response_body_key to better match underlying tf resource.
+- [Examples] typo fix.
+- [Custom Response] block variable input.
+- [Examples] fix.
+- [Custom Response Bodies] supported for multiplexed custom body definitions. Dropped the enabled variable as not needed.
+- [README] updated to list custom responses capabilities.
+- [make] changelog
+- [make] validate.
+- [Formatting] main.tf
+- [Custom Response] handling on per rules basis with dynamic block definitions.
+- [Formatting]
+- [Variable] definition typo in type fix.
+- [README] updated with input info.
+- [Block] custom_response http status code.
 
 
 <a name="3.7.3"></a>
@@ -37,12 +44,6 @@ All notable changes to this project will be documented in this file.
 ## [3.7.0] - 2022-03-31
 
 - Added support for forwarded_ip_config inside of geo_match_statement ([#49](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/49))
-
-
-<a name="3.6.0-patch-1"></a>
-## [3.6.0-patch-1] - 2022-03-22
-
-- Added support for forwarded_ip_config inside of geo_match_statement
 
 
 <a name="3.6.0"></a>
@@ -200,13 +201,11 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.0...HEAD
-[3.8.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.3...3.8.0
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.3...HEAD
 [3.7.3]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.2...3.7.3
 [3.7.2]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.1...3.7.2
 [3.7.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.0...3.7.1
-[3.7.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0-patch-1...3.7.0
-[3.6.0-patch-1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0...3.6.0-patch-1
+[3.7.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.6.0...3.7.0
 [3.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.5.0...3.6.0
 [3.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.4.0...3.5.0
 [3.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.3.0...3.4.0

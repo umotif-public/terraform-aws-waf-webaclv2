@@ -157,7 +157,7 @@ module "waf" {
         arn = aws_wafv2_ip_set.custom_ip_set.arn
       }
 
-      forwarded_ip_config = {
+      ip_set_forwarded_ip_config = {
         header_name       = "X-Forwarded-For"
         fallback_behavior = "NO_MATCH"
         position          = "ANY"
@@ -178,7 +178,7 @@ module "waf" {
         arn = aws_wafv2_ip_set.block_ip_set.arn
       }
 
-      forwarded_ip_config = {
+      ip_set_forwarded_ip_config = {
         header_name       = "X-Forwarded-For"
         fallback_behavior = "NO_MATCH"
         position          = "ANY"

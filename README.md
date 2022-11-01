@@ -18,6 +18,7 @@ Supported WAF v2 components:
 - Regex Match statements
 - Regex Pattern Match statements
 - Custom responses
+- Attach Custom Rule Groups
 
 ## Terraform versions
 
@@ -239,6 +240,23 @@ module "waf" {
           priority              = 0
           type                  = "NONE"
         }
+    ### Attach Custom Rule Group example
+    {
+      name     = "CustomRuleGroup-1"
+      priority = "9"
+
+      override_action = "none"
+      excluded_rules = []
+      
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "CustomRuleGroup-metric"
+        sampled_requests_enabled   = false
+      }
+
+      rule_group_reference_statement = {
+        arn = "arn:aws:wafv2:eu-west-1:111122223333:regional/rulegroup/rulegroup-test/a1bcdef2-1234-123a-abc0-1234a5bc67d8"
+      }
     },
     ### Size constraint Rule example
     # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#size-constraint-statement

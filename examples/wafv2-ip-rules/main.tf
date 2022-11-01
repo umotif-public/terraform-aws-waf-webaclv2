@@ -178,12 +178,32 @@ module "waf" {
       }
     },
     {
-      name     = "block-ip-set"
+      name     = "allow-custom-ip-set-with-XFF-header"
       priority = "5"
+      action   = "count"
+
+      ip_set_reference_statement = {
+        arn = aws_wafv2_ip_set.custom_ip_set.arn
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
+    {
+      name     = "block-ip-set"
+      priority = "6"
       action   = "block"
 
       ip_set_reference_statement = {
         arn = aws_wafv2_ip_set.block_ip_set.arn
+
+        ip_set_forwarded_ip_config = {
+            fallback_behavior = "NO_MATCH"
+            header_name       = "X-Forwarded-For"
+            position          = "ANY"
+          }
       }
 
       forwarded_ip_config = {

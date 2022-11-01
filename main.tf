@@ -1018,7 +1018,7 @@ resource "aws_wafv2_web_acl" "main" {
           content {
             arn = lookup(ip_set_reference_statement.value, "arn")
             dynamic "ip_set_forwarded_ip_config" {
-              for_each = length(lookup(ip_set_reference_statement.value, "ip_set_forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "ip_set_forwarded_ip_config ", {})]
+              for_each = length(lookup(rule.value, "ip_set_forwarded_ip_config", {})) == 0 ? [] : [lookup(rule.value, "geo_match_statement", {})]
               content {
                 fallback_behavior = lookup(ip_set_forwarded_ip_config.value, "fallback_behavior")
                 header_name       = lookup(ip_set_forwarded_ip_config.value, "header_name")

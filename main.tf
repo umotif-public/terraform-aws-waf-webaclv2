@@ -1020,9 +1020,9 @@ resource "aws_wafv2_web_acl" "main" {
             dynamic "ip_set_forwarded_ip_config" {
               for_each = length(lookup(ip_set_reference_statement.value, "ip_set_forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "ip_set_forwarded_ip_config ", {})]
               content {
-                fallback_behavior = lookup(ip_set_reference_statement.value, "fallback_behavior")
-                header_name       = lookup(ip_set_reference_statement.value, "header_name")
-                position          = lookup(ip_set_reference_statement.value, "position")
+                fallback_behavior = lookup(ip_set_forwarded_ip_config.value, "fallback_behavior")
+                header_name       = lookup(ip_set_forwarded_ip_config.value, "header_name")
+                position          = lookup(ip_set_forwarded_ip_config.value, "position")
               }
             }
           }

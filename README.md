@@ -63,11 +63,15 @@ module "waf" {
       managed_rule_group_statement = {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
-        excluded_rule = [
-          "SizeRestrictions_QUERYSTRING",
+        rule_action_override = {
+          action_to_use = {
+            count = {}
+          }
+
+          name = "SizeRestrictions_QUERYSTRING",
           "SizeRestrictions_BODY",
           "GenericRFI_QUERYARGUMENTS"
-        ]
+        }
       }
     },
     {

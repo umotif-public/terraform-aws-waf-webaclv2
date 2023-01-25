@@ -119,10 +119,19 @@ resource "aws_wafv2_web_acl" "main" {
             vendor_name = lookup(managed_rule_group_statement.value, "vendor_name", "AWS")
             version     = lookup(managed_rule_group_statement.value, "version", null)
 
-            dynamic "excluded_rule" {
-              for_each = length(lookup(managed_rule_group_statement.value, "excluded_rule", {})) == 0 ? [] : toset(lookup(managed_rule_group_statement.value, "excluded_rule"))
+            dynamic "rule_action_override" {
+              for_each = lookup(managed_rule_group_statement.value, "rule_action_override", null) == null ? [] : [lookup(managed_rule_group_statement.value, "rule_action_override")]
               content {
-                name = excluded_rule.value
+                name = lookup(rule_action_override.value, "name")
+                dynamic "action_to_use" {
+                  for_each = [lookup(rule_action_override.value, "action_to_use")]
+                  content {
+                    dynamic "count" {
+                      for_each = lookup(action_to_use.value, "count", null) == null ? [] : [lookup(action_to_use.value, "count")]
+                      content {}
+                    }
+                  }
+                }
               }
             }
 
@@ -1109,7 +1118,7 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {
-                    oversize_handling = upper(lookup(body.value, "oversize_handling"))
+                    #oversize_handling = upper(lookup(body.value, "oversize_handling"))
                   }
                 }
                 dynamic "method" {

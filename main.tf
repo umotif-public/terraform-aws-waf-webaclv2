@@ -1094,9 +1094,7 @@ resource "aws_wafv2_web_acl" "main" {
                 }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
-                  content {
-                    oversize_handling = upper(lookup(body.value, "oversize_handling"))
-                  }
+                  content {}
                 }
                 dynamic "method" {
                   for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]

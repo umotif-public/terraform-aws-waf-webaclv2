@@ -1,7 +1,14 @@
+terraform {
+  required_version = ">= 0.13.7"
+
+  required_providers {
+    aws = ">= 4.0.0"
+  }
+}
+
 provider "aws" {
   region = "eu-west-1"
 }
-
 #####
 # Web Application Firewall configuration
 #####
@@ -32,9 +39,9 @@ module "waf" {
         field_to_match = {
           uri_path = "{}"
         }
-        regex_string         = "^/(path1|path2)/"
-        priority              = 0
-        type                  = "NONE"
+        regex_string = "^/(path1|path2)/"
+        priority     = 0
+        type         = "NONE"
       }
 
       visibility_config = {

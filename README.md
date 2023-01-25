@@ -15,6 +15,7 @@ Supported WAF v2 components:
 - Logical Statements (AND, OR, NOT)
 - Size constraint statements
 - Label Match statements
+- Regex Match statements
 - Regex Pattern Match statements
 - Custom responses
 
@@ -216,6 +217,28 @@ module "waf" {
           type                  = "NONE"
         }
       }
+    },
+    ### Regex Match Rule example
+    {
+      name     = "RegexMatchRule-9"
+      priority = "9"
+
+      action = "allow"
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        metric_name                = "RegexMatchRule-metric"
+        sampled_requests_enabled   = false
+      }
+
+      byte_match_statement = {
+          field_to_match = {
+            uri_path = "{}"
+          }
+          regex_string         = "/foo/"
+          priority              = 0
+          type                  = "NONE"
+        }
     },
     ### Size constraint Rule example
     # Refer to https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#size-constraint-statement

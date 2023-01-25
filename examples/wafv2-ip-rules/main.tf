@@ -200,10 +200,10 @@ module "waf" {
         arn = aws_wafv2_ip_set.block_ip_set.arn
 
         ip_set_forwarded_ip_config = {
-            fallback_behavior = "NO_MATCH"
-            header_name       = "X-Forwarded-For"
-            position          = "ANY"
-          }
+          fallback_behavior = "NO_MATCH"
+          header_name       = "X-Forwarded-For"
+          position          = "ANY"
+        }
       }
 
       forwarded_ip_config = {

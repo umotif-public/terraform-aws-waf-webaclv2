@@ -165,6 +165,13 @@ module "waf" {
         arn = aws_wafv2_ip_set.custom_ip_set.arn
       }
 
+      forwarded_ip_config = {
+        header_name       = "X-Forwarded-For"
+        fallback_behavior = "NO_MATCH"
+        position          = "ANY"
+      }
+
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         sampled_requests_enabled   = false
@@ -178,6 +185,13 @@ module "waf" {
       ip_set_reference_statement = {
         arn = aws_wafv2_ip_set.block_ip_set.arn
       }
+
+      forwarded_ip_config = {
+        header_name       = "X-Forwarded-For"
+        fallback_behavior = "NO_MATCH"
+        position          = "ANY"
+      }
+
 
       visibility_config = {
         cloudwatch_metrics_enabled = false

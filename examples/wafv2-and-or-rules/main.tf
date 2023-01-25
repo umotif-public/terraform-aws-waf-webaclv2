@@ -158,8 +158,8 @@ module "waf" {
           },
           {
             not_statement = {
-	      regex_pattern_set_reference_statement = {
-	        arn = aws_wafv2_ip_set.custom_regex_pattern_set.arn 
+              regex_pattern_set_reference_statement = {
+                arn = aws_wafv2_ip_set.custom_regex_pattern_set.arn
                 field_to_match = {
                   single_header = {
                     name = "user-agent"
@@ -167,7 +167,7 @@ module "waf" {
                 }
                 priority = 0
                 type     = "LOWERCASE" # The text transformation type
-	      }
+              }
             }
           },
         ]

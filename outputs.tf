@@ -60,5 +60,5 @@ output "web_acl_assoc_alb_list_acl_arn" {
 
 output "web_acl_logging_configuration_id" {
   description = "The ID of the Web ACL logging configuration resource"
-  value       = try(aws_wafv2_web_acl_logging_configuration.main[0].*.id, "")
+  value       = try(aws_wafv2_web_acl_logging_configuration.main[0].id, "")
 }

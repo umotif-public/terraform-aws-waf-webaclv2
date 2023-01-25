@@ -57,3 +57,8 @@ output "web_acl_assoc_alb_list_acl_arn" {
   description = "The ARN of the Web ACL attached to the Web ACL Association for the alb_list resource"
   value       = try(join(", ", aws_wafv2_web_acl_association.alb_list[0].web_acl_arn), "")
 }
+
+output "web_acl_logging_configuration_id" {
+  description = "The ID of the Web ACL logging configuration resource"
+  value       = try(aws_wafv2_web_acl_logging_configuration.main[0].id, "")
+}

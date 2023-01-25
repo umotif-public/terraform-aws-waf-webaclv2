@@ -285,7 +285,7 @@ module "waf" {
 
       override_action = "none"
       excluded_rules = []
-      
+
       visibility_config = {
         cloudwatch_metrics_enabled = false
         metric_name                = "CustomRuleGroup-metric"

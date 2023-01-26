@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.13.7"
 
   required_providers {
-    aws = ">= 4.0.0"
+    aws = ">= 4.44.0"
   }
 }
 
@@ -47,11 +47,6 @@ module "waf" {
         name        = "AWSManagedRulesCommonRuleSet"
         vendor_name = "AWS"
         version     = "Version_2.0"
-        excluded_rule = [
-          "SizeRestrictions_QUERYSTRING",
-          "SizeRestrictions_BODY",
-          "GenericRFI_QUERYARGUMENTS"
-        ]
       }
     },
     {

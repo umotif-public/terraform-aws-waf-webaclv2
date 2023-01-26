@@ -22,19 +22,18 @@ Supported WAF v2 components:
 
 ## Terraform versions
 
-Terraform 0.13+ Pin module version to `~> v3.0`. Submit pull-requests to `main` branch.
-Terraform 0.12 < 0.13. Pin module version to `~> v1.0`.
+Terraform 0.13+ Pin module version to `~> 4.0`. Submit pull-requests to `main` branch.
 
 ## Usage
 
 Please pin down version of this module to exact version
 
-If referring directly to the code instead of a pinned version, take note that from release 3.0.0 all future changes will only be made to the `main` branch.
+If referring directly to the code instead of a pinned version, take note that from release 4.0.0 all future changes will only be made to the `main` branch.
 
 ```hcl
 module "waf" {
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.0"
+  version = "~> 4.0.0"
 
   name_prefix = "test-waf-setup"
   alb_arn     = module.alb.arn
@@ -250,7 +249,6 @@ module "waf" {
       priority = "9"
 
       override_action = "none"
-      excluded_rules = []
 
       visibility_config = {
         cloudwatch_metrics_enabled = false
@@ -288,7 +286,6 @@ module "waf" {
       priority = "9"
 
       override_action = "none"
-      excluded_rules = []
 
       visibility_config = {
         cloudwatch_metrics_enabled = false
@@ -370,7 +367,7 @@ module "waf" {
 provider "aws" {
   alias = "us-east"
 
-  version = ">= 3.38"
+  version = ">= 4.44.0"
   region  = "us-east-1"
 }
 
@@ -380,7 +377,7 @@ module "waf" {
   }
 
   source = "umotif-public/waf-webaclv2/aws"
-  version = "~> 3.0.0"
+  version = "~> 4.0.0"
 
   name_prefix = "test-waf-setup-cloudfront"
   scope = "CLOUDFRONT"
@@ -418,13 +415,13 @@ Module managed by:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.7 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.44.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.44.0 |
 
 ## Modules
 

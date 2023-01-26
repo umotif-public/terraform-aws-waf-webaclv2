@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+
+
+<a name="4.0.0"></a>
+## [4.0.0] - 2023-01-25
+
+- Update Changelog ([#78](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/78))
 - Exclude rule deprecated in AWS ([#77](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/77))
 - Add output `web_acl_logging_configuration_id` ([#75](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/75))
 - Add dynamic rule_group_reference_statement block to attach custom rule groups ([#70](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/70))
@@ -219,7 +225,8 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.1...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.0...HEAD
+[4.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.1...4.0.0
 [3.8.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.0...3.8.1
 [3.8.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.3...3.8.0
 [3.7.3]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.7.2...3.7.3

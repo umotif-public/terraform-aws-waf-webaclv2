@@ -52,12 +52,12 @@ resource "aws_wafv2_web_acl" "main" {
           }
 
           dynamic "captcha" {
-            for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
+            for_each = lookup(rule.value, "action", {}) == "captcha" ? [1] : []
             content {}
           }
 
           dynamic "challenge" {
-            for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
+            for_each = lookup(rule.value, "action", {}) == "challenge" ? [1] : []
             content {}
           }
 

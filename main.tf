@@ -51,6 +51,16 @@ resource "aws_wafv2_web_acl" "main" {
             content {}
           }
 
+          dynamic "captcha" {
+            for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
+            content {}
+          }
+
+          dynamic "challenge" {
+            for_each = lookup(rule.value, "action", {}) == "count" ? [1] : []
+            content {}
+          }
+
           dynamic "block" {
             for_each = lookup(rule.value, "action", {}) == "block" ? [1] : []
             content {

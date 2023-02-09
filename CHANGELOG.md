@@ -5,7 +5,9 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Match Pattern Headers ([#1](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/1))
+- fix: typo
+- feat: action block cpatcha and chanllenge rules.
+- Fix: Match Pattern Headers ([#82](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/82))
 
 
 <a name="4.0.1"></a>

@@ -26,7 +26,7 @@ resource "aws_wafv2_web_acl" "main" {
 
     dynamic "block" {
       for_each = var.allow_default_action ? [] : [1]
-      # Despite seemingly would want to add default custom_response defintions here, the docs state an empyt configuration block is required. ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#default-action
+      # Despite seemingly would want to add default custom_response defintions here, the docs state an empty configuration block is required. ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/wafv2_web_acl#default-action
       content {}
     }
   }
@@ -171,6 +171,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -213,6 +231,24 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                           content {
                             name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                           }
                         }
                       }
@@ -293,6 +329,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -335,6 +389,24 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                 content {
                                   name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                 }
                               }
                             }
@@ -396,6 +468,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           text_transformation {
@@ -449,6 +539,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -491,6 +599,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                   content {
                                     name = lower(lookup(single_header.value, "name"))
+                                  }
+                                }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                   }
                                 }
                               }
@@ -568,6 +694,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             text_transformation {
@@ -629,6 +773,24 @@ resource "aws_wafv2_web_acl" "main" {
                                           name = lower(lookup(single_header.value, "name"))
                                         }
                                       }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                        }
+                                      }
                                     }
                                   }
                                   positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -671,6 +833,24 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                         content {
                                           name = lower(lookup(single_header.value, "name"))
+                                        }
+                                      }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                         }
                                       }
                                     }
@@ -741,6 +921,24 @@ resource "aws_wafv2_web_acl" "main" {
                                           name = lower(lookup(single_header.value, "name"))
                                         }
                                       }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                        }
+                                      }
                                     }
                                   }
                                   text_transformation {
@@ -801,6 +999,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -843,6 +1059,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                   content {
                                     name = lower(lookup(single_header.value, "name"))
+                                  }
+                                }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                   }
                                 }
                               }
@@ -920,6 +1154,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             text_transformation {
@@ -969,6 +1221,24 @@ resource "aws_wafv2_web_acl" "main" {
                     name = lower(lookup(single_header.value, "name"))
                   }
                 }
+                dynamic "headers" {
+                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                  content {
+                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    dynamic "match_pattern" {
+                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                      content {
+                        dynamic "all" {
+                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                          content {}
+                        }
+                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                      }
+                    }
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                  }
+                }
               }
             }
             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1010,6 +1280,24 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                   content {
                     name = lower(lookup(single_header.value, "name"))
+                  }
+                }
+                dynamic "headers" {
+                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                  content {
+                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    dynamic "match_pattern" {
+                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                      content {
+                        dynamic "all" {
+                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                          content {}
+                        }
+                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                      }
+                    }
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                   }
                 }
               }
@@ -1092,6 +1380,24 @@ resource "aws_wafv2_web_acl" "main" {
                     name = lower(lookup(single_header.value, "name"))
                   }
                 }
+                dynamic "headers" {
+                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                  content {
+                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    dynamic "match_pattern" {
+                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                      content {
+                        dynamic "all" {
+                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                          content {}
+                        }
+                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                      }
+                    }
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                  }
+                }
               }
             }
             text_transformation {
@@ -1118,7 +1424,7 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {
-                    #oversize_handling = upper(lookup(body.value, "oversize_handling"))
+                    oversize_handling = upper(lookup(body.value, "oversize_handling"))
                   }
                 }
                 dynamic "method" {
@@ -1133,6 +1439,24 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                   content {
                     name = lower(lookup(single_header.value, "name"))
+                  }
+                }
+                dynamic "headers" {
+                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                  content {
+                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    dynamic "match_pattern" {
+                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                      content {
+                        dynamic "all" {
+                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                          content {}
+                        }
+                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                      }
+                    }
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                   }
                 }
               }
@@ -1196,6 +1520,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1238,6 +1580,24 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                           content {
                             name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                           }
                         }
                       }
@@ -1308,6 +1668,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     text_transformation {
@@ -1370,6 +1748,25 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1412,6 +1809,24 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                 content {
                                   name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                 }
                               }
                             }
@@ -1492,6 +1907,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1534,6 +1967,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                   content {
                                     name = lower(lookup(single_header.value, "name"))
+                                  }
+                                }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                   }
                                 }
                               }
@@ -1643,6 +2094,24 @@ resource "aws_wafv2_web_acl" "main" {
                                           name = lower(lookup(single_header.value, "name"))
                                         }
                                       }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                        }
+                                      }
                                     }
                                   }
                                   positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1685,6 +2154,24 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                         content {
                                           name = lower(lookup(single_header.value, "name"))
+                                        }
+                                      }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                         }
                                       }
                                     }
@@ -1769,6 +2256,24 @@ resource "aws_wafv2_web_acl" "main" {
                                     name = lower(lookup(single_header.value, "name"))
                                   }
                                 }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
                               }
                             }
                             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1811,6 +2316,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                   content {
                                     name = lower(lookup(single_header.value, "name"))
+                                  }
+                                }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                   }
                                 }
                               }
@@ -1901,6 +2424,24 @@ resource "aws_wafv2_web_acl" "main" {
                                           name = lower(lookup(single_header.value, "name"))
                                         }
                                       }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                        }
+                                      }
                                     }
                                   }
                                   positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -1943,6 +2484,24 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                         content {
                                           name = lower(lookup(single_header.value, "name"))
+                                        }
+                                      }
+                                      dynamic "headers" {
+                                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                        content {
+                                          match_scope = upper(lookup(headers.value, "match_scope"))
+                                          dynamic "match_pattern" {
+                                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                            content {
+                                              dynamic "all" {
+                                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                                content {}
+                                              }
+                                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                            }
+                                          }
+                                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                         }
                                       }
                                     }
@@ -2029,6 +2588,24 @@ resource "aws_wafv2_web_acl" "main" {
                           name = lower(lookup(single_header.value, "name"))
                         }
                       }
+                      dynamic "headers" {
+                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                        content {
+                          match_scope = upper(lookup(headers.value, "match_scope"))
+                          dynamic "match_pattern" {
+                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                            content {
+                              dynamic "all" {
+                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                content {}
+                              }
+                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                            }
+                          }
+                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                        }
+                      }
                     }
                   }
                   positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -2071,6 +2648,24 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                         content {
                           name = lower(lookup(single_header.value, "name"))
+                        }
+                      }
+                      dynamic "headers" {
+                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                        content {
+                          match_scope = upper(lookup(headers.value, "match_scope"))
+                          dynamic "match_pattern" {
+                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                            content {
+                              dynamic "all" {
+                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                content {}
+                              }
+                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                            }
+                          }
+                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                         }
                       }
                     }
@@ -2157,6 +2752,24 @@ resource "aws_wafv2_web_acl" "main" {
                           name = lower(lookup(single_header.value, "name"))
                         }
                       }
+                      dynamic "headers" {
+                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                        content {
+                          match_scope = upper(lookup(headers.value, "match_scope"))
+                          dynamic "match_pattern" {
+                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                            content {
+                              dynamic "all" {
+                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                content {}
+                              }
+                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                            }
+                          }
+                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                        }
+                      }
                     }
                   }
                   text_transformation {
@@ -2211,6 +2824,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -2253,6 +2884,24 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                           content {
                             name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                           }
                         }
                       }
@@ -2339,6 +2988,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     text_transformation {
@@ -2387,6 +3054,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -2429,6 +3114,24 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                 content {
                                   name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                 }
                               }
                             }
@@ -2515,6 +3218,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           text_transformation {
@@ -2574,6 +3295,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -2616,6 +3355,24 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                           content {
                             name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                           }
                         }
                       }
@@ -2702,6 +3459,24 @@ resource "aws_wafv2_web_acl" "main" {
                             name = lower(lookup(single_header.value, "name"))
                           }
                         }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
                       }
                     }
                     text_transformation {
@@ -2749,6 +3524,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   name = lower(lookup(single_header.value, "name"))
                                 }
                               }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
                             }
                           }
                           positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
@@ -2791,6 +3584,24 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                 content {
                                   name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                 }
                               }
                             }
@@ -2875,6 +3686,24 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
                                 content {
                                   name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                                 }
                               }
                             }

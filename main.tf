@@ -130,7 +130,7 @@ resource "aws_wafv2_web_acl" "main" {
             version     = lookup(managed_rule_group_statement.value, "version", null)
 
             dynamic "rule_action_override" {
-              for_each = lookup(managed_rule_group_statement.value, "rule_action_override", null) == null ? [] : toset(lookup(managed_rule_group_statement.value, "rule_action_override"))
+              for_each = lookup(managed_rule_group_statement.value, "rule_action_overrides", null) == null ? [] : lookup(managed_rule_group_statement.value, "rule_action_overrides")
               content {
                 name = lookup(rule_action_override.value, "name")
                 dynamic "action_to_use" {

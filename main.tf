@@ -155,6 +155,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -217,6 +235,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -313,6 +349,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -375,6 +429,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -452,6 +524,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -523,6 +613,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -585,6 +693,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -678,6 +804,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -757,6 +901,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -819,6 +981,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -905,6 +1085,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -983,6 +1181,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -1045,6 +1261,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -1138,6 +1372,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -1205,6 +1457,24 @@ resource "aws_wafv2_web_acl" "main" {
             dynamic "field_to_match" {
               for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
               content {
+                dynamic "cookies" {
+                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                  content {
+                  	match_scope = lookup(cookies.value, "match_scope")
+                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                  	dynamic "match_pattern" {
+                  		for_each = [lookup(cookies.value, "match_pattern")]
+                  		content {
+                  			dynamic "all" {
+                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                  				content {}
+                  			}
+                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                  		}
+                  	}
+                  }
+                }
                 dynamic "uri_path" {
                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                   content {}
@@ -1266,6 +1536,24 @@ resource "aws_wafv2_web_acl" "main" {
             dynamic "field_to_match" {
               for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
               content {
+                dynamic "cookies" {
+                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                  content {
+                  	match_scope = lookup(cookies.value, "match_scope")
+                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                  	dynamic "match_pattern" {
+                  		for_each = [lookup(cookies.value, "match_pattern")]
+                  		content {
+                  			dynamic "all" {
+                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                  				content {}
+                  			}
+                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                  		}
+                  	}
+                  }
+                }
                 dynamic "uri_path" {
                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                   content {}
@@ -1364,6 +1652,24 @@ resource "aws_wafv2_web_acl" "main" {
             dynamic "field_to_match" {
               for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
               content {
+                dynamic "cookies" {
+                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                  content {
+                  	match_scope = lookup(cookies.value, "match_scope")
+                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                  	dynamic "match_pattern" {
+                  		for_each = [lookup(cookies.value, "match_pattern")]
+                  		content {
+                  			dynamic "all" {
+                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                  				content {}
+                  			}
+                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                  		}
+                  	}
+                  }
+                }
                 dynamic "uri_path" {
                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                   content {}
@@ -1423,6 +1729,24 @@ resource "aws_wafv2_web_acl" "main" {
             dynamic "field_to_match" {
               for_each = length(lookup(size_constraint_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(size_constraint_statement.value, "field_to_match", {})]
               content {
+                dynamic "cookies" {
+                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                  content {
+                  	match_scope = lookup(cookies.value, "match_scope")
+                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                  	dynamic "match_pattern" {
+                  		for_each = [lookup(cookies.value, "match_pattern")]
+                  		content {
+                  			dynamic "all" {
+                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                  				content {}
+                  			}
+                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                  		}
+                  	}
+                  }
+                }
                 dynamic "uri_path" {
                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                   content {}
@@ -1504,6 +1828,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -1566,6 +1908,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -1652,6 +2012,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -1732,6 +2110,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -1795,6 +2191,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -1891,6 +2305,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -1953,6 +2385,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -2078,6 +2528,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -2140,6 +2608,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -2240,6 +2726,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -2302,6 +2806,24 @@ resource "aws_wafv2_web_acl" "main" {
                             dynamic "field_to_match" {
                               for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                               content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                  	match_scope = lookup(cookies.value, "match_scope")
+                                  	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  	dynamic "match_pattern" {
+                                  		for_each = [lookup(cookies.value, "match_pattern")]
+                                  		content {
+                                  			dynamic "all" {
+                                  				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  				content {}
+                                  			}
+                                  			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                  			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                  		}
+                                  	}
+                                  }
+                                }
                                 dynamic "uri_path" {
                                   for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                   content {}
@@ -2408,6 +2930,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -2470,6 +3010,24 @@ resource "aws_wafv2_web_acl" "main" {
                                   dynamic "field_to_match" {
                                     for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                                     content {
+                                      dynamic "cookies" {
+                                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                        content {
+                                        	match_scope = lookup(cookies.value, "match_scope")
+                                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                        	dynamic "match_pattern" {
+                                        		for_each = [lookup(cookies.value, "match_pattern")]
+                                        		content {
+                                        			dynamic "all" {
+                                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        				content {}
+                                        			}
+                                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                        		}
+                                        	}
+                                        }
+                                      }
                                       dynamic "uri_path" {
                                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                         content {}
@@ -2572,6 +3130,24 @@ resource "aws_wafv2_web_acl" "main" {
                   dynamic "field_to_match" {
                     for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                     content {
+                      dynamic "cookies" {
+                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                        content {
+                        	match_scope = lookup(cookies.value, "match_scope")
+                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                        	dynamic "match_pattern" {
+                        		for_each = [lookup(cookies.value, "match_pattern")]
+                        		content {
+                        			dynamic "all" {
+                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                        				content {}
+                        			}
+                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                        		}
+                        	}
+                        }
+                      }
                       dynamic "uri_path" {
                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                         content {}
@@ -2634,6 +3210,24 @@ resource "aws_wafv2_web_acl" "main" {
                   dynamic "field_to_match" {
                     for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                     content {
+                      dynamic "cookies" {
+                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                        content {
+                        	match_scope = lookup(cookies.value, "match_scope")
+                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                        	dynamic "match_pattern" {
+                        		for_each = [lookup(cookies.value, "match_pattern")]
+                        		content {
+                        			dynamic "all" {
+                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                        				content {}
+                        			}
+                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                        		}
+                        	}
+                        }
+                      }
                       dynamic "uri_path" {
                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                         content {}
@@ -2736,6 +3330,24 @@ resource "aws_wafv2_web_acl" "main" {
                   dynamic "field_to_match" {
                     for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                     content {
+                      dynamic "cookies" {
+                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                        content {
+                        	match_scope = lookup(cookies.value, "match_scope")
+                        	oversize_handling = lookup(cookies.value, "oversize_handling")
+                        	dynamic "match_pattern" {
+                        		for_each = [lookup(cookies.value, "match_pattern")]
+                        		content {
+                        			dynamic "all" {
+                        				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                        				content {}
+                        			}
+                        			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                        			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                        		}
+                        	}
+                        }
+                      }
                       dynamic "uri_path" {
                         for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                         content {}
@@ -2808,6 +3420,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -2870,6 +3500,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -2972,6 +3620,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -3038,6 +3704,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -3100,6 +3784,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -3202,6 +3904,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -3279,6 +3999,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -3341,6 +4079,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -3443,6 +4199,24 @@ resource "aws_wafv2_web_acl" "main" {
                     dynamic "field_to_match" {
                       for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                       content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                          	match_scope = lookup(cookies.value, "match_scope")
+                          	oversize_handling = lookup(cookies.value, "oversize_handling")
+                          	dynamic "match_pattern" {
+                          		for_each = [lookup(cookies.value, "match_pattern")]
+                          		content {
+                          			dynamic "all" {
+                          				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                          				content {}
+                          			}
+                          			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                          			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                          		}
+                          	}
+                          }
+                        }
                         dynamic "uri_path" {
                           for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                           content {}
@@ -3508,6 +4282,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(byte_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(byte_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -3570,6 +4362,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_match_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}
@@ -3672,6 +4482,24 @@ resource "aws_wafv2_web_acl" "main" {
                           dynamic "field_to_match" {
                             for_each = length(lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(regex_pattern_set_reference_statement.value, "field_to_match", {})]
                             content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                	match_scope = lookup(cookies.value, "match_scope")
+                                	oversize_handling = lookup(cookies.value, "oversize_handling")
+                                	dynamic "match_pattern" {
+                                		for_each = [lookup(cookies.value, "match_pattern")]
+                                		content {
+                                			dynamic "all" {
+                                				for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                				content {}
+                                			}
+                                			included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                			excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                		}
+                                	}
+                                }
+                              }
                               dynamic "uri_path" {
                                 for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
                                 content {}

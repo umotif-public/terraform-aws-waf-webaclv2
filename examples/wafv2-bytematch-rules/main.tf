@@ -130,6 +130,31 @@ module "waf" {
         cloudwatch_metrics_enabled = false
         sampled_requests_enabled   = false
       }
+    },
+    {
+      # Blocks a single user by checking the username header
+      name     = "block-cookie"
+      priority = "6"
+      action   = "block"
+
+      byte_match_statement = {
+        field_to_match = {
+          cookies = {
+            match_pattern = {
+              "all" = {}
+            }
+          }
+        }
+        positional_constraint = "CONTAINS"
+        search_string         = "cookie"
+        priority              = 0
+        type                  = "NONE" # The text transformation type
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
     }
   ]
 

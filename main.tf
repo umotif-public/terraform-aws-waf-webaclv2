@@ -129,6 +129,18 @@ resource "aws_wafv2_web_acl" "main" {
             vendor_name = lookup(managed_rule_group_statement.value, "vendor_name", "AWS")
             version     = lookup(managed_rule_group_statement.value, "version", null)
 
+            dynamic "managed_rule_group_configs" {
+                  for_each = length(lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})) == 0 ? [] : [lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})]
+                  content {
+                    dynamic "aws_managed_rules_bot_control_rule_set" {
+                      for_each = length(lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})) == 0 ? [] : [lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})]
+                      content {
+                        inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
+                      }
+                    }
+                  }
+                }
+
             dynamic "rule_action_override" {
               for_each = lookup(managed_rule_group_statement.value, "rule_action_overrides", null) == null ? [] : lookup(managed_rule_group_statement.value, "rule_action_overrides")
               content {

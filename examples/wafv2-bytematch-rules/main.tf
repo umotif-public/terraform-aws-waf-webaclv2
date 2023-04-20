@@ -144,7 +144,7 @@ module "waf" {
                 "all" = {}
               }
               match_scope = "Key"
-              override_action = "CONTINUE" 
+              oversize_handling = "CONTINUE" 
             }
           }
           positional_constraint = "CONTAINS"

@@ -5,8 +5,42 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- fix: typo
-- feat: action block cpatcha and chanllenge rules.
+- Add scope down OR not_statements
+- chore: terraform fmt
+
+
+<a name="4.2.0"></a>
+## [4.2.0] - 2023-03-22
+
+- Add support for cookie matching ([#92](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/92))
+
+
+<a name="4.1.2"></a>
+## [4.1.2] - 2023-02-20
+
+- Bump golang.org/x/net from 0.5.0 to 0.7.0 in /test ([#87](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/87))
+- Bump github.com/hashicorp/go-getter from 1.6.2 to 1.7.0 in /test ([#84](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/84))
+- Rule_action_override - hotfix ([#85](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/85))
+
+###
+
+dependency-type: indirect
+...
+
+dependency-type: indirect
+...
+
+
+<a name="4.1.1"></a>
+## [4.1.1] - 2023-02-15
+
+- Fix multiple rule_action_override ([#83](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/83))
+
+
+<a name="4.1.0"></a>
+## [4.1.0] - 2023-02-09
+
+- feat: action block captcha and challenge rules supported ([#80](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/80))
 - Fix: Match Pattern Headers ([#82](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/82))
 
 
@@ -234,7 +268,11 @@ All notable changes to this project will be documented in this file.
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.1...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.2.0...HEAD
+[4.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.2...4.2.0
+[4.1.2]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.1...4.1.2
+[4.1.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.0...4.1.1
+[4.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.1...4.1.0
 [4.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.0.0...4.0.1
 [4.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.1...4.0.0
 [3.8.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/3.8.0...3.8.1

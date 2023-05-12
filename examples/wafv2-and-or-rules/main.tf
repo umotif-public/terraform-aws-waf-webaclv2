@@ -25,6 +25,25 @@ resource "aws_wafv2_ip_set" "custom_ip_set" {
   ]
 }
 
+resource "aws_wafv2_regex_pattern_set" "bad_bots_user_agent" {
+  name        = "BadBotsUserAgent"
+  description = "Some bots regex pattern set example"
+  scope       = "REGIONAL"
+
+  regular_expression {
+    regex_string = "semrushbot|censysinspect"
+  }
+
+  regular_expression {
+    regex_string = "blackwidow|acunetix-*"
+  }
+
+  tags = {
+    Name        = "RegexBadBots"
+    Environment = "WAFv2"
+  }
+}
+
 #####
 # Web Application Firewall configuration
 #####
@@ -76,6 +95,7 @@ module "waf" {
               field_to_match = {
                 uri_path = "{}"
               }
+
               positional_constraint = "STARTS_WITH"
               search_string         = "/path/to/match"
               priority              = 0
@@ -113,6 +133,7 @@ module "waf" {
               field_to_match = {
                 body = "{}"
               }
+
               positional_constraint = "CONTAINS"
               search_string         = "@hotmail.com"
               priority              = 0
@@ -129,8 +150,8 @@ module "waf" {
     },
     {
       ### AND rule example with NOT statement
-      name     = "block-specific-uri-path-and-requests-from-nl-gb-and-us"
-      priority = 2
+      name     = "block-specific-uri-path-and-not-requests-from-nl-gb-and-us"
+      priority = 4
       action   = "block"
 
       and_statement = {
@@ -140,6 +161,7 @@ module "waf" {
               field_to_match = {
                 uri_path = "{}"
               }
+
               positional_constraint = "STARTS_WITH"
               search_string         = "/path/to/match"
               priority              = 0
@@ -154,12 +176,13 @@ module "waf" {
           {
             not_statement = {
               regex_pattern_set_reference_statement = {
-                arn = aws_wafv2_ip_set.custom_regex_pattern_set.arn
+                arn = aws_wafv2_regex_pattern_set.bad_bots_user_agent.arn
                 field_to_match = {
                   single_header = {
                     name = "user-agent"
                   }
                 }
+
                 priority = 0
                 type     = "LOWERCASE" # The text transformation type
               }
@@ -173,6 +196,86 @@ module "waf" {
         sampled_requests_enabled   = false
       }
     },
+
+    {
+      #### AND rule with OR statement
+      name     = "block-specific-uri"
+      priority = 5
+      action   = "block"
+
+      rate_based_statement = {
+        aggregate_key_type = "IP"
+        limit              = 123
+
+        scope_down_statement = {
+          and_statement = {
+            statements = [
+              {
+                or_statement = {
+                  statements = [
+                    {
+                      byte_match_statement = {
+                        positional_constraint = "EXACTLY"
+                        search_string         = "some.url.com"
+
+                        field_to_match = {
+
+                          single_header = {
+                            name = "host"
+                          }
+                        }
+
+                        priority = 0
+                        type     = "NONE"
+                      }
+
+                    },
+                    {
+                      byte_match_statement = {
+                        positional_constraint = "EXACTLY"
+                        search_string         = "some.other.url.com"
+
+                        field_to_match = {
+                          single_header = {
+                            name = "host"
+                          }
+                        }
+
+                        priority = 0
+                        type     = "NONE"
+                      }
+
+                    }
+                  ]
+                }
+              },
+              {
+                byte_match_statement = {
+                  positional_constraint = "STARTS_WITH"
+                  search_string         = "/whatever"
+
+                  field_to_match = {
+
+                    uri_path = "{}"
+                  }
+
+                  priority = 0
+                  type     = "NONE"
+                }
+              }
+
+            ]
+          }
+        }
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+        metric_name                = "whatever-metric"
+
+      }
+    }
   ]
 
   tags = {

@@ -130,16 +130,16 @@ resource "aws_wafv2_web_acl" "main" {
             version     = lookup(managed_rule_group_statement.value, "version", null)
 
             dynamic "managed_rule_group_configs" {
-                  for_each = length(lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})) == 0 ? [] : [lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})]
+              for_each = length(lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})) == 0 ? [] : [lookup(managed_rule_group_statement.value, "managed_rule_group_configs", {})]
+              content {
+                dynamic "aws_managed_rules_bot_control_rule_set" {
+                  for_each = length(lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})) == 0 ? [] : [lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})]
                   content {
-                    dynamic "aws_managed_rules_bot_control_rule_set" {
-                      for_each = length(lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})) == 0 ? [] : [lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})]
-                      content {
-                        inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
-                      }
-                    }
+                    inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
                   }
                 }
+              }
+            }
 
             dynamic "rule_action_override" {
               for_each = lookup(managed_rule_group_statement.value, "rule_action_overrides", null) == null ? [] : lookup(managed_rule_group_statement.value, "rule_action_overrides")
@@ -1802,7 +1802,8 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "headers" {
                   for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
                   content {
-                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    match_scope       = upper(lookup(headers.value, "match_scope"))
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
                     dynamic "match_pattern" {
                       for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
                       content {
@@ -1814,7 +1815,7 @@ resource "aws_wafv2_web_acl" "main" {
                         excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
                       }
                     }
-                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+
                   }
                 }
               }

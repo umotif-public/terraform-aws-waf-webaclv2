@@ -143,8 +143,8 @@ module "waf" {
               match_pattern = {
                 "all" = {}
               }
-              match_scope = "Key"
-              oversize_handling = "CONTINUE" 
+              match_scope       = "Key"
+              oversize_handling = "CONTINUE"
             }
           }
           positional_constraint = "CONTAINS"
@@ -167,6 +167,8 @@ module "waf" {
       byte_match_statement = {
         field_to_match = {
           cookies = {
+            match_scope       = "KEY"
+            oversize_handling = "CONTINUE"
             match_pattern = {
               "all" = {}
             }

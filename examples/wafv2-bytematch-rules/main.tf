@@ -132,14 +132,43 @@ module "waf" {
       }
     },
     {
+      # Blocks requests which dont contain 'authorization' in any header key
+      name     = "block-unauthorized"
+      priority = "6"
+      action   = "block"
+      not_statement = {
+        byte_match_statement = {
+          field_to_match = {
+            headers = {
+              match_pattern = {
+                "all" = {}
+              }
+              match_scope       = "Key"
+              oversize_handling = "CONTINUE"
+            }
+          }
+          positional_constraint = "CONTAINS"
+          search_string         = "authorization"
+          priority              = 0
+          type                  = "NONE" # The text transformation type
+        }
+      }
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
+    },
+    {
       # Blocks a single user by checking the username header
       name     = "block-cookie"
-      priority = "6"
+      priority = "7"
       action   = "block"
 
       byte_match_statement = {
         field_to_match = {
           cookies = {
+            match_scope       = "KEY"
+            oversize_handling = "CONTINUE"
             match_pattern = {
               "all" = {}
             }

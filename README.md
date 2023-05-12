@@ -6,10 +6,10 @@ Terraform module to configure WAF Web ACL V2 for Application Load Balancer or Cl
 
 Supported WAF v2 components:
 
-- Module supports all AWS managed rules defined in https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html.
+- The module supports all AWS-managed rules defined in this [AWS documentation](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list.html).
 - Associating WAFv2 ACL with one or more Application Load Balancers (ALB)
 - Blocking IP Sets
-- Rate limiting IPs (and optional scopedown statements)
+- Rate limiting IPs (and optional scope down statements)
 - Byte Match statements
 - Geo set statements
 - Logical Statements (AND, OR, NOT)
@@ -22,11 +22,11 @@ Supported WAF v2 components:
 
 ## Terraform versions
 
-Terraform 0.13+ Pin module version to `~> 4.0`. Submit pull-requests to `main` branch.
+Terraform 0.13+ Pin module version to `~> 4.0`. Submit pull requests to the `main` branch.
 
 ## Usage
 
-Please pin down version of this module to exact version
+Please pin down the version of this module to the exact version.
 
 If referring directly to the code instead of a pinned version, take note that from release 4.0.0 all future changes will only be made to the `main` branch.
 
@@ -402,26 +402,27 @@ module "waf" {
 
 ## Logging configuration
 
-When you enable logging configuration for WAFv2. Remember to follow naming convention defined in https://docs.aws.amazon.com/waf/latest/developerguide/logging.html.
+When you enable logging configuration for WAFv2. Remember to follow the naming convention defined in <https://docs.aws.amazon.com/waf/latest/developerguide/logging.html>.
 
 Importantly, make sure that Amazon Kinesis Data Firehose is using a name starting with the prefix aws-waf-logs-.
 
 ## Examples
 
-* [WAF ACL](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/core)
-* [WAF ACL with configuration logging](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-logging-configuration)
-* [WAF ACL with ip rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-ip-rules)
-* [WAF ACL with bytematch rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-bytematch-rules)
-* [WAF ACL with geo match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-geo-rules)
-* [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-and-or-rules)
-* [WAF ACL with label match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-labelmatch-rules)
-* [WAF ACL with regex pattern rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-regex-pattern-rules)
+- [WAF ACL](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/core)
+- [WAF ACL with configuration logging](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-logging-configuration)
+- [WAF ACL with ip rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-ip-rules)
+- [WAF ACL with byte match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-bytematch-rules)
+- [WAF ACL with geo match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-geo-rules)
+- [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-and-or-rules)
+- [WAF ACL with label match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-labelmatch-rules)
+- [WAF ACL with regex pattern rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-regex-pattern-rules)
 
 
 ## Authors
 
 Module managed by:
-* [Abdul Wahid](https://github.com/Ohid25) [LinkedIn](https://www.linkedin.com/in/abdul-wahid/)
+
+- [uMotif](https://github.com/umotif-public)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -498,9 +499,9 @@ See LICENSE for full details.
 
 ### Install dependencies
 
-* [`pre-commit`](https://pre-commit.com/#install)
-* [`terraform-docs`](https://github.com/segmentio/terraform-docs) required for `terraform_docs` hooks.
-* [`TFLint`](https://github.com/terraform-linters/tflint) required for `terraform_tflint` hook.
+- [`pre-commit`](https://pre-commit.com/#install)
+- [`terraform-docs`](https://github.com/segmentio/terraform-docs) required for `terraform_docs` hooks.
+- [`TFLint`](https://github.com/terraform-linters/tflint) required for the `terraform_tflint` hook.
 
 #### Terratest
 

@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- fix
-- added example
-- revert array change
-- changed array output
-- changed array output
-- changed to match cookies
-- fixed for all header field matches
-- Small fix for 'field_to_match' to enable 'all' option'
+
+
+<a name="4.4.0"></a>
+## [4.4.0] - 2023-05-12
+
+- Add support for sqli_match_statement ([#99](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/99))
+- Allow OR statement inside AND statement ([#96](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/96))
+- Fix for headers field_to_match [#94](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/94) ([#95](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/95))
 - adds managed rule group config block with bot control ([#93](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/93))
 
 
@@ -281,7 +281,8 @@ dependency-type: indirect
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.3.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.4.0...HEAD
+[4.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.3.0...4.4.0
 [4.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.2.0...4.3.0
 [4.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.2...4.2.0
 [4.1.2]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.1...4.1.2

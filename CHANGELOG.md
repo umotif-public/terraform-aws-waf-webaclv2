@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
+- Add support for xss_match_statement
+- Add missing sqli_match_statement
 
 
 <a name="4.4.0"></a>

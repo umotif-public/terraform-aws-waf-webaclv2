@@ -2454,6 +2454,67 @@ resource "aws_wafv2_web_acl" "main" {
           }
         }
 
+        dynamic "xss_match_statement" {
+          for_each = length(lookup(rule.value, "xss_match_statement", {})) == 0 ? [] : [lookup(rule.value, "xss_match_statement", {})]
+          content {
+            dynamic "field_to_match" {
+              for_each = length(lookup(xss_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(xss_match_statement.value, "field_to_match", {})]
+              content {
+                dynamic "uri_path" {
+                  for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                  content {}
+                }
+                dynamic "all_query_arguments" {
+                  for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                  content {}
+                }
+                dynamic "body" {
+                  for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                  content {
+                    oversize_handling = upper(lookup(body.value, "oversize_handling"))
+                  }
+                }
+                dynamic "method" {
+                  for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                  content {}
+                }
+                dynamic "query_string" {
+                  for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                  content {}
+                }
+                dynamic "single_header" {
+                  for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                  content {
+                    name = lower(lookup(single_header.value, "name"))
+                  }
+                }
+                dynamic "headers" {
+                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                  content {
+                    match_scope = upper(lookup(headers.value, "match_scope"))
+                    dynamic "match_pattern" {
+                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                      content {
+                        dynamic "all" {
+                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                          content {}
+                        }
+                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                      }
+                    }
+                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                  }
+                }
+              }
+            }
+            text_transformation {
+              priority = lookup(xss_match_statement.value["text_transformation"], "priority")
+              type     = lookup(xss_match_statement.value["text_transformation"], "type")
+            }
+          }
+        }
+
         dynamic "rate_based_statement" {
           for_each = length(lookup(rule.value, "rate_based_statement", {})) == 0 ? [] : [lookup(rule.value, "rate_based_statement", {})]
           content {
@@ -3814,6 +3875,84 @@ resource "aws_wafv2_web_acl" "main" {
                           }
                         }
 
+                        # OR xss_match_statement
+                        dynamic "xss_match_statement" {
+                          for_each = length(lookup(statement.value, "xss_match_statement", {})) == 0 ? [] : [lookup(statement.value, "xss_match_statement", {})]
+                          content {
+                            dynamic "field_to_match" {
+                              for_each = length(lookup(xss_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(xss_match_statement.value, "field_to_match", {})]
+                              content {
+                                dynamic "cookies" {
+                                  for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                  content {
+                                    match_scope       = lookup(cookies.value, "match_scope")
+                                    oversize_handling = lookup(cookies.value, "oversize_handling")
+                                    dynamic "match_pattern" {
+                                      for_each = [lookup(cookies.value, "match_pattern")]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                          content {}
+                                        }
+                                        included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                        excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                      }
+                                    }
+                                  }
+                                }
+                                dynamic "uri_path" {
+                                  for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                  content {}
+                                }
+                                dynamic "all_query_arguments" {
+                                  for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                  content {}
+                                }
+                                dynamic "body" {
+                                  for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                  content {}
+                                }
+                                dynamic "method" {
+                                  for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                  content {}
+                                }
+                                dynamic "query_string" {
+                                  for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                  content {}
+                                }
+                                dynamic "single_header" {
+                                  for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                  content {
+                                    name = lower(lookup(single_header.value, "name"))
+                                  }
+                                }
+                                dynamic "headers" {
+                                  for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                  content {
+                                    match_scope = upper(lookup(headers.value, "match_scope"))
+                                    dynamic "match_pattern" {
+                                      for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                      content {
+                                        dynamic "all" {
+                                          for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                          content {}
+                                        }
+                                        included_headers = lookup(match_pattern.value, "included_headers", null)
+                                        excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                      }
+                                    }
+                                    oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                  }
+                                }
+                              }
+                            }
+                            text_transformation {
+                              priority = lookup(xss_match_statement.value["text_transformation"], "priority")
+                              type     = lookup(xss_match_statement.value["text_transformation"], "type")
+                            }
+                          }
+                        }
+
                         # Scope down OR regex_match_statement
                         dynamic "regex_match_statement" {
                           for_each = length(lookup(statement.value, "regex_match_statement", {})) == 0 ? [] : [lookup(statement.value, "regex_match_statement", {})]
@@ -4292,6 +4431,84 @@ resource "aws_wafv2_web_acl" "main" {
                   text_transformation {
                     priority = lookup(sqli_match_statement.value["text_transformation"], "priority")
                     type     = lookup(sqli_match_statement.value["text_transformation"], "type")
+                  }
+                }
+              }
+
+              # OR xss_match_statement
+              dynamic "xss_match_statement" {
+                for_each = length(lookup(not_statement.value, "xss_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "xss_match_statement", {})]
+                content {
+                  dynamic "field_to_match" {
+                    for_each = length(lookup(xss_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(xss_match_statement.value, "field_to_match", {})]
+                    content {
+                      dynamic "cookies" {
+                        for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                        content {
+                          match_scope       = lookup(cookies.value, "match_scope")
+                          oversize_handling = lookup(cookies.value, "oversize_handling")
+                          dynamic "match_pattern" {
+                            for_each = [lookup(cookies.value, "match_pattern")]
+                            content {
+                              dynamic "all" {
+                                for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                content {}
+                              }
+                              included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                              excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                            }
+                          }
+                        }
+                      }
+                      dynamic "uri_path" {
+                        for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                        content {}
+                      }
+                      dynamic "all_query_arguments" {
+                        for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                        content {}
+                      }
+                      dynamic "body" {
+                        for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                        content {}
+                      }
+                      dynamic "method" {
+                        for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                        content {}
+                      }
+                      dynamic "query_string" {
+                        for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                        content {}
+                      }
+                      dynamic "single_header" {
+                        for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                        content {
+                          name = lower(lookup(single_header.value, "name"))
+                        }
+                      }
+                      dynamic "headers" {
+                        for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                        content {
+                          match_scope = upper(lookup(headers.value, "match_scope"))
+                          dynamic "match_pattern" {
+                            for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                            content {
+                              dynamic "all" {
+                                for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                content {}
+                              }
+                              included_headers = lookup(match_pattern.value, "included_headers", null)
+                              excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                            }
+                          }
+                          oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                        }
+                      }
+                    }
+                  }
+                  text_transformation {
+                    priority = lookup(xss_match_statement.value["text_transformation"], "priority")
+                    type     = lookup(xss_match_statement.value["text_transformation"], "type")
                   }
                 }
               }
@@ -4865,6 +5082,162 @@ resource "aws_wafv2_web_acl" "main" {
                           text_transformation {
                             priority = lookup(byte_match_statement.value, "priority")
                             type     = lookup(byte_match_statement.value, "type")
+                          }
+                        }
+                      }
+
+                      # OR sqli_match_statement
+                      dynamic "sqli_match_statement" {
+                        for_each = length(lookup(not_statement.value, "sqli_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "sqli_match_statement", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(sqli_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(sqli_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                  match_scope       = lookup(cookies.value, "match_scope")
+                                  oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  dynamic "match_pattern" {
+                                    for_each = [lookup(cookies.value, "match_pattern")]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        content {}
+                                      }
+                                      included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                      excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                    }
+                                  }
+                                }
+                              }
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                              dynamic "single_header" {
+                                for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                content {
+                                  name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
+                            }
+                          }
+                          text_transformation {
+                            priority = lookup(sqli_match_statement.value["text_transformation"], "priority")
+                            type     = lookup(sqli_match_statement.value["text_transformation"], "type")
+                          }
+                        }
+                      }
+
+                      # OR xss_match_statement
+                      dynamic "xss_match_statement" {
+                        for_each = length(lookup(not_statement.value, "xss_match_statement", {})) == 0 ? [] : [lookup(not_statement.value, "xss_match_statement", {})]
+                        content {
+                          dynamic "field_to_match" {
+                            for_each = length(lookup(xss_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(xss_match_statement.value, "field_to_match", {})]
+                            content {
+                              dynamic "cookies" {
+                                for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                                content {
+                                  match_scope       = lookup(cookies.value, "match_scope")
+                                  oversize_handling = lookup(cookies.value, "oversize_handling")
+                                  dynamic "match_pattern" {
+                                    for_each = [lookup(cookies.value, "match_pattern")]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                        content {}
+                                      }
+                                      included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                      excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                                    }
+                                  }
+                                }
+                              }
+                              dynamic "uri_path" {
+                                for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                                content {}
+                              }
+                              dynamic "all_query_arguments" {
+                                for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                                content {}
+                              }
+                              dynamic "body" {
+                                for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                                content {}
+                              }
+                              dynamic "method" {
+                                for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                                content {}
+                              }
+                              dynamic "query_string" {
+                                for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                                content {}
+                              }
+                              dynamic "single_header" {
+                                for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                                content {
+                                  name = lower(lookup(single_header.value, "name"))
+                                }
+                              }
+                              dynamic "headers" {
+                                for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                                content {
+                                  match_scope = upper(lookup(headers.value, "match_scope"))
+                                  dynamic "match_pattern" {
+                                    for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                                    content {
+                                      dynamic "all" {
+                                        for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                        content {}
+                                      }
+                                      included_headers = lookup(match_pattern.value, "included_headers", null)
+                                      excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                                    }
+                                  }
+                                  oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                                }
+                              }
+                            }
+                          }
+                          text_transformation {
+                            priority = lookup(xss_match_statement.value["text_transformation"], "priority")
+                            type     = lookup(xss_match_statement.value["text_transformation"], "type")
                           }
                         }
                       }
@@ -5815,6 +6188,84 @@ resource "aws_wafv2_web_acl" "main" {
                     text_transformation {
                       priority = lookup(sqli_match_statement.value["text_transformation"], "priority")
                       type     = lookup(sqli_match_statement.value["text_transformation"], "type")
+                    }
+                  }
+                }
+
+                # OR xss_match_statement
+                dynamic "xss_match_statement" {
+                  for_each = length(lookup(statement.value, "xss_match_statement", {})) == 0 ? [] : [lookup(statement.value, "xss_match_statement", {})]
+                  content {
+                    dynamic "field_to_match" {
+                      for_each = length(lookup(xss_match_statement.value, "field_to_match", {})) == 0 ? [] : [lookup(xss_match_statement.value, "field_to_match", {})]
+                      content {
+                        dynamic "cookies" {
+                          for_each = length(lookup(field_to_match.value, "cookies", {})) == 0 ? [] : [lookup(field_to_match.value, "cookies")]
+                          content {
+                            match_scope       = lookup(cookies.value, "match_scope")
+                            oversize_handling = lookup(cookies.value, "oversize_handling")
+                            dynamic "match_pattern" {
+                              for_each = [lookup(cookies.value, "match_pattern")]
+                              content {
+                                dynamic "all" {
+                                  for_each = contains(keys(match_pattern.value), "all") ? [lookup(match_pattern.value, "all")] : []
+                                  content {}
+                                }
+                                included_cookies = length(lookup(match_pattern.value, "included_cookies", [])) != 0 ? lookup(match_pattern.value, "included_cookies") : []
+                                excluded_cookies = length(lookup(match_pattern.value, "excluded_cookies", [])) != 0 ? lookup(match_pattern.value, "excluded_cookies") : []
+                              }
+                            }
+                          }
+                        }
+                        dynamic "uri_path" {
+                          for_each = length(lookup(field_to_match.value, "uri_path", {})) == 0 ? [] : [lookup(field_to_match.value, "uri_path")]
+                          content {}
+                        }
+                        dynamic "all_query_arguments" {
+                          for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
+                          content {}
+                        }
+                        dynamic "body" {
+                          for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
+                          content {}
+                        }
+                        dynamic "method" {
+                          for_each = length(lookup(field_to_match.value, "method", {})) == 0 ? [] : [lookup(field_to_match.value, "method")]
+                          content {}
+                        }
+                        dynamic "query_string" {
+                          for_each = length(lookup(field_to_match.value, "query_string", {})) == 0 ? [] : [lookup(field_to_match.value, "query_string")]
+                          content {}
+                        }
+                        dynamic "single_header" {
+                          for_each = length(lookup(field_to_match.value, "single_header", {})) == 0 ? [] : [lookup(field_to_match.value, "single_header")]
+                          content {
+                            name = lower(lookup(single_header.value, "name"))
+                          }
+                        }
+                        dynamic "headers" {
+                          for_each = length(lookup(field_to_match.value, "headers", {})) == 0 ? [] : [lookup(field_to_match.value, "headers")]
+                          content {
+                            match_scope = upper(lookup(headers.value, "match_scope"))
+                            dynamic "match_pattern" {
+                              for_each = length(lookup(headers.value, "match_pattern", {})) == 0 ? [] : [lookup(headers.value, "match_pattern", {})]
+                              content {
+                                dynamic "all" {
+                                  for_each = length(lookup(match_pattern.value, "all", {})) == 0 ? [] : [lookup(match_pattern.value, "all")]
+                                  content {}
+                                }
+                                included_headers = lookup(match_pattern.value, "included_headers", null)
+                                excluded_headers = lookup(match_pattern.value, "excluded_headers", null)
+                              }
+                            }
+                            oversize_handling = upper(lookup(headers.value, "oversize_handling"))
+                          }
+                        }
+                      }
+                    }
+                    text_transformation {
+                      priority = lookup(xss_match_statement.value["text_transformation"], "priority")
+                      type     = lookup(xss_match_statement.value["text_transformation"], "type")
                     }
                   }
                 }

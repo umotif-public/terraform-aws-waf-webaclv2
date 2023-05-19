@@ -2113,8 +2113,8 @@ resource "aws_wafv2_web_acl" "main" {
             positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
             search_string         = lookup(byte_match_statement.value, "search_string")
             text_transformation {
-              priority = lookup(byte_match_statement.value, "priority")
-              type     = lookup(byte_match_statement.value, "type")
+              priority = lookup(byte_match_statement.value["text_transformation"], "priority")
+              type     = lookup(byte_match_statement.value["text_transformation"], "type")
             }
           }
         }

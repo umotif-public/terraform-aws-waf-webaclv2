@@ -2794,6 +2794,22 @@ resource "aws_wafv2_web_acl" "main" {
                   }
                 }
 
+                # scope down ip_set_reference_statement
+                dynamic "ip_set_reference_statement" {
+                  for_each = contains(keys(scope_down_statement.value), "ip_set_reference_statement") && scope_down_statement.value["ip_set_reference_statement"] != null ? [lookup(scope_down_statement.value, "ip_set_reference_statement", {})] : []
+                  content {
+                    arn = lookup(ip_set_reference_statement.value, "arn")
+                    dynamic "ip_set_forwarded_ip_config" {
+                      for_each = length(lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})) == 0 ? [] : [lookup(ip_set_reference_statement.value, "forwarded_ip_config", {})]
+                      content {
+                        fallback_behavior = lookup(forwarded_ip_config.value, "fallback_behavior")
+                        header_name       = lookup(forwarded_ip_config.value, "header_name")
+                        position          = lookup(forwarded_ip_config.value, "position")
+                      }
+                    }
+                  }
+                }
+
                 # scope down NOT statements
                 dynamic "not_statement" {
                   for_each = length(lookup(scope_down_statement.value, "not_statement", {})) == 0 ? [] : [lookup(scope_down_statement.value, "not_statement", {})]

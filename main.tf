@@ -2530,7 +2530,7 @@ resource "aws_wafv2_web_acl" "main" {
             }
 
             dynamic "scope_down_statement" {
-              for_each = length(lookup(rate_based_statement.value, "scope_down_statement", {})) == 0 ? [] : [lookup(rate_based_statement.value, "scope_down_statement", {})]
+              for_each = contains(keys(rate_based_statement.value), "scope_down_statement") && rate_based_statement.value["scope_down_statement"] != null ? [lookup(rate_based_statement.value, "scope_down_statement", {})] : []
               content {
                 # scope down byte_match_statement
                 dynamic "byte_match_statement" {
@@ -6108,8 +6108,8 @@ resource "aws_wafv2_web_acl" "main" {
                     positional_constraint = lookup(byte_match_statement.value, "positional_constraint")
                     search_string         = lookup(byte_match_statement.value, "search_string")
                     text_transformation {
-                      priority = lookup(byte_match_statement.value, "priority")
-                      type     = lookup(byte_match_statement.value, "type")
+                      priority = lookup(byte_match_statement.value["text_transformation"], "priority")
+                      type     = lookup(byte_match_statement.value["text_transformation"], "type")
                     }
                   }
                 }

@@ -113,10 +113,19 @@ resource "aws_wafv2_web_acl" "main" {
           content {
             arn = lookup(rule_group_reference_statement.value, "arn")
 
-            dynamic "excluded_rule" {
-              for_each = length(lookup(rule_group_reference_statement.value, "excluded_rule", {})) == 0 ? [] : toset(lookup(rule_group_reference_statement.value, "excluded_rule"))
+            dynamic "rule_action_override" {
+              for_each = lookup(rule_group_reference_statement.value, "rule_action_overrides", null) == null ? [] : lookup(rule_group_reference_statement.value, "rule_action_overrides")
               content {
-                name = excluded_rule.value
+                name = lookup(rule_action_override.value, "name")
+                dynamic "action_to_use" {
+                  for_each = [lookup(rule_action_override.value, "action_to_use")]
+                  content {
+                    dynamic "count" {
+                      for_each = lookup(action_to_use.value, "count", null) == null ? [] : [lookup(action_to_use.value, "count")]
+                      content {}
+                    }
+                  }
+                }
               }
             }
           }
@@ -6836,13 +6845,6 @@ resource "aws_wafv2_web_acl_logging_configuration" "main" {
         for_each = length(lookup(redacted_fields.value, "single_header", {})) == 0 ? [] : [lookup(redacted_fields.value, "single_header", {})]
         content {
           name = lookup(single_header.value, "name", null)
-        }
-      }
-
-      dynamic "single_query_argument" {
-        for_each = length(lookup(redacted_fields.value, "single_query_argument", {})) == 0 ? [] : [lookup(redacted_fields.value, "single_query_argument", {})]
-        content {
-          name = lookup(single_query_argument.value, "name", null)
         }
       }
     }

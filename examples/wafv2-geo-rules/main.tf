@@ -1,15 +1,3 @@
-terraform {
-  required_version = ">= 0.13.7"
-
-  required_providers {
-    aws = ">= 4.44.0"
-  }
-}
-
-provider "aws" {
-  region = "eu-west-1"
-}
-
 #####
 # Web Application Firewall configuration
 #####

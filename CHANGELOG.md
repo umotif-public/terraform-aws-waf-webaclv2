@@ -5,8 +5,31 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- update code for provider > 5.0.0
-- version up
+- chore: cleanup versions.tf
+
+
+<a name="5.1.0"></a>
+## [5.1.0] - 2023-07-18
+
+- add suport for 'allow', 'block' and 'captcha' actions ([#115](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/115))
+
+
+<a name="5.0.1"></a>
+## [5.0.1] - 2023-07-18
+
+- Fix nested required `text_transformation` and go back to previous behaviour ([#113](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/113))
+
+
+<a name="5.0.0"></a>
+## [5.0.0] - 2023-07-18
+
+- Upgrade to AWS provider 5.0 ([#114](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/114))
+- Bump google.golang.org/grpc from 1.52.1 to 1.53.0 in /test ([#111](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/111))
+
+###
+
+dependency-type: indirect
+...
 
 
 <a name="4.6.1"></a>
@@ -303,7 +326,10 @@ dependency-type: indirect
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.6.1...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/5.1.0...HEAD
+[5.1.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/5.0.1...5.1.0
+[5.0.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/5.0.0...5.0.1
+[5.0.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.6.1...5.0.0
 [4.6.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.6.0...4.6.1
 [4.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.5.0...4.6.0
 [4.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.4.0...4.5.0

@@ -125,7 +125,9 @@ module "waf" {
       priority = 0
       size_constraint_statement = {
         field_to_match = {
-          body = "{}"
+          body = {
+            oversize_handling = "CONTINUE"
+          }
         }
         comparison_operator = "GT"
         size                = 8192

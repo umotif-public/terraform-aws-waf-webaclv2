@@ -5,8 +5,28 @@ All notable changes to this project will be documented in this file.
 <a name="unreleased"></a>
 ## [Unreleased]
 
-- Add support for xss_match_statement
-- Add missing sqli_match_statement
+- update code for provider > 5.0.0
+- version up
+
+
+<a name="4.6.1"></a>
+## [4.6.1] - 2023-05-19
+
+- Fix invalid input map in byte_match_statement ([#104](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/104))
+
+
+<a name="4.6.0"></a>
+## [4.6.0] - 2023-05-19
+
+- Add support for scope down ip_set_reference_statement in the ratelimit rule ([#103](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/103))
+- Fix 'Invalid value for "inputMap" parameter: the given object has no attribute "type"' ([#102](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/102))
+
+
+<a name="4.5.0"></a>
+## [4.5.0] - 2023-05-17
+
+- Add xss_match_statement support ([#101](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/101))
+- Set 'upper' function for 'match_scope' ([#100](https://github.com/umotif-public/terraform-aws-waf-webaclv2/issues/100))
 
 
 <a name="4.4.0"></a>
@@ -283,7 +303,10 @@ dependency-type: indirect
 - Initial commit
 
 
-[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.4.0...HEAD
+[Unreleased]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.6.1...HEAD
+[4.6.1]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.6.0...4.6.1
+[4.6.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.5.0...4.6.0
+[4.5.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.4.0...4.5.0
 [4.4.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.3.0...4.4.0
 [4.3.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.2.0...4.3.0
 [4.2.0]: https://github.com/umotif-public/terraform-aws-waf-webaclv2/compare/4.1.2...4.2.0

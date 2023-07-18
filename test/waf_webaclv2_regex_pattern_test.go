@@ -47,13 +47,13 @@ func TestWafWebAclV2RegexPattern(t *testing.T) {
 	WebAclRuleNames := terraform.Output(t, terraformOptions, "web_acl_rule_names")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, WebAclName, "test"+uniqueID)
+	assert.Equal(t, "test"+uniqueID, WebAclName)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
-	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "35")
+	assert.Equal(t, "test"+uniqueID+"-waf-setup-waf-main-metrics", WebAclVisConfigMetricName)
+	assert.Equal(t, "35", WebAclCapacity)
 	assert.Contains(t, BadBotsRegexArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, BadBotsRegexArn, "regional/regexpatternset/BadBotsUserAgent/")
-	assert.Equal(t, BadBotsRegexName, "BadBotsUserAgent")
-	assert.Equal(t, WebAclRuleNames, "MatchRegexRule-1")
+	assert.Equal(t, "BadBotsUserAgent", BadBotsRegexName)
+	assert.Equal(t, "[MatchRegexRule-1]", WebAclRuleNames)
 }

@@ -1,16 +1,3 @@
-terraform {
-  required_version = ">= 0.13.7"
-
-  required_providers {
-    aws = ">= 4.44.0"
-  }
-}
-
-provider "aws" {
-  region = "eu-west-1"
-}
-
-
 #####
 # VPC and subnets
 #####
@@ -18,8 +5,11 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnet_ids" "all" {
-  vpc_id = data.aws_vpc.default.id
+data "aws_subnets" "all" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 #####
@@ -29,11 +19,11 @@ module "alb" {
   source  = "umotif-public/alb/aws"
   version = "~> 2.0.0"
 
-  name_prefix        = "alb-waf-example"
+  name_prefix        = "${var.name_prefix}-alb-waf-example"
   load_balancer_type = "application"
   internal           = false
   vpc_id             = data.aws_vpc.default.id
-  subnets            = data.aws_subnet_ids.all.ids
+  subnets            = toset(data.aws_subnets.all.ids)
 }
 
 #####
@@ -41,8 +31,23 @@ module "alb" {
 #####
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "aws-waf-firehose-stream-test-bucket"
+  bucket = "${var.name_prefix}-aws-waf-firehose-stream-test-bucket"
+}
+
+resource "aws_s3_bucket_ownership_controls" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "bucket" {
   acl    = "private"
+  bucket = aws_s3_bucket.bucket.id
+
+  depends_on = [
+    aws_s3_bucket_ownership_controls.bucket
+  ]
 }
 
 resource "aws_iam_role" "firehose" {
@@ -100,9 +105,9 @@ EOF
 
 resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
   name        = "aws-waf-logs-kinesis-firehose-test-stream"
-  destination = "s3"
+  destination = "extended_s3"
 
-  s3_configuration {
+  extended_s3_configuration {
     role_arn   = aws_iam_role.firehose.arn
     bucket_arn = aws_s3_bucket.bucket.arn
   }
@@ -114,7 +119,7 @@ resource "aws_kinesis_firehose_delivery_stream" "test_stream" {
 module "wafv2" {
   source = "../.."
 
-  name_prefix = "test-waf-setup"
+  name_prefix = var.name_prefix
   alb_arn     = module.alb.arn
 
   create_alb_association = true
@@ -165,7 +170,7 @@ module "wafv2" {
 
   visibility_config = {
     cloudwatch_metrics_enabled = false
-    metric_name                = "test-waf-setup-waf-main-metrics"
+    metric_name                = "${var.name_prefix}-waf-setup-waf-main-metrics"
     sampled_requests_enabled   = false
   }
 

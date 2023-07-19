@@ -43,10 +43,10 @@ func TestWafWebAclV2Labelmatch(t *testing.T) {
 	WebAclRuleNames := terraform.Output(t, terraformOptions, "web_acl_rule_names")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, WebAclName, "test"+uniqueID)
+	assert.Equal(t, "test"+uniqueID, WebAclName)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
-	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "61")
-	assert.Equal(t, WebAclRuleNames, "block-specific-agent, AWSManagedRulesBotControlRuleSet-rule-1")
+	assert.Equal(t, "test"+uniqueID+"-waf-setup-waf-main-metrics", WebAclVisConfigMetricName)
+	assert.Equal(t, "61", WebAclCapacity)
+	assert.Equal(t, "[block-specific-agent AWSManagedRulesBotControlRuleSet-rule-1]", WebAclRuleNames)
 }

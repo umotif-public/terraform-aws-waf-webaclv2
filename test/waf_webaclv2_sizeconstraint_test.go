@@ -43,10 +43,10 @@ func TestWafWebAclV2Sizeconstraint(t *testing.T) {
 	WebAclRuleNames := terraform.Output(t, terraformOptions, "web_acl_rule_names")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, WebAclName, "test"+uniqueID)
+	assert.Equal(t, "test"+uniqueID, WebAclName)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
-	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "737")
-	assert.Equal(t, WebAclRuleNames, "BodySizeConstraint, block-all-post-requests, block-if-request-body-contains-hotmail-email, block-single-user, block-specific-uri-path, AWSManagedRulesCommonRuleSet-rule-1")
+	assert.Equal(t, "test"+uniqueID+"-waf-setup-waf-main-metrics", WebAclVisConfigMetricName)
+	assert.Equal(t, "737", WebAclCapacity)
+	assert.Equal(t, "[BodySizeConstraint block-all-post-requests block-if-request-body-contains-hotmail-email block-single-user block-specific-uri-path AWSManagedRulesCommonRuleSet-rule-1]", WebAclRuleNames)
 }

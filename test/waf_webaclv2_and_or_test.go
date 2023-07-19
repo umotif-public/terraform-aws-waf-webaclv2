@@ -43,10 +43,10 @@ func TestWafWebAclV2AndOr(t *testing.T) {
 	WebAclRuleNames := terraform.Output(t, terraformOptions, "web_acl_rule_names")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, WebAclName, "test"+uniqueID)
+	assert.Equal(t, "test"+uniqueID, WebAclName)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
-	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "714")
-	assert.Equal(t, WebAclRuleNames, "block-specific-ip-set-or-body-contains-hotmail, block-specific-uri-path-and-requests-from-nl-gb-and-us, AWSManagedRulesCommonRuleSet-rule-1")
+	assert.Equal(t, "test"+uniqueID+"-waf-setup-waf-main-metrics", WebAclVisConfigMetricName)
+	assert.Equal(t, "760", WebAclCapacity)
+	assert.Equal(t, "[block-specific-ip-set-or-body-contains-hotmail block-specific-uri block-specific-uri-path-and-not-requests-from-nl-gb-and-us block-specific-uri-path-and-requests-from-nl-gb-and-us AWSManagedRulesCommonRuleSet-rule-1]", WebAclRuleNames)
 }

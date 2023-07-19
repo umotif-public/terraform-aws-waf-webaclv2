@@ -47,12 +47,12 @@ func TestWafWebAclV2IpRules(t *testing.T) {
 	CustomIpSetArn := terraform.Output(t, terraformOptions, "custom_ip_set_arn")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, WebAclName, "test"+uniqueID)
+	assert.Equal(t, "test"+uniqueID, WebAclName)
 	assert.Contains(t, WebAclArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, WebAclArn, "regional/webacl/test"+uniqueID)
-	assert.Equal(t, WebAclVisConfigMetricName, "test"+uniqueID+"-waf-setup-waf-main-metrics")
-	assert.Equal(t, WebAclCapacity, "721")
-	assert.Equal(t, WebAclRuleNames, "block-ip-set, allow-custom-ip-set, ip-rate-limit, ip-rate-limit-with-or-scope-down, AWSManagedRulesCommonRuleSet-rule-1")
+	assert.Equal(t, "test"+uniqueID+"-waf-setup-waf-main-metrics", WebAclVisConfigMetricName)
+	assert.Equal(t, "728", WebAclCapacity)
+	assert.Equal(t, "[block-ip-set allow-custom-ip-set allow-custom-ip-set-with-XFF-header ip-rate-limit ip-rate-limit-with-or-scope-down ip-rate-limit-wo-scope-down-statement AWSManagedRulesCommonRuleSet-rule-1]", WebAclRuleNames)
 	assert.Contains(t, BlockIpSetArn, "arn:aws:wafv2:eu-west-1:")
 	assert.Contains(t, BlockIpSetArn, "regional/ipset/test"+uniqueID+"-generated-ips")
 	assert.Contains(t, CustomIpSetArn, "arn:aws:wafv2:eu-west-1:")

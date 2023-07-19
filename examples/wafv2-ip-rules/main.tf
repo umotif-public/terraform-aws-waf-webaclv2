@@ -201,6 +201,21 @@ module "waf" {
         metric_name                = "test-waf-setup-waf-ip-set-block-metrics"
         sampled_requests_enabled   = false
       }
+    },
+    {
+      name     = "ip-rate-limit-wo-scope-down-statement"
+      priority = "7"
+      action   = "count"
+
+      rate_based_statement = {
+        limit              = 1000
+        aggregate_key_type = "IP"
+      }
+
+      visibility_config = {
+        cloudwatch_metrics_enabled = false
+        sampled_requests_enabled   = false
+      }
     }
   ]
 

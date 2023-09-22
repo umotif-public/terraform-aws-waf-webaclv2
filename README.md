@@ -416,6 +416,7 @@ Importantly, make sure that Amazon Kinesis Data Firehose is using a name startin
 - [WAF ACL with and / or rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-and-or-rules)
 - [WAF ACL with label match rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-labelmatch-rules)
 - [WAF ACL with regex pattern rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-regex-pattern-rules)
+- [WAF ACL with targeted bot control challenge action rules](https://github.com/umotif-public/terraform-aws-waf-webaclv2/tree/main/examples/wafv2-targeted-bot-control-managed-rule-group)
 
 
 ## Authors

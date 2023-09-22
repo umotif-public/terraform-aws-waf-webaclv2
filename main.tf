@@ -173,6 +173,10 @@ resource "aws_wafv2_web_acl" "main" {
                       for_each = lookup(action_to_use.value, "captcha", null) == null ? [] : [lookup(action_to_use.value, "captcha")]
                       content {}
                     }
+                    dynamic "challenge" {
+                      for_each = lookup(action_to_use.value, "challenge", null) == null ? [] : [lookup(action_to_use.value, "challenge")]
+                      content {}
+                    }
                   }
                 }
               }

@@ -2550,6 +2550,50 @@ resource "aws_wafv2_web_acl" "main" {
               }
             }
 
+            dynamic "custom_key" {
+              for_each = length(lookup(rate_based_statement.value, "custom_key", {})) == 0 ? [] : [lookup(rate_based_statement.value, "custom_key", {})]
+              content {
+                dynamic "header" {
+                  for_each = length(lookup(custom_key.value, "header", {})) == 0 ? [] : [lookup(custom_key.value, "header", {})]
+                  content {
+                    name = lookup(header.value, "name")
+                    text_transformation {
+                      priority = lookup(header.value, "priority")
+                      type     = lookup(header.value, "type")
+                    }
+                  }
+                }
+                dynamic "query_argument" {
+                  for_each = length(lookup(custom_key.value, "query_argument", {})) == 0 ? [] : [lookup(custom_key.value, "query_argument", {})]
+                  content {
+                    name = lookup(query_argument.value, "name")
+                    text_transformation {
+                      priority = lookup(query_argument.value, "priority")
+                      type     = lookup(query_argument.value, "type")
+                    }
+                  }
+                }
+                dynamic "uri_path" {
+                  for_each = length(lookup(custom_key.value, "uri_path", {})) == 0 ? [] : [lookup(custom_key.value, "uri_path", {})]
+                  content {
+                    text_transformation {
+                      priority = lookup(uri_path.value, "priority")
+                      type     = lookup(uri_path.value, "type")
+                    }
+                  }
+                }
+                dynamic "query_string" {
+                  for_each = length(lookup(custom_key.value, "query_string", {})) == 0 ? [] : [lookup(custom_key.value, "query_string", {})]
+                  content {
+                    text_transformation {
+                      priority = lookup(query_string.value, "priority")
+                      type     = lookup(query_string.value, "type")
+                    }
+                  }
+                }
+              }
+            }
+
             dynamic "scope_down_statement" {
               for_each = length(lookup(rate_based_statement.value, "scope_down_statement", {})) == 0 ? [] : [lookup(rate_based_statement.value, "scope_down_statement", {})]
               content {

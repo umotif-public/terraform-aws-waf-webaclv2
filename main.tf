@@ -147,6 +147,26 @@ resource "aws_wafv2_web_acl" "main" {
                     inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
                   }
                 }
+
+                dynamic "aws_managed_rules_atp_rule_set" {
+                  for_each = length(lookup(managed_rule_group_configs.value, "aws_managed_rules_atp_rule_set", {})) == 0 ? [] : [lookup(managed_rule_group_configs.value, "aws_managed_rules_atp_rule_set", {})]
+                  content {
+                    login_path = aws_managed_rules_atp_rule_set.value.login_path
+                    
+                    request_inspection {
+                      password_field {
+                        identifier = aws_managed_rules_atp_rule_set.value.request_inspection.password_field
+                      }
+
+                      payload_type = try(aws_managed_rules_atp_rule_set.value.request_inspection.payload_type, "JSON") 
+
+                      username_field {
+                        identifier = aws_managed_rules_atp_rule_set.value.request_inspection.username_field
+                      }
+                    }
+                  }
+                }
+                
               }
             }
 

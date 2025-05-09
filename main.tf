@@ -214,6 +214,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -293,6 +299,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "all_query_arguments" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
+                        }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
                         }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -408,6 +420,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -487,6 +505,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "all_query_arguments" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
+                              }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
                               }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -583,6 +607,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -672,6 +702,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -751,6 +787,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "all_query_arguments" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
+                                }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
                                 }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -863,6 +905,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -961,6 +1009,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -1040,6 +1094,12 @@ resource "aws_wafv2_web_acl" "main" {
                                       dynamic "all_query_arguments" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
+                                      }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
                                       }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -1145,6 +1205,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -1235,6 +1301,12 @@ resource "aws_wafv2_web_acl" "main" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
                                         }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
+                                        }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                           content {}
@@ -1314,6 +1386,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         dynamic "all_query_arguments" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
+                                        }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
                                         }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -1435,6 +1513,12 @@ resource "aws_wafv2_web_acl" "main" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
                                         }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
+                                        }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                           content {}
@@ -1530,6 +1614,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -1609,6 +1699,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "all_query_arguments" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
+                                }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
                                 }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -1721,6 +1817,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -1804,6 +1906,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -1883,6 +1991,12 @@ resource "aws_wafv2_web_acl" "main" {
                                       dynamic "all_query_arguments" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
+                                      }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
                                       }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -2004,6 +2118,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -2092,6 +2212,12 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
                 }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
+                }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {}
@@ -2171,6 +2297,12 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "all_query_arguments" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
+                }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
                 }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -2288,6 +2420,12 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
                 }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
+                }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {}
@@ -2365,6 +2503,12 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
                 }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
+                }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {
@@ -2428,6 +2572,12 @@ resource "aws_wafv2_web_acl" "main" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
                 }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
+                }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                   content {
@@ -2488,6 +2638,12 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "all_query_arguments" {
                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                   content {}
+                }
+                dynamic "single_query_argument" {
+                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                  content {
+                    name = lower(lookup(single_query_argument.value, "name"))
+                  }
                 }
                 dynamic "body" {
                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -2586,6 +2742,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -2665,6 +2827,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "all_query_arguments" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
+                        }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
                         }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -2769,6 +2937,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "all_query_arguments" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
+                        }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
                         }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -2884,6 +3058,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -2964,6 +3144,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "all_query_arguments" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
+                              }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
                               }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -3079,6 +3265,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -3158,6 +3350,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "all_query_arguments" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
+                                }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
                                 }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -3298,6 +3496,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -3377,6 +3581,12 @@ resource "aws_wafv2_web_acl" "main" {
                                       dynamic "all_query_arguments" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
+                                      }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
                                       }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -3493,6 +3703,12 @@ resource "aws_wafv2_web_acl" "main" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
                                         }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
+                                        }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                           content {}
@@ -3572,6 +3788,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         dynamic "all_query_arguments" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
+                                        }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
                                         }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -3693,6 +3915,12 @@ resource "aws_wafv2_web_acl" "main" {
                                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                           content {}
                                         }
+                                        dynamic "single_query_argument" {
+                                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                          content {
+                                            name = lower(lookup(single_query_argument.value, "name"))
+                                          }
+                                        }
                                         dynamic "body" {
                                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                           content {}
@@ -3787,6 +4015,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -3867,6 +4101,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -3945,6 +4185,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -4022,6 +4268,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "all_query_arguments" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
+                                }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
                                 }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -4147,6 +4399,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -4226,6 +4484,12 @@ resource "aws_wafv2_web_acl" "main" {
                                       dynamic "all_query_arguments" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
+                                      }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
                                       }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -4347,6 +4611,12 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                         content {}
                       }
+                      dynamic "single_query_argument" {
+                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                        content {
+                          name = lower(lookup(single_query_argument.value, "name"))
+                        }
+                      }
                       dynamic "body" {
                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                         content {}
@@ -4427,6 +4697,12 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                         content {}
                       }
+                      dynamic "single_query_argument" {
+                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                        content {
+                          name = lower(lookup(single_query_argument.value, "name"))
+                        }
+                      }
                       dynamic "body" {
                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                         content {}
@@ -4505,6 +4781,12 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                         content {}
                       }
+                      dynamic "single_query_argument" {
+                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                        content {
+                          name = lower(lookup(single_query_argument.value, "name"))
+                        }
+                      }
                       dynamic "body" {
                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                         content {}
@@ -4582,6 +4864,12 @@ resource "aws_wafv2_web_acl" "main" {
                       dynamic "all_query_arguments" {
                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                         content {}
+                      }
+                      dynamic "single_query_argument" {
+                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                        content {
+                          name = lower(lookup(single_query_argument.value, "name"))
+                        }
                       }
                       dynamic "body" {
                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -4703,6 +4991,12 @@ resource "aws_wafv2_web_acl" "main" {
                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                         content {}
                       }
+                      dynamic "single_query_argument" {
+                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                        content {
+                          name = lower(lookup(single_query_argument.value, "name"))
+                        }
+                      }
                       dynamic "body" {
                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                         content {}
@@ -4793,6 +5087,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -4872,6 +5172,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "all_query_arguments" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
+                        }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
                         }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -4993,6 +5299,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -5076,6 +5388,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -5156,6 +5474,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -5234,6 +5558,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -5311,6 +5641,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "all_query_arguments" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
+                              }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
                               }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -5432,6 +5768,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -5522,6 +5864,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -5601,6 +5949,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 dynamic "all_query_arguments" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
+                                }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
                                 }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -5722,6 +6076,12 @@ resource "aws_wafv2_web_acl" "main" {
                                   for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                   content {}
                                 }
+                                dynamic "single_query_argument" {
+                                  for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                  content {
+                                    name = lower(lookup(single_query_argument.value, "name"))
+                                  }
+                                }
                                 dynamic "body" {
                                   for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                   content {}
@@ -5805,6 +6165,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -5884,6 +6250,12 @@ resource "aws_wafv2_web_acl" "main" {
                                       dynamic "all_query_arguments" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
+                                      }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
                                       }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -6005,6 +6377,12 @@ resource "aws_wafv2_web_acl" "main" {
                                         for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                         content {}
                                       }
+                                      dynamic "single_query_argument" {
+                                        for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                        content {
+                                          name = lower(lookup(single_query_argument.value, "name"))
+                                        }
+                                      }
                                       dynamic "body" {
                                         for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                         content {}
@@ -6104,6 +6482,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -6184,6 +6568,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -6262,6 +6652,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -6339,6 +6735,12 @@ resource "aws_wafv2_web_acl" "main" {
                         dynamic "all_query_arguments" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
+                        }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
                         }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -6460,6 +6862,12 @@ resource "aws_wafv2_web_acl" "main" {
                           for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                           content {}
                         }
+                        dynamic "single_query_argument" {
+                          for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                          content {
+                            name = lower(lookup(single_query_argument.value, "name"))
+                          }
+                        }
                         dynamic "body" {
                           for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                           content {}
@@ -6543,6 +6951,12 @@ resource "aws_wafv2_web_acl" "main" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
                               }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
+                              }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
                                 content {}
@@ -6622,6 +7036,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "all_query_arguments" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
+                              }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
                               }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]
@@ -6742,6 +7162,12 @@ resource "aws_wafv2_web_acl" "main" {
                               dynamic "all_query_arguments" {
                                 for_each = length(lookup(field_to_match.value, "all_query_arguments", {})) == 0 ? [] : [lookup(field_to_match.value, "all_query_arguments")]
                                 content {}
+                              }
+                              dynamic "single_query_argument" {
+                                for_each = length(lookup(field_to_match.value, "single_query_argument", {})) == 0 ? [] : [lookup(field_to_match.value, "single_query_argument")]
+                                content {
+                                  name = lower(lookup(single_query_argument.value, "name"))
+                                }
                               }
                               dynamic "body" {
                                 for_each = length(lookup(field_to_match.value, "body", {})) == 0 ? [] : [lookup(field_to_match.value, "body")]

@@ -7,7 +7,8 @@ resource "aws_wafv2_web_acl" "main" {
   name  = var.name_prefix
   scope = var.scope
 
-  description = var.description
+  description   = var.description
+  token_domains = var.token_domains
 
   dynamic "custom_response_body" {
     for_each = var.custom_response_bodies
@@ -144,7 +145,8 @@ resource "aws_wafv2_web_acl" "main" {
                 dynamic "aws_managed_rules_bot_control_rule_set" {
                   for_each = length(lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})) == 0 ? [] : [lookup(managed_rule_group_configs.value, "aws_managed_rules_bot_control_rule_set", {})]
                   content {
-                    inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
+                    inspection_level        = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
+                    enable_machine_learning = lookup(aws_managed_rules_bot_control_rule_set.value, "enable_machine_learning")
                   }
                 }
               }

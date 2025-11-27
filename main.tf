@@ -147,6 +147,68 @@ resource "aws_wafv2_web_acl" "main" {
                     inspection_level = lookup(aws_managed_rules_bot_control_rule_set.value, "inspection_level")
                   }
                 }
+
+                dynamic "aws_managed_rules_atp_rule_set" {
+                  for_each = try([managed_rule_group_configs.value.aws_managed_rules_atp_rule_set], [])
+                  content {
+                    login_path           = try(aws_managed_rules_atp_rule_set.value.login_path, null)
+                    enable_regex_in_path = try(aws_managed_rules_atp_rule_set.value.enable_regex_in_path, null)
+
+                    dynamic "request_inspection" {
+                      for_each = try([aws_managed_rules_atp_rule_set.value.request_inspection], [])
+
+                      content {
+                        payload_type = try(request_inspection.value.payload_type, "JSON")
+
+                        dynamic "password_field" {
+                          for_each = try([request_inspection.value.password_field], [])
+
+                          content {
+                            identifier = try(password_field.value.identifier, null)
+                          }
+                        }
+
+                        dynamic "username_field" {
+                          for_each = try([request_inspection.value.username_field], [])
+
+                          content {
+                            identifier = try(username_field.value.identifier, null)
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+
+                dynamic "aws_managed_rules_anti_ddos_rule_set" {
+                  for_each = try([managed_rule_group_configs.value.aws_managed_rules_anti_ddos_rule_set], [])
+                  content {
+                    sensitivity_to_block = try(aws_managed_rules_anti_ddos_rule_set.value.sensitivity_to_block, "LOW")
+
+                    dynamic "client_side_action_config" {
+                      for_each = try([aws_managed_rules_anti_ddos_rule_set.value.client_side_action_config], [])
+
+                      content {
+                        dynamic "challenge" {
+                          for_each = try([client_side_action_config.value.challenge], [])
+
+                          content {
+                            sensitivity     = try(challenge.value.sensitivity, "HIGH")
+                            usage_of_action = try(challenge.value.usage_of_action, null)
+
+                            dynamic "exempt_uri_regular_expression" {
+                              for_each = try(challenge.value.exempt_uri_regular_expression, [])
+
+                              content {
+                                regex_string = try(exempt_uri_regular_expression.value.regex_string, null)
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
               }
             }
 

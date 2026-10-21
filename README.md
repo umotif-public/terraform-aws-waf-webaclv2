@@ -400,6 +400,24 @@ module "waf" {
 }
 ```
 
+## Text transformations
+
+Statements that support text transformations accept either a single transformation via `priority` and `type`, or multiple via a `text_transformation` list (which takes precedence):
+
+```hcl
+byte_match_statement = {
+  field_to_match = {
+    body = {}
+  }
+  positional_constraint = "CONTAINS"
+  search_string         = "php_session_upload_progress"
+  text_transformation = [
+    { priority = 0, type = "URL_DECODE" },
+    { priority = 1, type = "LOWERCASE" },
+  ]
+}
+```
+
 ## Logging configuration
 
 When you enable logging configuration for WAFv2. Remember to follow the naming convention defined in <https://docs.aws.amazon.com/waf/latest/developerguide/logging.html>.

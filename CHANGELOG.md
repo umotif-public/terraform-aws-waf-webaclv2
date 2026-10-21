@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 - chore: cleanup versions.tf
+- feat: support multiple `text_transformation` per statement via a `text_transformation` list
 
 
 <a name="5.1.0"></a>
